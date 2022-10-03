@@ -98,6 +98,8 @@ Buff["hero_is_healing"] = {
 "modifier_item_spirit_vessel_heal",
 "modifier_bottle_regeneration",
 --"modifier_filler_heal",
+"modifier_aegis_regen",
+"modifier_rune_regen",
 
 }
 
@@ -107,21 +109,29 @@ Buff["hero_not_invisible"] = {
 "modifier_item_dustofappearance",
 "modifier_sniper_assassinate",
 "modifier_bounty_hunter_track",
---大鱼大
---血魔嗜血
---祸乱魔爪
+"modifier_slardar_amplify_damage",
+"modifier_bloodseeker_thirst_vision",
+"modifier_bane_fiends_grip",
+"modifier_bane_fiends_grip_cast_illusion",
+"modifier_oracle_fortunes_end_purge",
+"modifier_shadow_shaman_shackles",
 --渔网诱捕
---阿托斯
---小Y锁
---米波网
---娜迦网
---冰女冰
---火猫索
---军团决斗
---骨法吸
---屠夫大
---大树大
---孽主深渊
+"modifier_rod_of_atos_debuff",
+"modifier_gungnir_debuff",
+"modifier_meepo_earthbind",
+"modifier_naga_siren_ensnare",
+"modifier_crystal_maiden_frostbite",
+"modifier_ember_spirit_searing_chains",
+"modifier_legion_commander_duel",
+"modifier_pugna_life_drain",
+"modifier_pudge_dismember",
+"modifier_treant_natures_guise_root",
+"modifier_treant_overgrowth",
+"modifier_abyssal_underlord_pit_of_malice_ensare",
+"modifier_aghsfort_lich_sinister_gaze",
+"modifier_lone_druid_spirit_bear_entangle_effect",
+"modifier_troll_warlord_berserkers_rage_ensnare",
+"modifier_truesight",
 
 }
 
