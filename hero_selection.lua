@@ -28,6 +28,14 @@ local bLineupReserve = false
 local bLineupNotRepeated = false
 
 
+--夜魇有玩家时AI也走中路补丁
+local nDireFirstLaneType = 1 --夜魇默认一楼1中路, 2是下路, 3是上路
+if pcall( require,  'game/bot_dire_first_lane_type' )
+then
+	nDireFirstLaneType = require( 'game/bot_dire_first_lane_type' )
+end
+
+
 local Role = require( GetScriptDirectory()..'/FunLib/aba_role' )
 local Chat = require( GetScriptDirectory()..'/FunLib/aba_chat' )
 local HeroSet = {}
@@ -565,10 +573,30 @@ else
 						[3] = LANE_TOP,
 						[4] = LANE_TOP,
 						[5] = LANE_BOT,
-					  }
+					  }				
 
 	tLaneAssignList = nDireLane
 end
+
+
+
+--如果安装了夜魇有玩家时AI也走中路补丁(不为2), 交换预选阵容和分路
+if nDireFirstLaneType == 2 and GetTeam() == TEAM_DIRE
+then
+	sSelectList[1], sSelectList[2] = sSelectList[2], sSelectList[1]
+	tSelectPoolList[1], tSelectPoolList[2] = tSelectPoolList[2], tSelectPoolList[1]
+	tLaneAssignList[1], tLaneAssignList[2] = tLaneAssignList[2], tLaneAssignList[1]
+end
+
+if nDireFirstLaneType == 3 and GetTeam() == TEAM_DIRE
+then
+	sSelectList[1], sSelectList[3] = sSelectList[3], sSelectList[1]
+	tSelectPoolList[1], tSelectPoolList[3] = tSelectPoolList[3], tSelectPoolList[1]
+	tLaneAssignList[1], tLaneAssignList[3] = tLaneAssignList[3], tLaneAssignList[1]
+end
+
+
+
 
 --根据用户配置初始列表
 --初始化英雄池, 英雄表, 英雄分路

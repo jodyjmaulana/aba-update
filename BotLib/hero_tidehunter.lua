@@ -42,7 +42,7 @@ tOutFitList['outfit_carry'] = {
 	"item_point_booster",
 	"item_blink",
 	"item_ultimate_scepter",
-	"item_aghanims_shard",
+--	"item_aghanims_shard",
 	"item_black_king_bar",	
 	"item_travel_boots",
 	"item_skadi",

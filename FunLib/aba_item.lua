@@ -594,7 +594,7 @@ Item['item_desolator']	= GetItemComponents( 'item_desolator' )[1]
 
 Item['item_diffusal_blade']	= GetItemComponents( 'item_diffusal_blade' )[1]
 
-Item['item_dragon_lance']	= { 'item_boots_of_elves', 'item_boots_of_elves', 'item_ogre_axe' }
+Item['item_dragon_lance']	= GetItemComponents( 'item_dragon_lance' )[1]
 
 Item['item_echo_sabre']	= GetItemComponents( 'item_echo_sabre' )[1]
 

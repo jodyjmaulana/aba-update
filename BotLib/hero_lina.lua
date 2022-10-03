@@ -39,13 +39,13 @@ tOutFitList['outfit_carry'] = {
 	"item_cyclone",
 	"item_force_staff",
 	"item_aghanims_shard",
-	"item_ultimate_scepter",
+--	"item_ultimate_scepter",
 	"item_black_king_bar",
 	"item_hurricane_pike",
 	"item_bloodthorn",
 	"item_wind_waker",
 	"item_moon_shard",
-	"item_ultimate_scepter_2",
+--	"item_ultimate_scepter_2",
 	"item_monkey_king_bar",
 
 }
@@ -62,10 +62,10 @@ tOutFitList['outfit_priest'] = {
 	"item_guardian_greaves",
 	"item_spirit_vessel",
 	"item_wraith_pact",
-	"item_ultimate_scepter",
+--	"item_ultimate_scepter",
 	"item_shivas_guard",
 	"item_moon_shard",
-	"item_ultimate_scepter_2",
+--	"item_ultimate_scepter_2",
 	"item_sheepstick",
 
 }
@@ -83,7 +83,7 @@ tOutFitList['outfit_mage'] = {
 	"item_sheepstick",
 	"item_wind_waker",
 	"item_moon_shard",
-	"item_ultimate_scepter_2",
+--	"item_ultimate_scepter_2",
 
 }
 

@@ -17,7 +17,7 @@ local sAbilityList = J.Skill.GetAbilityList( bot )
 local sOutfitType = J.Item.GetOutfitType( bot )
 
 local tTalentTreeList = {
-						['t25'] = {10, 0},
+						['t25'] = {0, 10},
 						['t20'] = {0, 10},
 						['t15'] = {0, 10},
 						['t10'] = {10, 0},

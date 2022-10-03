@@ -45,7 +45,7 @@ tOutFitList['outfit_carry'] = {
 	"item_dragon_lance",
 	"item_point_booster",
 	"item_aghanims_shard",
-	"item_ultimate_scepter",
+--	"item_ultimate_scepter",
 	sRandomItem_1,
 	"item_black_king_bar",
 	"item_hurricane_pike",
@@ -54,7 +54,7 @@ tOutFitList['outfit_carry'] = {
 	"item_moon_shard",
 	"item_travel_boots_2",
 	"item_soul_booster",
-	"item_ultimate_scepter_2",
+--	"item_ultimate_scepter_2",
 	"item_octarine_core",
 
 
@@ -65,7 +65,7 @@ tOutFitList['outfit_mid'] = {
 	"item_mid_outfit",
 	"item_dragon_lance",
 	"item_aghanims_shard",
-	"item_ultimate_scepter",
+--	"item_ultimate_scepter",
 	sRandomItem_1,
 	"item_black_king_bar",
 	"item_hurricane_pike",
@@ -74,7 +74,7 @@ tOutFitList['outfit_mid'] = {
 	"item_moon_shard",
 	"item_travel_boots_2",
 	"item_soul_booster",
-	"item_ultimate_scepter_2",
+--	"item_ultimate_scepter_2",
 	"item_octarine_core",
 
 }

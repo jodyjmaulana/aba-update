@@ -40,7 +40,7 @@ tOutFitList['outfit_carry'] = {
 	'item_melee_carry_outfit',
 --	'item_medallion_of_courage',
 	'item_vanguard',
-	"item_aghanims_shard",
+--	"item_aghanims_shard",
 	"item_solar_crest",
 	"item_black_king_bar",
 	"item_ultimate_scepter",
