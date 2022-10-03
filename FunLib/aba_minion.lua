@@ -110,12 +110,9 @@ function X.IsMinionWithNoSkill(unit_name)
 		or unit_name == "npc_dota_neutral_kobold_tunneler"
 		or unit_name == "npc_dota_neutral_kobold_taskmaster"
 		or unit_name == "npc_dota_neutral_centaur_outrunner"
-		or unit_name == "npc_dota_neutral_fel_beast"
 		or unit_name == "npc_dota_neutral_polar_furbolg_champion"
-		or unit_name == "npc_dota_neutral_ogre_mauler"
 		or unit_name == "npc_dota_neutral_giant_wolf"
 		or unit_name == "npc_dota_neutral_alpha_wolf"
-		or unit_name == "npc_dota_neutral_wildkin"
 		or unit_name == "npc_dota_neutral_jungle_stalker"
 		or unit_name == "npc_dota_neutral_elder_jungle_stalker"
 		or unit_name == "npc_dota_neutral_prowler_acolyte"
@@ -125,9 +122,7 @@ function X.IsMinionWithNoSkill(unit_name)
 		or unit_name == "npc_dota_neutral_gnoll_assassin"
 		or unit_name == "npc_dota_neutral_ghost"
 		or unit_name == "npc_dota_wraith_ghost"
-		or unit_name == "npc_dota_neutral_dark_troll"
 		or unit_name == "npc_dota_neutral_forest_troll_berserker"
-		or unit_name == "npc_dota_neutral_harpy_scout"
 		or unit_name == "npc_dota_neutral_black_drake"
 		or unit_name == "npc_dota_dark_troll_warlord_skeleton_warrior"
 		or unit_name == "npc_dota_necronomicon_warrior_1"
@@ -157,7 +152,10 @@ local independent = {
 	"npc_dota_brewmaster_storm_3",
 	"npc_dota_brewmaster_fire_1",
 	"npc_dota_brewmaster_fire_2",
-	"npc_dota_brewmaster_fire_3"
+	"npc_dota_brewmaster_fire_3",
+	"npc_dota_brewmaster_void_1",
+	"npc_dota_brewmaster_void_2",
+	"npc_dota_brewmaster_void_3"
 }
 
 function X.IsValidUnit(unit)
@@ -491,19 +489,26 @@ end
 -----------MINION WITH SKILLS
 function X.IsMinionWithSkill(unit_name)
 	return unit_name == "npc_dota_neutral_centaur_khan"
+		or unit_name == "npc_dota_neutral_fel_beast"
 		or unit_name == "npc_dota_neutral_polar_furbolg_ursa_warrior"
 		or unit_name == "npc_dota_neutral_mud_golem"
+		or unit_name == "npc_dota_neutral_warpine_raider"
 		or unit_name == "npc_dota_neutral_mud_golem_split"
 		or unit_name == "npc_dota_neutral_mud_golem_split_doom"
 		or unit_name == "npc_dota_neutral_ogre_magi"
+		or unit_name == "npc_dota_neutral_ogre_mauler"
+		or unit_name == "npc_dota_neutral_wildkin"
 		or unit_name == "npc_dota_neutral_enraged_wildkin"
 		or unit_name == "npc_dota_neutral_satyr_soulstealer"
 		or unit_name == "npc_dota_neutral_satyr_hellcaller"
 		or unit_name == "npc_dota_neutral_prowler_shaman"
+		or unit_name == "npc_dota_neutral_ice_shaman"
 		or unit_name == "npc_dota_neutral_big_thunder_lizard"
+		or unit_name == "npc_dota_neutral_dark_troll"
 		or unit_name == "npc_dota_neutral_dark_troll_warlord"
 		or unit_name == "npc_dota_neutral_satyr_trickster"
 		or unit_name == "npc_dota_neutral_forest_troll_high_priest"
+		or unit_name == "npc_dota_neutral_harpy_scout"
 		or unit_name == "npc_dota_neutral_harpy_storm"
 		or unit_name == "npc_dota_neutral_black_dragon"
 		or unit_name == "npc_dota_necronomicon_archer_1"
