@@ -381,6 +381,8 @@ local sConsumableList = {
 	'item_cheese',
 	'item_refresher_shard',
 	'item_aegis',
+	'item_ultimate_scepter_roshan',
+	'item_aghanims_shard_roshan',
 
 }
 local tConsumableItemList = {}
