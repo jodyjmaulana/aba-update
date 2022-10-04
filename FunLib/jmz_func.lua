@@ -704,12 +704,6 @@ function J.CanCastOnTargetAdvanced( npcTarget )
 	if npcTarget:GetUnitName() == 'npc_dota_hero_antimage' --and npcTarget:IsBot()
 	then
 
-		if npcTarget:HasModifier( "modifier_antimage_spell_shield" )
-			and J.GetModifierTime( npcTarget, "modifier_antimage_spell_shield" ) > 0.27
-		then
-			return false
-		end
-
 		if npcTarget:IsSilenced()
 			or npcTarget:IsStunned()
 			or npcTarget:IsHexed()
@@ -717,26 +711,14 @@ function J.CanCastOnTargetAdvanced( npcTarget )
 			or npcTarget:IsChanneling()
 			or J.IsTaunted( npcTarget )
 			or npcTarget:GetMana() < 45
-			or ( npcTarget:HasModifier( "modifier_antimage_spell_shield" )
-				and J.GetModifierTime( npcTarget, "modifier_antimage_spell_shield" ) < 0.27 )
 		then
-			if not npcTarget:HasModifier( "modifier_item_sphere_target" )
-				and not npcTarget:HasModifier( "modifier_item_lotus_orb_active" )
-				and not npcTarget:HasModifier( "modifier_item_aeon_disk_buff" )
-				and ( not npcTarget:HasModifier( "modifier_dazzle_shallow_grave" ) or npcTarget:GetHealth() > 300 )
-			then
-				return true
-			end
+			return J.CanCastUnitSpellOnTarget( npcTarget, 0.27 )
 		end
 
 		return false
 	end
 
-	return not npcTarget:HasModifier( "modifier_item_sphere_target" )
-			and not npcTarget:HasModifier( "modifier_antimage_spell_shield" )
-			and not npcTarget:HasModifier( "modifier_item_lotus_orb_active" )
-			and not npcTarget:HasModifier( "modifier_item_aeon_disk_buff" )
-			and ( not npcTarget:HasModifier( "modifier_dazzle_shallow_grave" ) or npcTarget:GetHealth() > 300 )
+	return J.CanCastUnitSpellOnTarget( npcTarget, 0.27 )
 
 end
 
@@ -749,7 +731,13 @@ function J.CanCastUnitSpellOnTarget( npcTarget, nDelay )
 		if npcTarget:HasModifier( modifier )
 			and J.GetModifierTime( npcTarget, modifier ) >= nDelay
 		then
-			return false
+			if modifier == "modifier_dazzle_shallow_grave" then
+				if npcTarget:GetHealth() <= 300 then
+					return false
+				end
+			else
+				return false
+			end
 		end
 	end
 
@@ -828,6 +816,17 @@ function J.WillMagicKillTarget( bot, npcTarget, dmg, nDelay )
 		EstDamage = EstDamage * 0.7
 	end
 
+	if npcTarget:GetUnitName() == "npc_dota_hero_mars"
+		and not npcTarget:IsFacingLocation( bot:GetLocation(), 0 )
+	then
+		EstDamage = EstDamage * 0.3
+	end
+
+	if npcTarget:GetUnitName() == "npc_dota_hero_spectre"
+	then
+		EstDamage = EstDamage * 0.25
+	end
+
 	if npcTarget:HasModifier( "modifier_kunkka_ghost_ship_damage_delay" )
 	then
 		local buffTime = J.GetModifierTime( npcTarget, "modifier_kunkka_ghost_ship_damage_delay" )
@@ -838,6 +837,48 @@ function J.WillMagicKillTarget( bot, npcTarget, dmg, nDelay )
 	then
 		local buffTime = J.GetModifierTime( npcTarget, "modifier_templar_assassin_refraction_absorb" )
 		if buffTime >= nDelay then EstDamage = 0 end
+	end
+
+	if npcTarget:HasModifier( "modifier_lich_frost_shield" )
+	then
+		local buffTime = J.GetModifierTime( npcTarget, "modifier_lich_frost_shield" )
+		if buffTime >= nDelay then EstDamage = EstDamage * 0.4 end
+	end
+
+	if npcTarget:HasModifier( "modifier_nyx_assassin_burrow" )
+	then
+		local buffTime = J.GetModifierTime( npcTarget, "modifier_nyx_assassin_burrow" )
+		if buffTime >= nDelay then EstDamage = EstDamage * 0.6 end
+	end
+
+	if npcTarget:HasModifier( "modifier_legion_commander_duel" ) and npcTarget:HasScepter()
+	then
+		local buffTime = J.GetModifierTime( npcTarget, "modifier_legion_commander_duel" )
+		if buffTime >= nDelay then EstDamage = EstDamage * 0.5 end
+	end
+
+	if npcTarget:HasModifier( "modifier_ogre_magi_smash_buff" )
+	then
+		local buffTime = J.GetModifierTime( npcTarget, "modifier_ogre_magi_smash_buff" )
+		if buffTime >= nDelay then EstDamage = EstDamage * 0.15 end
+	end
+
+	if npcTarget:HasModifier( "modifier_ursa_enrage" )
+	then
+		local buffTime = J.GetModifierTime( npcTarget, "modifier_ursa_enrage" )
+		if buffTime >= nDelay then EstDamage = EstDamage * 0.2 end
+	end
+
+	if npcTarget:HasModifier( "modifier_vengefulspirit_nether_swap_damage_reduction" )
+	then
+		local buffTime = J.GetModifierTime( npcTarget, "modifier_vengefulspirit_nether_swap_damage_reduction" )
+		if buffTime >= nDelay then EstDamage = EstDamage * 0.5 end
+	end
+
+	if npcTarget:HasModifier( "modifier_item_wraith_pact_death_aura" )
+	then
+		local buffTime = J.GetModifierTime( npcTarget, "modifier_item_wraith_pact_death_aura" )
+		if buffTime >= nDelay then EstDamage = EstDamage * 0.7 end
 	end
 
 	local nRealDamage = npcTarget:GetActualIncomingDamage( EstDamage, nDamageType )
@@ -3212,6 +3253,34 @@ function J.GetMagicToPhysicalDamage( bot, nUnit, nMagicDamage )
 end
 
 
+function J.GetBonusCastRange( bot )
+	
+	local bonusRange = 0
+
+	local itemAether = J.IsItemAvailable( "item_aether_lens" )
+	local itemOctarine = J.IsItemAvailable( "item_octarine_core" )
+	if ( itemAether ~= nil or itemOctarine ~= nil ) then bonusRange = bonusRange + 225 end
+
+	local itemOptic = J.IsItemAvailable( "item_keen_optic" )
+	if itemOptic ~= nil then bonusRange = bonusRange + 75 end
+
+	local itemVizier = J.IsItemAvailable( "item_eye_of_the_vizier" )
+	if itemVizier ~= nil then bonusRange = bonusRange + 125 end
+
+	local itemPsychic = J.IsItemAvailable( "item_psychic_headband" )
+	if itemPsychic ~= nil then bonusRange = bonusRange + 100 end
+
+	local itemSeerStone = J.IsItemAvailable( "item_seer_stone" )
+	if itemSeerStone ~= nil then bonusRange = bonusRange + 350 end
+	
+	local itemTelescope = J.IsItemAvailable( "item_spy_gadget" )
+	if ( itemTelescope ~= nil or bot:HasModifier( 'modifier_item_spy_gadget' ) ) then bonusRange = bonusRange + 100 end
+
+	return bonusRange
+
+end
+
+
 return J
 
 --[[
@@ -4102,6 +4171,7 @@ J.HasNotActionLast( nCD, nNumber )
 J.GetCastDelay( bot, unit, nPointTime, nProjectSpeed )
 J.CanBreakTeleport( bot, unit, nPointTime, nProjectSpeed )
 J.GetMagicToPhysicalDamage( bot, nUnit, nMagicDamage )
+J.GetBonusCastRange( bot )
 --]]
 
 
