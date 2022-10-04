@@ -18,7 +18,6 @@ Buff["creep_is_immune"] = {
 
 Buff["enemy_is_immune"] = {
 
-"modifier_necrolyte_reapers_scythe", 		 --Nec大
 "modifier_winter_wyvern_winters_curse", 		 --冰龙大
 "modifier_winter_wyvern_winters_curse_aura", --冰龙大
 "modifier_troll_warlord_battle_trance", --巨魔大

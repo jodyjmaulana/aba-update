@@ -443,62 +443,72 @@ local tNeutralItemLevelList = {
 
 	['item_arcane_ring'] = 35,
 	['item_broom_handle'] = 33,
-	['item_faded_broach'] = 31,
-	['item_keen_optic'] = 29, -- 基恩镜片	
-	['item_ocean_heart'] = 43,	
+	-- ['item_faded_broach'] = 31,
+	-- ['item_keen_optic'] = 29, -- 基恩镜片	
+	-- ['item_ocean_heart'] = 43,	
 	['item_royal_jelly'] = 96,
 	['item_trusty_shovel'] = 32,
 	['item_ironwood_tree'] = 44,
-	
 	['item_mysterious_hat'] = 35,
-	['item_chipped_vest'] = 34,
+	-- ['item_chipped_vest'] = 34,
 	['item_possessed_mask'] = 33,
+	['item_pogo_stick'] = 30,
+	['item_unstable_wand'] = 30,
+	['item_seeds_of_serenity'] = 30,
+	['item_lance_of_pursuit'] = 30,
+	['item_occult_bracelet'] = 30,
 	
 
 	['item_dragon_scale'] = 38, -- 炎龙之鳞
-	['item_essence_ring'] = 55.5, -- 精华指环
+	-- ['item_essence_ring'] = 55.5, -- 精华指环
 	['item_grove_bow'] = 40, -- 林野长弓
-	['item_imp_claw'] = 51.5, -- 魔童之爪
+	-- ['item_imp_claw'] = 51.5, -- 魔童之爪
 	['item_nether_shawl'] = 28, -- 幽冥披巾
 	['item_philosophers_stone'] = 47.5, -- 贤者石
 	['item_pupils_gift'] = 41,
 	['item_ring_of_aquila'] = 46,
 	['item_vambrace'] = 52,
-	
-	['item_quicksilver_amulet'] = 45,
+	-- ['item_quicksilver_amulet'] = 45,
 	['item_bullwhip'] = 48, 
+	['item_misericorde'] = 40,
+	['item_eye_of_the_vizier'] = 40,
+	['item_specialists_array'] = 40,
+	['item_dagger_of_ristul'] = 40,
 
 	
 	['item_enchanted_quiver'] = 44, -- 魔力箭袋
 	['item_mind_breaker'] = 55,
-	['item_orb_of_destruction'] = 53, -- 毁灭灵球
+	-- ['item_orb_of_destruction'] = 53, -- 毁灭灵球
 	['item_paladin_sword'] = 40, -- 骑士剑
 	['item_quickening_charm'] = 50,
 	['item_titan_sliver'] = 54, -- 巨神残铁
-	['item_spider_legs'] = 60,
-	
+	-- ['item_spider_legs'] = 60,
 	['item_ceremonial_robe'] = 46,
 	['item_cloak_of_flames'] = 49,
 	['item_elven_tunic'] = 47, 
 	['item_psychic_headband'] = 50, 
+	['item_black_powder_bag'] = 50,
+	['item_ogre_seal_totem'] = 50,
 
 	
 	['item_spy_gadget'] = 36, -- 望远镜	
 	['item_flicker'] = 49, 	-- 闪灵
-	['item_illusionsts_cape'] = 64,
-	['item_minotaur_horn'] = 65, -- 恶牛角
+	-- ['item_illusionsts_cape'] = 64,
+	-- ['item_minotaur_horn'] = 65, -- 恶牛角
 	['item_ninja_gear'] = 58, -- 忍者用具
 	['item_spell_prism'] = 69, -- 法术棱镜
-	['item_the_leveller'] = 61, -- 平世剑
+	-- ['item_the_leveller'] = 61, -- 平世剑
 	['item_timeless_relic'] = 59, -- 永恒遗物
-	
 	['item_trickster_cloak'] = 62, 
 	['item_stormcrafter'] = 68, 
 	['item_penta_edged_sword'] = 57, 
+	['item_heavy_blade'] = 55,
+	['item_ascetic_cap'] = 55,
+	['item_havoc_hammer'] = 55,
 
 
 	['item_apex'] = 72, -- 极品
-	['item_ballista'] = 36.5, -- 弩炮
+	['item_ballista'] = 76.5, -- 弩炮
 	['item_demonicon'] = 73,
 	['item_desolator_2'] = 75,
 	['item_ex_machina'] = 71,
@@ -507,9 +517,9 @@ local tNeutralItemLevelList = {
 	['item_mirror_shield'] = 77,
 	['item_pirate_hat'] = 74,
 	['item_seer_stone'] = 40,
-	
 	['item_book_of_shadows'] = 49,
 	['item_giants_ring'] = 70,
+	['item_force_field'] = 70,
 
 }
 
