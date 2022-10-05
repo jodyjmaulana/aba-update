@@ -839,12 +839,12 @@ local tDefineItemRealName = {
 
 
 ['item_tank_outfit'] = "item_power_treads",
-['item_dragon_knight_outfit'] = "item_soul_ring",
-['item_ogre_magi_outfit'] = "item_hand_of_midas",
+['item_dragon_knight_outfit'] = "item_power_treads",
+['item_ogre_magi_outfit'] = "item_power_treads",
 
 
 ['item_mage_outfit'] = "item_tranquil_boots",
-['item_crystal_maiden_outfit'] = "item_magic_wand",
+['item_crystal_maiden_outfit'] = "item_power_treads",
 ['item_abaddon_outfit'] = "item_tranquil_boots",
 
 ['item_priest_outfit'] = "item_arcane_boots",
@@ -1119,6 +1119,24 @@ function Item.IsItemInHero( sItemName )
 	if sItemName == 'item_moon_shard' and bot:HasModifier( "modifier_item_moon_shard_consumed" ) then return true end
 
 	if sItemName == 'item_ultimate_scepter_2' then return ( bot:HasScepter() and bot:FindItemSlot('item_ultimate_scepter') < 0 ) end
+
+	if ( sItemName == 'item_power_treads' or sItemName == 'item_phase_boots' )
+		and ( Item.IsItemInHero( 'item_travel_boots' ) or Item.IsItemInHero( 'item_travel_boots_2' ) )
+	then
+		return true
+	end
+	
+	if sItemName == 'item_power_treads'
+		and Item.IsItemInHero( 'item_boots_of_bearing' )
+	then
+		return true
+	end
+	
+	if sItemName == 'item_tranquil_boots'
+		and Item.IsItemInHero( 'item_guardian_greaves' )
+	then
+		return true
+	end
 
 	local nItemSolt = bot:FindItemSlot( sItemName )
 
