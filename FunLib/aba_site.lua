@@ -30,6 +30,8 @@ Site.nTowerList = {
 					TOWER_BASE_2,
 				  }
 
+Site.Buff = require( GetScriptDirectory()..'/FunLib/aba_buff' )
+
 local vRadiantTowerLocationList = {}
 local vDireTowerLocationList = {}
 for _, nTower in pairs( Site.nTowerList )
@@ -495,11 +497,16 @@ end
 
 
 function Site.HasArmorReduction( nUnit )
+	
+	for _, modifier in pairs( Site.Buff["armor_reduction"] )
+	do
+		if nUnit:HasModifier( modifier )
+		then
+			return true
+		end
+	end
 
-	return nUnit:HasModifier( "modifier_templar_assassin_meld_armor" )
-			or nUnit:HasModifier( "modifier_item_medallion_of_courage_armor_reduction" )
-			or nUnit:HasModifier( "modifier_item_solar_crest_armor_reduction" )
-			or nUnit:HasModifier( "modifier_slardar_amplify_damage" )
+	return false
 
 end
 
@@ -1027,6 +1034,12 @@ end
 
 -----------------------------------------------------------
 Site.ConsiderIsTimeToFarm = {}
+
+Site.ConsiderIsTimeToFarm["npc_dota_hero_abaddon"] = function()
+
+	return Site.ConsiderIsTimeToFarm["npc_dota_hero_bristleback"]()
+
+end
 
 Site.ConsiderIsTimeToFarm["npc_dota_hero_antimage"] = function()
 

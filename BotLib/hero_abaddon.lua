@@ -8,7 +8,7 @@
 --- Updated: Nikel
 ----------------------------------------------------------------------------------------------------
 local X = {}
-local bDebugMode = ( 10 == 10 )
+local bDebugMode = ( 1 == 10 )
 local bot = GetBot()
 
 local J = require( GetScriptDirectory()..'/FunLib/jmz_func' )
@@ -382,6 +382,23 @@ function X.ConsiderQ()
 	end
 
 
+	if J.IsLaning( bot )
+	then
+		for _, npcEnemy in pairs( nEnemyHeroesInRange )
+		do
+			if J.IsValidHero( npcEnemy )
+				and J.CanCastOnMagicImmune( npcEnemy )
+				and J.CanCastOnTargetAdvanced( npcEnemy )
+				and J.IsInRange( npcEnemy, bot, nCastRange )
+				and J.IsHealing( npcEnemy )
+				and not npcEnemy:HasModifier( 'modifier_templar_assassin_refraction_absorb' )
+			then
+				return BOT_ACTION_DESIRE_HIGH, npcEnemy, "Q-DispelHeal:"..J.Chat.GetNormName( npcEnemy )
+			end
+		end
+	end
+
+
 	if ( J.IsPushing( bot ) or J.IsDefending( bot ) or J.IsFarming( bot ) )
 		and J.IsAllowedToSpam( bot, 30 )
 		and nSkillLV >= 3
@@ -437,7 +454,6 @@ function X.ConsiderQ()
 		then
 			local targetCreep = nNeutralCreeps[1]
 			if J.IsValid( targetCreep )
-				and bot:IsFacingLocation( targetCreep:GetLocation(), 30 )
 				and targetCreep:GetHealth() >= 500
 				and targetCreep:GetMagicResist() < 0.3
 				and J.GetAroundTargetEnemyUnitCount( targetCreep, 300 ) >= 2
@@ -461,7 +477,6 @@ function X.ConsiderW()
 	local nCastPoint = abilityW:GetCastPoint()
 	local nManaCost = abilityW:GetManaCost()
 	local nAlliedHeroesInRange = bot:GetNearbyHeroes( nCastRange, false, BOT_MODE_NONE )
-	local nEnemyHeroesInRange = bot:GetNearbyHeroes( nCastRange, true, BOT_MODE_NONE )
 
 	
 	for _, npcAlly in pairs( nAlliedHeroesInRange )
@@ -475,21 +490,31 @@ function X.ConsiderW()
 			and not npcAlly:HasModifier( 'modifier_fountain_aura' )
 			and not npcAlly:HasModifier( 'modifier_abaddon_aphotic_shield' )
 			and J:GetHP( npcAlly ) <= 0.75
-			and npcAlly:WasRecentlyDamagedByAnyHero( 3.0 )
+			and npcAlly:WasRecentlyDamagedByAnyHero( 1.0 )
 		then
 			return BOT_ACTION_DESIRE_HIGH, npcAlly, "W-Protect:"..J.Chat.GetNormName( npcAlly )
 		end
+	end
 
-		if J.IsGoingOnSomeone( npcAlly )
+	
+	if J.IsRetreating( bot )
+		-- and not bot:HasModifier( 'modifier_fountain_aura' )
+		-- and not bot:HasModifier( 'modifier_abaddon_aphotic_shield' )
+		-- and J:GetHP( bot ) <= 0.75
+		-- and bot:WasRecentlyDamagedByAnyHero( 1.0 )
+	then
+		return BOT_ACTION_DESIRE_HIGH, bot, "W-Protect:"..J.Chat.GetNormName( bot )
+	end
+
+
+	if J.IsGoingOnSomeone( bot )
+	then
+		if J.IsValidHero( botTarget )
+			and J.CanCastOnMagicImmune( botTarget )
+			and J.IsInRange( botTarget, bot, 600 )
+			and not bot:HasModifier( 'modifier_abaddon_aphotic_shield' )
 		then
-			local allyTarget = J.GetProperTarget( npcAlly )
-			if J.IsValidHero( allyTarget )
-				and npcAlly:IsFacingLocation( allyTarget:GetLocation(), 20 )
-				and J.IsInRange( npcAlly, allyTarget, npcAlly:GetAttackRange() + 60 )
-				and not npcAlly:HasModifier( 'modifier_abaddon_aphotic_shield' )
-			then
-				return BOT_ACTION_DESIRE_HIGH, npcAlly, "W-Protect-Offensive:"..J.Chat.GetNormName( npcAlly )
-			end
+			return BOT_ACTION_DESIRE_HIGH, bot, "W-Protect-Offensive:"..J.Chat.GetNormName( bot )
 		end
 	end
 
@@ -505,6 +530,23 @@ function X.ConsiderW()
 			then
 				return BOT_ACTION_DESIRE_HIGH, creep, "W-PurgeIonShell"
 			end
+		end
+
+		if #hEnemyList >= 2
+			and J.IsAllowedToSpam( bot, nManaCost )
+			and nMP >= 0.82
+		then
+			return BOT_ACTION_DESIRE_MODERATE, bot, "W-Laning"
+		end
+	end
+
+	
+	if ( bot:GetActiveMode() == BOT_MODE_ROSHAN )
+	then
+		if not bot:HasModifier( 'modifier_abaddon_aphotic_shield' )
+			and bot:GetAttackTarget() ~= nil
+		then
+			return BOT_ACTION_DESIRE_HIGH, bot, "W-Roshan"
 		end
 	end
 	

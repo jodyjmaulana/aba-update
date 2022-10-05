@@ -172,7 +172,7 @@ local sUserKeyDir = Chat.GetUserKeyDir()
 
 local sHasDevelopmentHeroList = {
 
-
+	"npc_dota_hero_abaddon",
 	"npc_dota_hero_silencer",
 	"npc_dota_hero_warlock",
 	"npc_dota_hero_necrolyte",
@@ -298,6 +298,7 @@ local sFourthList = {
 	"npc_dota_hero_slardar",
 	"npc_dota_hero_legion_commander",
 	"npc_dota_hero_omniknight",
+	"npc_dota_hero_abaddon",
 	
 }
 
@@ -318,6 +319,7 @@ local sFifthList = {
 
 local sPriestList = {
 
+	"npc_dota_hero_abaddon",
 	"npc_dota_hero_death_prophet",
 	"npc_dota_hero_jakiro",
 	"npc_dota_hero_lich",
@@ -341,6 +343,7 @@ local sPriestList = {
 
 local sMageList = {
 
+	"npc_dota_hero_abaddon",
 	"npc_dota_hero_crystal_maiden",
 	"npc_dota_hero_death_prophet",
 	"npc_dota_hero_jakiro",
@@ -365,6 +368,7 @@ local sMageList = {
 
 local sCarryList = {
 
+	"npc_dota_hero_abaddon",
 	"npc_dota_hero_antimage",
 	"npc_dota_hero_arc_warden",
 	"npc_dota_hero_bloodseeker",
@@ -405,6 +409,7 @@ local sCarryList = {
 
 local sTankList = {
 
+	"npc_dota_hero_abaddon",
 	"npc_dota_hero_bristleback",
 	"npc_dota_hero_chaos_knight",
 	"npc_dota_hero_dragon_knight",
@@ -433,8 +438,6 @@ local sMidList = {
 	"npc_dota_hero_nevermore",
 	"npc_dota_hero_razor",
 	"npc_dota_hero_sniper",
-	"npc_dota_hero_sniper",
-	"npc_dota_hero_viper",
 	"npc_dota_hero_viper",
 	
 }

@@ -3281,6 +3281,21 @@ function J.GetBonusCastRange( bot )
 end
 
 
+function J.IsHealing( bot )
+
+	for _, modifier in pairs( J.Buff["hero_is_healing"] )
+	do
+		if bot:HasModifier( modifier )
+		then
+			return true
+		end
+	end
+
+	return false
+
+end
+
+
 return J
 
 --[[
@@ -4172,6 +4187,7 @@ J.GetCastDelay( bot, unit, nPointTime, nProjectSpeed )
 J.CanBreakTeleport( bot, unit, nPointTime, nProjectSpeed )
 J.GetMagicToPhysicalDamage( bot, nUnit, nMagicDamage )
 J.GetBonusCastRange( bot )
+J.IsHealing( bot )
 --]]
 
 

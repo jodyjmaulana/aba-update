@@ -1575,6 +1575,7 @@ function X.IsSpecialCarry(bot)
 	local botName = bot:GetUnitName();
 	
 	local tSpecialCarryList = {
+		["npc_dota_hero_abaddon"] = true,
 		["npc_dota_hero_antimage"] = true,
 		["npc_dota_hero_arc_warden"] = true,
 		["npc_dota_hero_axe"] = true,

@@ -137,5 +137,36 @@ Buff["hero_not_invisible"] = {
 }
 
 
+Buff["armor_reduction"] = {
+
+"modifier_templar_assassin_meld_armor",
+"modifier_item_medallion_of_courage_armor_reduction",
+"modifier_item_solar_crest_armor_reduction",
+"modifier_slardar_amplify_damage",
+"modifier_alchemist_acid_spray",
+"modifier_ancient_rock_golem_weakening",
+"modifier_bristleback_viscous_nasal_goo",
+"modifier_chaos_knight_reality_rift_debuff",
+"modifier_dazzle_bad_juju_armor_counter",
+"modifier_forged_spirit_melting_strike_debuff",
+"modifier_lycan_howl",
+"modifier_naga_siren_rip_tide",
+"modifier_pangolier_luckyshot_disarm",
+"modifier_razor_eye_of_the_storm_armor",
+"modifier_nevermore_presence",
+"modifier_snapfire_lil_shredder_debuff",
+"modifier_tidehunter_gush",
+"modifier_vengefulspirit_wave_of_terror",
+"modifier_weaver_swarm_debuff",
+"modifier_armor_corruption",
+"modifier_item_assault_negative_armor",
+"modifier_blight_stone_buff",
+"modifier_desolator_buff",
+"modifier_orb_of_corrosion_debuff",
+"modifier_desolator_2_buff",
+
+}
+
+
 return Buff
 -- dota2jmz@163.com QQ:2462331592..

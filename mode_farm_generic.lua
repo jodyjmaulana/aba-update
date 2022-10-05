@@ -1240,6 +1240,7 @@ function X.IsNormalFarmer(bot)
 		 or botName == "npc_dota_hero_viper" 
 		 or botName == "npc_dota_hero_clinkz" 
 		 or botName == "npc_dota_hero_mirana" 
+		 or botName == "npc_dota_hero_abaddon" 
 
 end
 
