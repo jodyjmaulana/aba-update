@@ -1686,6 +1686,7 @@ X['mid'] = {
 }
 
 X['safe'] = {
+	'npc_dota_hero_abaddon',
 	'npc_dota_hero_antimage',
 	'npc_dota_hero_chaos_knight',
 	"npc_dota_hero_mars",
@@ -1720,6 +1721,7 @@ X['safe'] = {
 }
 
 X['supp'] = {
+	'npc_dota_hero_abaddon',
 	'npc_dota_hero_ancient_apparition',
 	'npc_dota_hero_bane',
 --	'npc_dota_hero_bounty_hunter',
@@ -2125,6 +2127,7 @@ function X.IsABAHero()
 	local botName = bot:GetUnitName()
 	local sABAHeroIndex = {
 	
+		["npc_dota_hero_abaddon"] = true,
 		["npc_dota_hero_antimage"] = true,
 		["npc_dota_hero_arc_warden"] = true,
 		["npc_dota_hero_bane"] = true, 

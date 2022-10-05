@@ -145,7 +145,6 @@ tOutFitList['outfit_tank'] = {
 
 	"item_tank_outfit",
 	"item_vanguard",
-	"item_soul_ring",
 	"item_blade_mail",
 	"item_lotus_orb",
 	"item_crimson_guard",
@@ -164,13 +163,37 @@ tOutFitList['outfit_tank'] = {
 X['sBuyList'] = tOutFitList[sOutfitType]
 
 X['sSellList'] = {
+	"item_lotus_orb",
 	"item_quelling_blade",
-	"item_magic_wand",
+
+	"item_basher",
+	"item_quelling_blade",
+
+	"item_heavens_halberd",
 	"item_bracer",
+
+	"item_ultimate_scepter",
+	"item_magic_wand",
+
+	"item_assault",
+	"item_magic_wand",
+
+	"item_ultimate_scepter",
 	"item_soul_ring",
+
+	"item_assault",
 	"item_blade_mail",
-	"item_echo_sabre",
+
+	"item_travel_boots",
 	"item_power_treads",
+
+	"item_medallion_of_courage",
+	"item_magic_wand",
+
+	"item_radiance",
+	"item_echo_sabre",
+
+	"item_travel_boots",
 	"item_phase_boots",
 }
 
@@ -376,6 +399,7 @@ function X.ConsiderQ()
 			and J.CanCastOnMagicImmune( botTarget )
 			and J.CanCastOnTargetAdvanced( botTarget )
 			and J.IsInRange( botTarget, bot, nCastRange )
+			and J.IsAllowedToSpam( bot, nManaCost )
 		then
 			return BOT_ACTION_DESIRE_HIGH, botTarget, 'Q-Attack:'..J.Chat.GetNormName( botTarget )
 		end
@@ -489,7 +513,7 @@ function X.ConsiderW()
 		if J.IsRetreating( npcAlly )
 			and not npcAlly:HasModifier( 'modifier_fountain_aura' )
 			and not npcAlly:HasModifier( 'modifier_abaddon_aphotic_shield' )
-			and J:GetHP( npcAlly ) <= 0.75
+			and J.GetHP( npcAlly ) < 0.85
 			and npcAlly:WasRecentlyDamagedByAnyHero( 1.0 )
 		then
 			return BOT_ACTION_DESIRE_HIGH, npcAlly, "W-Protect:"..J.Chat.GetNormName( npcAlly )
@@ -497,13 +521,12 @@ function X.ConsiderW()
 	end
 
 	
-	if J.IsRetreating( bot )
-		-- and not bot:HasModifier( 'modifier_fountain_aura' )
-		-- and not bot:HasModifier( 'modifier_abaddon_aphotic_shield' )
-		-- and J:GetHP( bot ) <= 0.75
-		-- and bot:WasRecentlyDamagedByAnyHero( 1.0 )
+	if not bot:HasModifier( 'modifier_fountain_aura' )
+		and not bot:HasModifier( 'modifier_abaddon_aphotic_shield' )
+		and nHP < 0.75
+		and bot:WasRecentlyDamagedByAnyHero( 1.0 )
 	then
-		return BOT_ACTION_DESIRE_HIGH, bot, "W-Protect:"..J.Chat.GetNormName( bot )
+		return BOT_ACTION_DESIRE_HIGH, bot, "W-ProtectSelf:"..J.Chat.GetNormName( bot )
 	end
 
 
@@ -530,13 +553,6 @@ function X.ConsiderW()
 			then
 				return BOT_ACTION_DESIRE_HIGH, creep, "W-PurgeIonShell"
 			end
-		end
-
-		if #hEnemyList >= 2
-			and J.IsAllowedToSpam( bot, nManaCost )
-			and nMP >= 0.82
-		then
-			return BOT_ACTION_DESIRE_MODERATE, bot, "W-Laning"
 		end
 	end
 
