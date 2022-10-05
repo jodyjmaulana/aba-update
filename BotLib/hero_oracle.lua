@@ -530,11 +530,14 @@ function X.ConsiderR()
 		then
 			if J.IsRetreating( ally )
 				and ( ally ~= bot or nHP < 0.25 )
+				and not ally:HasModifier( 'modifier_abaddon_borrowed_time' )
 			then
 				return BOT_ACTION_DESIRE_HIGH, ally, "R-protect"..J.Chat.GetNormName( ally )
 			end
 
-			if J.IsGoingOnSomeone( ally ) and J.GetHP( ally ) < 0.3
+			if J.IsGoingOnSomeone( ally )
+				and J.GetHP( ally ) < 0.3
+				and not ally:HasModifier( 'modifier_abaddon_borrowed_time' )
 			then
 				local allyTarget = J.GetProperTarget( ally )
 				if J.IsValidHero( allyTarget )
