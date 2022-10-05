@@ -606,7 +606,7 @@ function ItemPurchaseThink()
 	--出售过度装备
 	if currentTime > sell_time + 0.5
 		and ( bot:GetItemInSlot( 6 ) ~= nil or bot:GetItemInSlot( 7 ) ~= nil or bot:GetItemInSlot( 8 ) ~= nil )
-		and ( bot:DistanceFromFountain() <= 100 or bot:DistanceFromSecretShop() <= 100 )
+		and ( bot:DistanceFromFountain() <= 100 or bot:DistanceFromSecretShop() <= 100 or GetGameMode() == 23 )
 	then
 		sell_time = currentTime
 
