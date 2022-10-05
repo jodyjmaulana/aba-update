@@ -196,6 +196,7 @@ Item['sBasicItems'] = {
 	'item_blitz_knuckles', --闪电指套
 	'item_voodoo_mask', --巫毒面具
 	'item_fluffy_hat', --毛毛帽
+	'item_aghanims_shard',
 }
 
 Item['sSeniorItems'] = {
@@ -243,6 +244,7 @@ Item['sTopItems'] = {
 	'item_faerie_fire',
 	'item_enchanted_mango',
 	'item_infused_raindrop',
+	'item_aghanims_shard',
 
 	'item_abyssal_blade',
 	'item_aether_lens',
@@ -444,8 +446,8 @@ local tNeutralItemLevelList = {
 	['item_arcane_ring'] = 35,
 	['item_broom_handle'] = 33,
 	-- ['item_faded_broach'] = 31,
-	-- ['item_keen_optic'] = 29, -- 基恩镜片	
-	-- ['item_ocean_heart'] = 43,	
+	-- ['item_keen_optic'] = 29, -- 基恩镜片
+	-- ['item_ocean_heart'] = 43,
 	['item_royal_jelly'] = 96,
 	['item_trusty_shovel'] = 32,
 	['item_ironwood_tree'] = 44,
@@ -469,7 +471,7 @@ local tNeutralItemLevelList = {
 	['item_ring_of_aquila'] = 46,
 	['item_vambrace'] = 52,
 	-- ['item_quicksilver_amulet'] = 45,
-	['item_bullwhip'] = 48, 
+	['item_bullwhip'] = 48,
 	['item_misericorde'] = 40,
 	['item_eye_of_the_vizier'] = 40,
 	['item_specialists_array'] = 40,
@@ -485,13 +487,13 @@ local tNeutralItemLevelList = {
 	-- ['item_spider_legs'] = 60,
 	['item_ceremonial_robe'] = 46,
 	['item_cloak_of_flames'] = 49,
-	['item_elven_tunic'] = 47, 
-	['item_psychic_headband'] = 50, 
+	['item_elven_tunic'] = 47,
+	['item_psychic_headband'] = 50,
 	['item_black_powder_bag'] = 50,
 	['item_ogre_seal_totem'] = 50,
 
 	
-	['item_spy_gadget'] = 36, -- 望远镜	
+	['item_spy_gadget'] = 36, -- 望远镜
 	['item_flicker'] = 49, 	-- 闪灵
 	-- ['item_illusionsts_cape'] = 64,
 	-- ['item_minotaur_horn'] = 65, -- 恶牛角
@@ -499,9 +501,9 @@ local tNeutralItemLevelList = {
 	['item_spell_prism'] = 69, -- 法术棱镜
 	-- ['item_the_leveller'] = 61, -- 平世剑
 	['item_timeless_relic'] = 59, -- 永恒遗物
-	['item_trickster_cloak'] = 62, 
-	['item_stormcrafter'] = 68, 
-	['item_penta_edged_sword'] = 57, 
+	['item_trickster_cloak'] = 62,
+	['item_stormcrafter'] = 68,
+	['item_penta_edged_sword'] = 57,
 	['item_heavy_blade'] = 55,
 	['item_ascetic_cap'] = 55,
 	['item_havoc_hammer'] = 55,
@@ -546,7 +548,7 @@ function Item.GetComponentList( itemName )
 		for _, v in pairs( itemComponentList )
 		do
 			componentList[#componentList + 1] = v
-		end	
+		end
 	end
 	
 	return componentList
@@ -843,6 +845,8 @@ local tDefineItemRealName = {
 
 ['item_mage_outfit'] = "item_tranquil_boots",
 ['item_crystal_maiden_outfit'] = "item_magic_wand",
+['item_abaddon_outfit'] = "item_tranquil_boots",
+
 ['item_priest_outfit'] = "item_arcane_boots",
 
 
@@ -932,6 +936,8 @@ Item['item_priest_outfit']				= { 'item_tango', 'item_tango', 'item_branches', '
 Item['item_mage_outfit']				= { 'item_tango', 'item_double_branches', 'item_circlet', 'item_mantle', 'item_magic_stick', 'item_recipe_null_talisman', 'item_flask', 'item_tranquil_boots', 'item_recipe_magic_wand' }
 
 Item['item_crystal_maiden_outfit']		= { 'item_tango', 'item_double_branches', 'item_circlet', 'item_mantle', 'item_magic_stick', 'item_recipe_null_talisman', 'item_flask', 'item_power_treads_int', 'item_recipe_magic_wand' }
+
+Item['item_abaddon_outfit']				= { 'item_tango', 'item_double_branches', 'item_circlet', 'item_gauntlets', 'item_magic_stick', 'item_recipe_bracer', 'item_flask', 'item_tranquil_boots', 'item_recipe_magic_wand' }
 
 
 -----------------------------------------------------------------------------
