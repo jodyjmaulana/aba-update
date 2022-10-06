@@ -6,6 +6,7 @@
 --- Link:http://steamcommunity.com/sharedfiles/filedetails/?id=1573671599
 --- Link:http://steamcommunity.com/sharedfiles/filedetails/?id=1627071163
 --- Updated: Nikel
+--- carry, tank, mage, priest
 ----------------------------------------------------------------------------------------------------
 local X = {}
 local bDebugMode = ( 1 == 10 )
@@ -56,23 +57,23 @@ local tTalentTreeList = {
 
 local tAllAbilityBuildList = {
 	['outfit_carry'] = {
-		{2,3,3,2,3,6,3,2,2,1,1,6,1,1,6}
+		{2,3,3,2,3,6,3,2,2,1,6,1,1,1,6}
 	},
 
 	['outfit_mid'] = {
-		{2,3,3,2,3,6,3,2,2,1,1,6,1,1,6}
+		{2,3,3,2,3,6,3,2,2,1,6,1,1,1,6}
 	},
 
 	['outfit_priest'] = {
-		{2,1,3,2,1,6,2,2,1,1,3,6,3,3,6}
+		{2,1,3,2,1,6,2,2,1,1,6,3,3,3,6}
 	},
 
 	['outfit_mage'] = {
-		{2,1,3,2,1,6,2,2,1,1,3,6,3,3,6}
+		{2,1,3,2,1,6,2,2,1,1,6,3,3,3,6}
 	},
 
 	['outfit_tank'] = {
-		{2,3,2,1,3,6,2,3,2,3,1,6,1,1,6}
+		{2,3,2,1,3,6,2,3,2,3,6,1,1,1,6}
 	},
 }
 
@@ -344,20 +345,7 @@ function X.ConsiderQ()
 	if bot:GetHealth() - ( nDamage * abilityQ:GetSpecialValueInt( 'self_damage' ) / 100 ) > 400
 		or bot:HasModifier( 'modifier_abaddon_borrowed_time' )
 	then
-		local npcWeakestAlly = nil
-		local npcWeakestAllyHealth = 100000
-		for _, npcAlly in pairs( nAlliedHeroesInRange )
-		do
-			if J.CanCastOnNonMagicImmune( npcAlly )
-				and npcAlly:GetHealth() <= npcWeakestAllyHealth
-				and J.GetHP( npcAlly ) <= 0.75
-				and npcAlly ~= bot
-			then
-				npcWeakestAlly = npcAlly
-				npcWeakestAllyHealth = npcWeakestAlly:GetHealth()
-			end
-		end
-
+		local npcWeakestAlly = J.GetVulnerableWeakestUnitForTargetedSpell( bot, true, false, nCastRange )
 		if ( npcWeakestAlly ~= nil )
 		then
 			return BOT_ACTION_DESIRE_HIGH, npcWeakestAlly, 'Q-Heal:'..J.Chat.GetNormName( npcWeakestAlly )
@@ -367,29 +355,11 @@ function X.ConsiderQ()
 
 	if J.IsInTeamFight( bot, 1200 )
 	then
-		
-		local npcWeakestEnemy = nil
-		local npcWeakestEnemyHealth = 10000
-		for _, npcEnemy in pairs( nEnemyHeroesInRange )
-		do
-			if J.IsValid( npcEnemy )
-				and J.CanCastOnNonMagicImmune( npcEnemy )
-				and J.CanCastOnTargetAdvanced( npcEnemy )
-			then
-				local npcEnemyHealth = npcEnemy:GetHealth()
-				if ( npcEnemyHealth < npcWeakestEnemyHealth )
-				then
-					npcWeakestEnemyHealth = npcEnemyHealth
-					npcWeakestEnemy = npcEnemy
-				end
-			end
-		end
-
+		local npcWeakestEnemy = J.GetVulnerableWeakestUnitForTargetedSpell( bot, true, true, nCastRange )
 		if ( npcWeakestEnemy ~= nil )
 		then
 			return BOT_ACTION_DESIRE_HIGH, npcWeakestEnemy, 'Q-Battle-Weakest:'..J.Chat.GetNormName( npcWeakestEnemy )
 		end
-
 	end
 
 
@@ -425,7 +395,7 @@ function X.ConsiderQ()
 
 	if ( J.IsPushing( bot ) or J.IsDefending( bot ) or J.IsFarming( bot ) )
 		and J.IsAllowedToSpam( bot, 30 )
-		and nSkillLV >= 3
+		and nSkillLV >= 2
 		and #hEnemyList == 0
 		and #hAllyList <= 3
 		and talent8:isTrained()
@@ -437,13 +407,12 @@ function X.ConsiderQ()
 		do
 			if J.IsValid( creep )
 				and not creep:HasModifier( "modifier_fountain_glyph" )
-				and J.IsInRange( creep, bot, nCastRange + nRadius )
 			then
 
 				if J.GetAroundTargetEnemyUnitCount( creep, nRadius ) >= 2
 					and #nEnemyCreeps >= 4
 				then
-					return BOT_ACTION_DESIRE_HIGH, creep, "Q-PushAoe"
+					return BOT_ACTION_DESIRE_HIGH, creep, "Q-PushClearWave"
 				end
 
 				if J.IsKeyWordUnit( 'ranged', creep )

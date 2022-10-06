@@ -260,6 +260,34 @@ function J.GetVulnerableWeakestUnit( bot, bHero, bEnemy, nRadius )
 end
 
 
+function J.GetVulnerableWeakestUnitForTargetedSpell( bot, bHero, bEnemy, nRadius )
+
+	local unitList = {}
+	local weakest = nil
+	local weakestHP = 10000
+	if bHero
+	then
+		unitList = bot:GetNearbyHeroes( nRadius, bEnemy, BOT_MODE_NONE )
+	else
+		unitList = bot:GetNearbyLaneCreeps( nRadius, bEnemy )
+	end
+
+	for _, u in pairs( unitList )
+	do
+		if u:GetHealth() < weakestHP
+			and J.CanCastOnNonMagicImmune( u )
+			and J.CanCastOnTargetAdvanced( npcEnemy )
+		then
+			weakest = u
+			weakestHP = u:GetHealth()
+		end
+	end
+
+	return weakest
+
+end
+
+
 function J.GetVulnerableUnitNearLoc( bot, bHero, bEnemy, nCastRange, nRadius, vLoc )
 
 	local unitList = {}
@@ -4029,6 +4057,7 @@ J.PrintInitMessage( sFlag, sMessage )
 J.IsDebugHero( bot )
 J.CanNotUseAbility( bot )
 J.GetVulnerableWeakestUnit( bot, bHero, bEnemy, nRadius )
+J.GetVulnerableWeakestUnitForTargetedSpell( bot, bHero, bEnemy, nRadius )
 J.GetUnitAllyCountAroundEnemyTarget( target, nRadius )
 J.GetAroundTargetEnemyUnitCount( target, nRadius )
 J.GetAroundTargetEnemyHeroCount( target, nRadius )
