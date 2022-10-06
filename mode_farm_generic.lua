@@ -1140,7 +1140,12 @@ function X.CouldBlink(bot,nLocation)
 	
 	
 	local maxBlinkDist = 1199;
-	local blink = J.IsItemAvailable("item_blink");
+	local blink = J.IsItemAvailable("item_blink")
+		
+	if blink == nil then blink = J.IsItemAvailable("item_overwhelming_blink") end
+	if blink == nil then blink = J.IsItemAvailable("item_swift_blink") end
+	if blink == nil then blink = J.IsItemAvailable("item_arcane_blink") end
+	if blink == nil then blink = J.IsItemAvailable("item_fallen_sky") end
 	
 	if botName == "npc_dota_hero_antimage"
 	then
