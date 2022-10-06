@@ -2128,6 +2128,7 @@ function X.IsABAHero()
 	local sABAHeroIndex = {
 	
 		["npc_dota_hero_abaddon"] = true,
+		["npc_dota_hero_venomancer"] = true,
 		["npc_dota_hero_antimage"] = true,
 		["npc_dota_hero_arc_warden"] = true,
 		["npc_dota_hero_bane"] = true, 

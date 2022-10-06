@@ -173,6 +173,7 @@ local sUserKeyDir = Chat.GetUserKeyDir()
 local sHasDevelopmentHeroList = {
 
 	"npc_dota_hero_abaddon",
+	"npc_dota_hero_venomancer",
 	"npc_dota_hero_silencer",
 	"npc_dota_hero_warlock",
 	"npc_dota_hero_necrolyte",
@@ -260,6 +261,7 @@ local sSecondList = {
 	"npc_dota_hero_pugna",
 	"npc_dota_hero_shadow_shaman",
 	"npc_dota_hero_bane",
+	"npc_dota_hero_venomancer",
 	
 }
 
@@ -287,6 +289,7 @@ local sThirdList = {
 
 local sFourthList = {
 		
+	"npc_dota_hero_abaddon",
 	"npc_dota_hero_chaos_knight",
 	"npc_dota_hero_bristleback",
 	"npc_dota_hero_dragon_knight",
@@ -298,7 +301,6 @@ local sFourthList = {
 	"npc_dota_hero_slardar",
 	"npc_dota_hero_legion_commander",
 	"npc_dota_hero_omniknight",
-	"npc_dota_hero_abaddon",
 	
 }
 
@@ -320,6 +322,7 @@ local sFifthList = {
 local sPriestList = {
 
 	"npc_dota_hero_abaddon",
+	"npc_dota_hero_venomancer",
 	"npc_dota_hero_death_prophet",
 	"npc_dota_hero_jakiro",
 	"npc_dota_hero_lich",
@@ -344,6 +347,7 @@ local sPriestList = {
 local sMageList = {
 
 	"npc_dota_hero_abaddon",
+	"npc_dota_hero_venomancer",
 	"npc_dota_hero_crystal_maiden",
 	"npc_dota_hero_death_prophet",
 	"npc_dota_hero_jakiro",

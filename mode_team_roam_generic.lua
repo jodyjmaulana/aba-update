@@ -1637,6 +1637,7 @@ function X.IsSpecialSupport(bot)
 		["npc_dota_hero_shadow_shaman"] = true,
 		["npc_dota_hero_silencer"] = true,
 		["npc_dota_hero_skywrath_mage"] = true,
+		["npc_dota_hero_venomancer"] = true,
 		["npc_dota_hero_warlock"] = true,		  
 		["npc_dota_hero_windrunner"] = true,		  
 		["npc_dota_hero_witch_doctor"] = true,		  

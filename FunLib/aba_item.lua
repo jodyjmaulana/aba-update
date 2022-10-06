@@ -939,6 +939,8 @@ Item['item_crystal_maiden_outfit']		= { 'item_tango', 'item_double_branches', 'i
 
 Item['item_abaddon_outfit']				= { 'item_tango', 'item_double_branches', 'item_circlet', 'item_gauntlets', 'item_magic_stick', 'item_recipe_bracer', 'item_flask', 'item_tranquil_boots', 'item_recipe_magic_wand' }
 
+Item['item_venomancer_outfit']			= { 'item_tango', 'item_double_branches', 'item_circlet', 'item_slippers', 'item_magic_stick', 'item_recipe_wraith_band', 'item_flask', 'item_tranquil_boots', 'item_recipe_magic_wand' }
+
 
 -----------------------------------------------------------------------------
 
@@ -1126,13 +1128,13 @@ function Item.IsItemInHero( sItemName )
 		return true
 	end
 	
-	if sItemName == 'item_power_treads'
+	if sItemName == 'item_tranquil_boots'
 		and Item.IsItemInHero( 'item_boots_of_bearing' )
 	then
 		return true
 	end
 	
-	if sItemName == 'item_tranquil_boots'
+	if sItemName == 'item_arcane_boots'
 		and Item.IsItemInHero( 'item_guardian_greaves' )
 	then
 		return true
