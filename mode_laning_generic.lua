@@ -39,6 +39,11 @@ function GetDesire()
 		return 0.228
 	end
 
+	if botLV <= 25
+	then
+		return 0.203
+	end
+
 	return 0
 
 end

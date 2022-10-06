@@ -58,12 +58,17 @@ X['sOnlyProjectileAbilityIndex'] = {
 
 X['sStunProjectileAbilityIndex'] = {
 
+		["alchemist_unstable_concoction"] = true,
+		["brewmaster_earth_hurl_boulder"] = true,
 		["chaos_knight_chaos_bolt"] = true,
+		["dragon_knight_dragon_tail"] = true,
+		["gyrocopter_homing_missile"] = true,
+		["mud_golem_hurl_boulder"] = true,
 		["skeleton_king_hellfire_blast"] = true,
 		["sven_storm_bolt"] = true,
+		["tusk_snowball"] = true,
 		["vengefulspirit_magic_missile"] = true,
 		["witch_doctor_paralyzing_cask"] = true,
-		["dragon_knight_dragon_tail"] = true,
 
 }
 
