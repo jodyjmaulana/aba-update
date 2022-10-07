@@ -345,7 +345,7 @@ function X.ConsiderQ()
 	if bot:GetHealth() - ( nDamage * abilityQ:GetSpecialValueInt( 'self_damage' ) / 100 ) > 400
 		or bot:HasModifier( 'modifier_abaddon_borrowed_time' )
 	then
-		local npcWeakestAlly = J.GetVulnerableWeakestUnitForTargetedSpell( bot, true, false, nCastRange )
+		local npcWeakestAlly = J.GetVulnerableWeakestUnitMagicImmune( bot, true, false, nCastRange )
 		if ( npcWeakestAlly ~= nil )
 		then
 			return BOT_ACTION_DESIRE_HIGH, npcWeakestAlly, 'Q-Heal:'..J.Chat.GetNormName( npcWeakestAlly )
@@ -355,7 +355,7 @@ function X.ConsiderQ()
 
 	if J.IsInTeamFight( bot, 1200 )
 	then
-		local npcWeakestEnemy = J.GetVulnerableWeakestUnitForTargetedSpell( bot, true, true, nCastRange )
+		local npcWeakestEnemy = J.GetVulnerableWeakestUnitWithLotusCheck( bot, true, true, nCastRange )
 		if ( npcWeakestEnemy ~= nil )
 		then
 			return BOT_ACTION_DESIRE_HIGH, npcWeakestEnemy, 'Q-Battle-Weakest:'..J.Chat.GetNormName( npcWeakestEnemy )
@@ -366,7 +366,7 @@ function X.ConsiderQ()
 	if J.IsGoingOnSomeone( bot )
 	then
 		if J.IsValidHero( botTarget )
-			and J.CanCastOnMagicImmune( botTarget )
+			and J.CanCastOnNonMagicImmune( botTarget )
 			and J.CanCastOnTargetAdvanced( botTarget )
 			and J.IsInRange( botTarget, bot, nCastRange )
 			and J.IsAllowedToSpam( bot, nManaCost )
@@ -381,7 +381,7 @@ function X.ConsiderQ()
 		for _, npcEnemy in pairs( nEnemyHeroesInRange )
 		do
 			if J.IsValidHero( npcEnemy )
-				and J.CanCastOnMagicImmune( npcEnemy )
+				and J.CanCastOnNonMagicImmune( npcEnemy )
 				and J.CanCastOnTargetAdvanced( npcEnemy )
 				and J.IsInRange( npcEnemy, bot, nCastRange )
 				and J.IsHealing( npcEnemy )
@@ -502,7 +502,6 @@ function X.ConsiderW()
 	if J.IsGoingOnSomeone( bot )
 	then
 		if J.IsValidHero( botTarget )
-			and J.CanCastOnMagicImmune( botTarget )
 			and J.IsInRange( botTarget, bot, 600 )
 			and not bot:HasModifier( 'modifier_abaddon_aphotic_shield' )
 		then
