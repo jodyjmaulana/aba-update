@@ -235,6 +235,21 @@ local sHasDevelopmentHeroList = {
 
 
 local sFirstList = {
+	
+	"npc_dota_hero_crystal_maiden",
+	"npc_dota_hero_zuus",
+	"npc_dota_hero_jakiro",
+	"npc_dota_hero_skywrath_mage",
+	"npc_dota_hero_lina",
+	"npc_dota_hero_queenofpain",
+	"npc_dota_hero_pugna",
+	"npc_dota_hero_shadow_shaman",
+	"npc_dota_hero_bane",
+	"npc_dota_hero_venomancer",
+	
+}
+
+local sSecondList = {
 
 	"npc_dota_hero_silencer",
 	"npc_dota_hero_warlock",
@@ -250,7 +265,7 @@ local sFirstList = {
 	
 }
 
-local sSecondList = {
+local sFirstList = {
 	
 	"npc_dota_hero_crystal_maiden",
 	"npc_dota_hero_zuus",
@@ -451,8 +466,8 @@ tSelectPoolList = {
 	[1] = sMidList,
 	[2] = sTankList,
 	[3] = sCarryList,
-	[4] = sMageList,
-	[5] = sPriestList,
+	[4] = sPriestList,
+	[5] = sMageList,
 }
 
 tRecommendSelectPoolList = {
