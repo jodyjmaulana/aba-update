@@ -415,7 +415,7 @@ function X.ConsiderE()
 			and J.IsInRange( bot, botTarget, nCastRange + nRadius - 100 )
 			and not botTarget:IsAttackImmune()
 		then
-			nTargetLocation = J.GetCastLocation( bot, botTarget, nCastRange, nRadius )
+			nTargetLocation = J.GetCastLocation( bot, botTarget, nCastRange, nRadius ) + RandomVector( nRadius * 0.1 )
 			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'E-Attack:'..J.Chat.GetNormName( botTarget )
 		end
 	end
@@ -466,55 +466,6 @@ function X.ConsiderE()
 		end
 
 
-		local nTowerList = bot:GetNearbyTowers( 990, true )
-		local nBarrackList = bot:GetNearbyBarracks( 990, true )
-		local nEnemyAncient = GetAncient( GetOpposingTeam() )
-		local hBuildingList = {
-			botTarget,
-			nTowerList[1],
-			nBarrackList[1],
-			nEnemyAncient,
-		}
-
-		for _, building in pairs( hBuildingList )
-		do
-			if J.IsValidBuilding( building )
-				and J.IsInRange( bot, building, nCastRange + nRadius )
-				and not nBuilding:HasModifier( 'modifier_fountain_glyph' )
-				and not nBuilding:HasModifier( 'modifier_invulnerable' )
-				and not nBuilding:HasModifier( 'modifier_backdoor_protection' )
-				and not J.IsKeyWordUnit( "DOTA_Outpost", building )
-			then
-				nTargetLocation = building:GetLocation() + RandomVector( nRadius * 0.5 )
-				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "E-Push-Tower"
-			end
-		end
-
-
-		if ( J.IsDefending( bot ) )
-		then
-			nTowerList = bot:GetNearbyTowers( 990, false )
-			nBarrackList = bot:GetNearbyBarracks( 990, false )
-			nEnemyAncient = GetAncient( GetOpposingTeam() )
-			hBuildingList = {
-				nTowerList[1],
-				nBarrackList[1],
-				nEnemyAncient,
-			}
-
-			for _, building in pairs (hBuildingList )
-			do
-				if J.IsValidBuilding( building )
-					and J.IsInRange( bot, building, nCastRange + nRadius )
-					and not J.IsKeyWordUnit( "DOTA_Outpost", building )
-				then
-					nTargetLocation = building:GetLocation() + RandomVector( nRadius * 0.5 )
-					return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "E-Defend-Tower"
-				end
-			end
-		end
-
-
 	end
 
 	
@@ -532,7 +483,7 @@ function X.ConsiderE()
 			if J.IsValid( targetCreep )
 				and targetCreep:GetHealth() >= 500
 				and targetCreep:GetMagicResist() < 0.3
-				and J.GetAroundTargetEnemyUnitCount( targetCreep, 300 ) >= 2
+				and J.GetAroundTargetEnemyUnitCount( targetCreep, 300 ) >= 1
 			then
 				nTargetLocation = J.GetCastLocation( bot, targetCreep, nCastRange, nRadius ) + RandomVector( nRadius * 0.5 )
 				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "E-Farm:"..( #nNeutralCreeps )
@@ -566,6 +517,53 @@ function X.ConsiderE()
 		then
 			nTargetLocation =  J.GetCastLocation( bot, hEnemyList[1], nCastRange, nRadius ) + RandomVector( nRadius * 0.5 )
 			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'E-Spam'
+		end
+	end
+
+
+	local nTowerList = bot:GetNearbyTowers( 990, true )
+	local nBarrackList = bot:GetNearbyBarracks( 990, true )
+	local nEnemyAncient = GetAncient( GetOpposingTeam() )
+	local hBuildingList = {
+		botTarget,
+		nTowerList[1],
+		nBarrackList[1],
+		nEnemyAncient,
+	}
+
+	for _, building in pairs( hBuildingList )
+	do
+		if J.IsValidBuilding( building )
+			and J.IsInRange( bot, building, nCastRange + nRadius )
+			and not nBuilding:HasModifier( 'modifier_fountain_glyph' )
+			and not nBuilding:HasModifier( 'modifier_invulnerable' )
+			and not nBuilding:HasModifier( 'modifier_backdoor_protection' )
+			and not J.IsKeyWordUnit( "DOTA_Outpost", building )
+		then
+			nTargetLocation = building:GetLocation() + RandomVector( nRadius * 0.5 )
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "E-Push-Tower"
+		end
+	end
+
+
+	nTowerList = bot:GetNearbyTowers( 990, false )
+	nBarrackList = bot:GetNearbyBarracks( 990, false )
+	nEnemyAncient = GetAncient( GetOpposingTeam() )
+	hBuildingList = {
+		nTowerList[1],
+		nBarrackList[1],
+		nEnemyAncient,
+	}
+
+	for _, building in pairs (hBuildingList )
+	do
+		if J.IsValidBuilding( building )
+			and J.IsInRange( bot, building, nCastRange + nRadius )
+			and not J.IsKeyWordUnit( "DOTA_Outpost", building )
+			and ( J.GetAroundTargetEnemyUnitCount( building, 600 ) >= 1 or J.IsDefending( bot ) )
+		then
+			nTargetLocation = building:GetLocation() + RandomVector( nRadius * 0.5 )
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "E-Defend-Tower"
 		end
 	end
 
