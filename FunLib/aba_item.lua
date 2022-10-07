@@ -846,8 +846,10 @@ local tDefineItemRealName = {
 ['item_mage_outfit'] = "item_tranquil_boots",
 ['item_crystal_maiden_outfit'] = "item_power_treads",
 ['item_abaddon_outfit'] = "item_tranquil_boots",
+['item_venomancer_outfit'] = "item_tranquil_boots",
 
 ['item_priest_outfit'] = "item_arcane_boots",
+['item_priest_2_outfit'] = "item_arcane_boots",
 
 
 }
@@ -929,6 +931,8 @@ Item['item_ogre_magi_outfit']			= { 'item_tango', 'item_flask', 'item_quelling_b
 --------------------------------------------------------------------------
 
 Item['item_priest_outfit']				= { 'item_tango', 'item_tango', 'item_branches', 'item_circlet', 'item_magic_stick', 'item_branches', 'item_flask', 'item_boots', 'item_recipe_magic_wand', 'item_ring_of_protection', 'item_sobi_mask', 'item_recipe_urn_of_shadows', 'item_energy_booster' }
+
+Item['item_priest_2_outfit']			= { 'item_tango', 'item_tango', 'item_branches', 'item_magic_stick', 'item_branches', 'item_flask', 'item_boots', 'item_recipe_magic_wand', 'item_energy_booster' }
 
 -----------------------------------------------------------------------------
 

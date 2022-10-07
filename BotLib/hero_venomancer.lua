@@ -110,10 +110,27 @@ tOutFitList['outfit_carry'] = {
 
 tOutFitList['outfit_mid'] = tOutFitList['outfit_carry']
 
-tOutFitList['outfit_priest'] = tOutFitList['outfit_carry']
+tOutFitList['outfit_priest'] = {
+	
+	"item_priest_2_outfit",
+	"item_force_staff",
+	"item_glimmer_cape",
+	"item_mekansm",
+	"item_aeon_disk",
+	"item_aghanims_shard",
+	"item_guardian_greaves",
+	"item_ghost",
+	"item_ultimate_scepter",
+	"item_hurricane_pike",
+	"item_ethereal_blade",
+	"item_ultimate_scepter_2",
+	"item_aether_lens",
+	"item_octarine_core",
+	"item_moon_shard",
+
+}
 
 tOutFitList['outfit_mage'] = tOutFitList['outfit_carry']
-
 
 tOutFitList['outfit_tank'] = tOutFitList['outfit_carry']
 
@@ -121,13 +138,13 @@ X['sBuyList'] = tOutFitList[sOutfitType]
 
 X['sSellList'] = {
 	"item_blink",
-	"item_magic_wand",
+	"item_wraith_band",
 
 	"item_force_staff",
-	"item_magic_wand",
+	"item_wraith_band",
 
 	"item_ultimate_scepter",
-	"item_wraith_band",
+	"item_magic_wand",
 }
 
 if J.Role.IsPvNMode() or J.Role.IsAllShadow() then X['sBuyList'], X['sSellList'] = { 'PvN_str_carry' }, {} end
@@ -239,18 +256,6 @@ function X.SkillsComplement()
 		return
 	end
 
-	castEDesire, castELocation, sMotive = X.ConsiderE()
-	if castEDesire > 0
-	then
-		J.SetReportMotive( bDebugMode, sMotive )
-
-		J.SetQueuePtToINT( bot, false )
-
-		bot:ActionQueue_UseAbilityOnLocation( abilityE, castELocation )
-		return
-	end
-
-
 	castDDesire, castDTarget, sMotive = X.ConsiderD()
 	if ( castDDesire > 0 )
 	then
@@ -259,6 +264,17 @@ function X.SkillsComplement()
 		J.SetQueuePtToINT( bot, false )
 
 		bot:ActionQueue_UseAbilityOnEntity( abilityD, castDTarget )
+		return
+	end
+
+	castEDesire, castELocation, sMotive = X.ConsiderE()
+	if castEDesire > 0
+	then
+		J.SetReportMotive( bDebugMode, sMotive )
+
+		J.SetQueuePtToINT( bot, false )
+
+		bot:ActionQueue_UseAbilityOnLocation( abilityE, castELocation )
 		return
 	end
 
@@ -287,7 +303,7 @@ function X.ConsiderQ()
 			and J.CanCastOnNonMagicImmune( npcEnemy )
 			and J.WillMagicKillTarget( bot, npcEnemy, nDamage, nCastPoint )
 		then
-			nTargetLocation = botTarget:GetLocation()
+			nTargetLocation = botTarget:GetExtrapolatedLocation( nCastPoint )
 			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'Q-Kill:'..J.Chat.GetNormName( npcEnemy )
 		end
 	end
@@ -318,7 +334,7 @@ function X.ConsiderQ()
 			and J.CanCastOnNonMagicImmune( botTarget )
 			and J.IsInRange( botTarget, bot, nCastRange )
 		then
-			nTargetLocation = botTarget:GetLocation()
+			nTargetLocation = botTarget:GetExtrapolatedLocation( nCastPoint )
 			if J.IsInLocRange( bot, nTargetLocation, nCastRange )
 			then
 				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'Q-Attack:'..J.Chat.GetNormName( botTarget )
@@ -336,7 +352,7 @@ function X.ConsiderQ()
 				and J.CanCastOnNonMagicImmune( npcEnemy )
 				and bot:IsFacingLocation( npcEnemy:GetExtrapolatedLocation( nCastPoint ), 20 )
 			then
-				nTargetLocation = npcEnemy:GetLocation()
+				nTargetLocation = npcEnemy:GetExtrapolatedLocation( nCastPoint )
 				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'Q-Retreat:'..J.Chat.GetNormName( npcEnemy )
 			end
 		end
@@ -391,6 +407,18 @@ function X.ConsiderE()
 	local nManaCost = abilityE:GetManaCost()
 	local nEnemyHeroesInRange = bot:GetNearbyHeroes( nCastRange, true, BOT_MODE_NONE )
 	local nTargetLocation = nil
+
+
+	if J.IsGoingOnSomeone( bot )
+	then
+		if J.IsValidHero( botTarget )
+			and J.IsInRange( bot, botTarget, nCastRange + nRadius )
+			and not botTarget:IsAttackImmune()
+		then
+			nTargetLocation = J.GetCastLocation( bot, botTarget, nCastRange, nRadius )
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'E-Attack:'..J.Chat.GetNormName( botTarget )
+		end
+	end
 	
 
 	if J.IsInTeamFight( bot, 1200 )
@@ -398,25 +426,11 @@ function X.ConsiderE()
 		for _, npcEnemy in pairs( nEnemyHeroesInRange )
 		do
 			if J.IsValidHero( botTarget )
-				and J.CanCastOnNonMagicImmune( botTarget )
 				and not npcEnemy:IsAttackImmune()
 			then
-				nTargetLocation = J.GetCastLocation( bot, npcEnemy, nCastRange, nRadius ) + RandomVector(nRadius / 2)
+				nTargetLocation = J.GetCastLocation( bot, npcEnemy, nCastRange, nRadius ) + RandomVector( nRadius * 0.7 )
 				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'E-Battle'
 			end
-		end
-	end
-
-
-	if J.IsGoingOnSomeone( bot )
-	then
-		if J.IsValidHero( botTarget )
-			and J.CanCastOnMagicImmune( botTarget )
-			and J.IsInRange( bot, botTarget, nCastRange + nRadius )
-			and not botTarget:IsAttackImmune()
-		then
-			nTargetLocation = J.GetCastLocation( bot, botTarget, nCastRange, nRadius )
-			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'E-Attack:'..J.Chat.GetNormName( botTarget )
 		end
 	end
 
@@ -426,13 +440,12 @@ function X.ConsiderE()
 		for _, npcEnemy in pairs( nEnemyHeroesInRange )
 		do
 			if J.IsValidHero( npcEnemy )
-				and J.CanCastOnMagicImmune( npcEnemy )
 				and not botTarget:IsAttackImmune()
 				and J.IsAllowedToSpam( bot, nManaCost )
 				and nMP >= 0.5
 			then
-				nTargetLocation = J.GetCastLocation( bot, botTarget, nCastRange, nRadius ) + RandomVector(nRadius / 2)
-				return BOT_ACTION_DESIRE_HIGH, npcEnemy, "E-SpamHarass:"..J.Chat.GetNormName( npcEnemy )
+				nTargetLocation = J.GetCastLocation( bot, botTarget, nCastRange, nRadius ) + RandomVector( nRadius * 0.7 )
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "E-SpamHarass:"..J.Chat.GetNormName( npcEnemy )
 			end
 		end
 	end
@@ -450,7 +463,7 @@ function X.ConsiderE()
 				and not creep:HasModifier( "modifier_fountain_glyph" )
 				and #nEnemyCreeps >= 3
 			then
-				nTargetLocation = J.GetCastLocation( bot, creep, nCastRange, nRadius ) + RandomVector(nRadius / 2)
+				nTargetLocation = J.GetCastLocation( bot, creep, nCastRange, nRadius ) + RandomVector( nRadius * 0.7 )
 				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "E-Push"
 			end
 		end
@@ -473,7 +486,7 @@ function X.ConsiderE()
 				and targetCreep:GetMagicResist() < 0.3
 				and J.GetAroundTargetEnemyUnitCount( targetCreep, 300 ) >= 2
 			then
-				nTargetLocation = J.GetCastLocation( bot, targetCreep, nCastRange, nRadius ) + RandomVector(nRadius / 2)
+				nTargetLocation = J.GetCastLocation( bot, targetCreep, nCastRange, nRadius ) + RandomVector( nRadius * 0.7 )
 				return BOT_ACTION_DESIRE_HIGH, targetCreep, "E-Farm:"..( #nNeutralCreeps )
 			end
 		end
@@ -488,6 +501,23 @@ function X.ConsiderE()
 		then
 			nTargetLocation = J.GetCastLocation( bot, botTarget, nCastRange, nRadius )
 			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'E-Roshan'
+		end
+	end
+
+
+	local nRManaCost = abilityR:GetManaCost()
+	if #hEnemyList >= 1
+		and ( not abilityR:IsFullyCastable() or bot:GetMana() > nRManaCost )
+	then
+		local nAlliedCreeps = bot:GetNearbyLaneCreeps( nCastRange + nRadius, false )
+		if J.IsValidHero( hEnemyList[1] )
+			and not hEnemyList[1]:IsAttackImmune()
+			and J.IsAllowedToSpam( bot, nManaCost )
+			and nMP >= 0.5
+			and #nAlliedCreeps >= 1
+		then
+			nTargetLocation =  J.GetCastLocation( bot, hEnemyList[1], nCastRange, nRadius ) + RandomVector( nRadius * 0.7 )
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'E-Spam'
 		end
 	end
 
@@ -586,7 +616,7 @@ function X.ConsiderR()
 	
 	if J.IsRetreating( bot )
 		and #nEnemyHeroesInRange >= 2
-		and #nAlliedHeroesInRange >= 2
+		and #nEnemyHeroesInRange >= #nAlliedHeroesInRange
 	then
 		local nAoeCount = 0
 		for _, npcEnemy in pairs( nEnemyHeroesInRange )
