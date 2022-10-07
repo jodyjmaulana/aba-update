@@ -412,7 +412,7 @@ function X.ConsiderE()
 	if J.IsGoingOnSomeone( bot )
 	then
 		if J.IsValidHero( botTarget )
-			and J.IsInRange( bot, botTarget, nCastRange + nRadius )
+			and J.IsInRange( bot, botTarget, nCastRange + nRadius - 100 )
 			and not botTarget:IsAttackImmune()
 		then
 			nTargetLocation = J.GetCastLocation( bot, botTarget, nCastRange, nRadius )
@@ -428,7 +428,7 @@ function X.ConsiderE()
 			if J.IsValidHero( botTarget )
 				and not npcEnemy:IsAttackImmune()
 			then
-				nTargetLocation = J.GetCastLocation( bot, npcEnemy, nCastRange, nRadius ) + RandomVector( nRadius * 0.7 )
+				nTargetLocation = J.GetCastLocation( bot, npcEnemy, nCastRange, nRadius ) + RandomVector( nRadius * 0.5 )
 				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'E-Battle'
 			end
 		end
@@ -444,7 +444,7 @@ function X.ConsiderE()
 				and J.IsAllowedToSpam( bot, nManaCost )
 				and nMP >= 0.5
 			then
-				nTargetLocation = J.GetCastLocation( bot, botTarget, nCastRange, nRadius ) + RandomVector( nRadius * 0.7 )
+				nTargetLocation = J.GetCastLocation( bot, botTarget, nCastRange, nRadius ) + RandomVector( nRadius * 0.5 )
 				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "E-SpamHarass:"..J.Chat.GetNormName( npcEnemy )
 			end
 		end
@@ -454,19 +454,67 @@ function X.ConsiderE()
 	if ( J.IsPushing( bot ) or J.IsDefending( bot ) or J.IsFarming( bot ) )
 		and J.IsAllowedToSpam( bot, nManaCost * 0.32 )
 		and nSkillLV >= 2 and DotaTime() > 8 * 60
-		and #hAllyList <= 2 and #hEnemyList == 0
 	then
+
 		local nEnemyCreeps = bot:GetNearbyLaneCreeps( nCastRange + nRadius, true )
-		for _, creep in pairs( nEnemyCreeps )
-		do
-			if J.IsValid( creep )
-				and not creep:HasModifier( "modifier_fountain_glyph" )
-				and #nEnemyCreeps >= 3
-			then
-				nTargetLocation = J.GetCastLocation( bot, creep, nCastRange, nRadius ) + RandomVector( nRadius * 0.7 )
+		if #nEnemyCreeps >= 3
+			and J.IsValid( nEnemyCreeps[1] )
+			and not nEnemyCreeps[1]:HasModifier( "modifier_fountain_glyph" )
+		then
+				nTargetLocation = J.GetCastLocation( bot, creep, nCastRange, nRadius ) + RandomVector( nRadius * 0.5 )
 				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "E-Push"
+		end
+
+
+		local nTowerList = bot:GetNearbyTowers( 990, true )
+		local nBarrackList = bot:GetNearbyBarracks( 990, true )
+		local nEnemyAncient = GetAncient( GetOpposingTeam() )
+		local hBuildingList = {
+			botTarget,
+			nTowerList[1],
+			nBarrackList[1],
+			nEnemyAncient,
+		}
+
+		for _, building in pairs( hBuildingList )
+		do
+			if J.IsValidBuilding( building )
+				and J.IsInRange( bot, building, nCastRange + nRadius )
+				and not nBuilding:HasModifier( 'modifier_fountain_glyph' )
+				and not nBuilding:HasModifier( 'modifier_invulnerable' )
+				and not nBuilding:HasModifier( 'modifier_backdoor_protection' )
+				and not J.IsKeyWordUnit( "DOTA_Outpost", building )
+			then
+				nTargetLocation = building:GetLocation() + RandomVector( nRadius * 0.5 )
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "E-Push-Tower"
 			end
 		end
+
+
+		if ( J.IsDefending( bot ) )
+		then
+			nTowerList = bot:GetNearbyTowers( 990, false )
+			nBarrackList = bot:GetNearbyBarracks( 990, false )
+			nEnemyAncient = GetAncient( GetOpposingTeam() )
+			hBuildingList = {
+				nTowerList[1],
+				nBarrackList[1],
+				nEnemyAncient,
+			}
+
+			for _, building in pairs (hBuildingList )
+			do
+				if J.IsValidBuilding( building )
+					and J.IsInRange( bot, building, nCastRange + nRadius )
+					and not J.IsKeyWordUnit( "DOTA_Outpost", building )
+				then
+					nTargetLocation = building:GetLocation() + RandomVector( nRadius * 0.5 )
+					return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "E-Defend-Tower"
+				end
+			end
+		end
+
+
 	end
 
 	
@@ -486,8 +534,8 @@ function X.ConsiderE()
 				and targetCreep:GetMagicResist() < 0.3
 				and J.GetAroundTargetEnemyUnitCount( targetCreep, 300 ) >= 2
 			then
-				nTargetLocation = J.GetCastLocation( bot, targetCreep, nCastRange, nRadius ) + RandomVector( nRadius * 0.7 )
-				return BOT_ACTION_DESIRE_HIGH, targetCreep, "E-Farm:"..( #nNeutralCreeps )
+				nTargetLocation = J.GetCastLocation( bot, targetCreep, nCastRange, nRadius ) + RandomVector( nRadius * 0.5 )
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "E-Farm:"..( #nNeutralCreeps )
 			end
 		end
 	end
@@ -514,9 +562,9 @@ function X.ConsiderE()
 			and not hEnemyList[1]:IsAttackImmune()
 			and J.IsAllowedToSpam( bot, nManaCost )
 			and nMP >= 0.5
-			and #nAlliedCreeps >= 1
+			and ( #nAlliedCreeps >= 1 or #hAllyList >= 2)
 		then
-			nTargetLocation =  J.GetCastLocation( bot, hEnemyList[1], nCastRange, nRadius ) + RandomVector( nRadius * 0.7 )
+			nTargetLocation =  J.GetCastLocation( bot, hEnemyList[1], nCastRange, nRadius ) + RandomVector( nRadius * 0.5 )
 			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'E-Spam'
 		end
 	end
@@ -541,7 +589,7 @@ function X.ConsiderD()
 
 	if J.IsInTeamFight( bot, 1200 )
 	then
-		local npcWeakestEnemy = J.GetVulnerableWeakestUnitForTargetedSpell( bot, true, true, nCastRange )
+		local npcWeakestEnemy = J.GetVulnerableWeakestUnitWithLotusCheck( bot, true, true, nCastRange )
 		if ( npcWeakestEnemy ~= nil )
 		then
 			return BOT_ACTION_DESIRE_HIGH, npcWeakestEnemy, 'D-Battle-Weakest:'..J.Chat.GetNormName( npcWeakestEnemy )
@@ -552,7 +600,7 @@ function X.ConsiderD()
 	if J.IsGoingOnSomeone( bot )
 	then
 		if J.IsValidHero( botTarget )
-			and J.CanCastOnNonMagicImmune( botTarget )
+			and J.CanCastAbilityOnTarget( botTarget, false )
 			and J.CanCastOnTargetAdvanced( botTarget )
 			and J.IsInRange( botTarget, bot, nCastRange )
 		then
@@ -567,7 +615,7 @@ function X.ConsiderD()
 		do
 			if J.IsValid( npcEnemy )
 				and bot:WasRecentlyDamagedByHero( npcEnemy, 3.5 )
-				and J.CanCastOnNonMagicImmune( npcEnemy )
+				and J.CanCastAbilityOnTarget( botTarget, false )
 				and J.CanCastOnTargetAdvanced( npcEnemy )
 				and bot:IsFacingLocation( npcEnemy:GetExtrapolatedLocation( nCastPoint ), 20 )
 			then
@@ -587,11 +635,10 @@ function X.ConsiderR()
 	if not abilityR:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
 
 	local nSkillLV = abilityR:GetLevel()
-	local nRadius = abilityR:GetSpecialValueInt( 'radius' )
+	local nRadius = abilityR:GetSpecialValueInt( 'start_radius' ) + abilityR:GetSpecialValueInt( 'radius' )
 	local nCastPoint = abilityR:GetCastPoint()
 	local nManaCost = abilityR:GetManaCost()
-	local nAlliedHeroesInRange = bot:GetNearbyHeroes( nRadius, false, BOT_MODE_NONE )
-	local nEnemyHeroesInRange = bot:GetNearbyHeroes( nRadius, true, BOT_MODE_NONE )
+	local nEnemyHeroesInRange = bot:GetNearbyHeroes( nRadius - 150, true, BOT_MODE_NONE )
 	local nTargetLocation = nil
 
 
@@ -607,7 +654,7 @@ function X.ConsiderR()
 			end
 		end
 
-		if nAoeCount >= 2
+		if nAoeCount >= 3
 		then
 			return BOT_ACTION_DESIRE_HIGH, 'R-Battle'
 		end
@@ -616,7 +663,7 @@ function X.ConsiderR()
 	
 	if J.IsRetreating( bot )
 		and #nEnemyHeroesInRange >= 2
-		and #nEnemyHeroesInRange >= #nAlliedHeroesInRange
+		and #nEnemyHeroesInRange >= #hAllyList
 	then
 		local nAoeCount = 0
 		for _, npcEnemy in pairs( nEnemyHeroesInRange )
