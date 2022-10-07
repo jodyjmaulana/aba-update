@@ -827,6 +827,7 @@ local tDefineItemRealName = {
 
 ['item_mid_outfit'] = "item_power_treads",
 ['item_templar_assassin_outfit'] = "item_power_treads",
+['item_obsidian_destroyer_outfit'] = "item_power_treads",
 
 
 ['item_ranged_carry_outfit'] = "item_power_treads",
@@ -899,6 +900,7 @@ Item['item_mid_outfit']					= { 'item_tango', 'item_faerie_fire', 'item_double_b
 
 Item['item_templar_assassin_outfit']	= { 'item_tango', 'item_faerie_fire', 'item_double_branches', 'item_wraith_band', 'item_flask', 'item_magic_stick', 'item_recipe_magic_wand', 'item_flask', 'item_power_treads_agi', 'item_blight_stone' }
 
+Item['item_obsidian_destroyer_outfit']	= { 'item_tango', 'item_crown', 'item_ring_of_health', 'item_void_stone', 'item_recipe_meteor_hammer', 'item_power_treads_int' }
 
 
 ----------------------------------------------------------------------

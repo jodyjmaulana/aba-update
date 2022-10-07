@@ -1636,6 +1636,7 @@ X['off'] = {
 	'npc_dota_hero_legion_commander',
 	'npc_dota_hero_magnataur',
 	'npc_dota_hero_night_stalker',
+	'npc_dota_hero_obsidian_destroyer',
 	'npc_dota_hero_omniknight',
 	'npc_dota_hero_pangolier',
 	'npc_dota_hero_rattletrap',
@@ -1699,6 +1700,7 @@ X['safe'] = {
 	'npc_dota_hero_lycan',
 	'npc_dota_hero_monkey_king',
 	'npc_dota_hero_naga_siren',
+	'npc_dota_hero_obsidian_destroyer',
 	'npc_dota_hero_phantom_assassin',
 	'npc_dota_hero_phantom_lancer',
 	'npc_dota_hero_razor',
@@ -2128,7 +2130,9 @@ function X.IsABAHero()
 	local sABAHeroIndex = {
 	
 		["npc_dota_hero_abaddon"] = true,
+		["npc_dota_hero_obsidian_destroyer"] = true,
 		["npc_dota_hero_venomancer"] = true,
+
 		["npc_dota_hero_antimage"] = true,
 		["npc_dota_hero_arc_warden"] = true,
 		["npc_dota_hero_bane"] = true, 
@@ -2398,7 +2402,8 @@ end
 local nShadowNumber = RandomInt( 1, 66666 )
 function X.IsAllShadow()
 
-	return nShadowNumber <= 3
+	-- return nShadowNumber <= 3
+	return false
 
 end
 

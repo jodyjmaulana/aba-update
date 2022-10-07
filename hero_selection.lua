@@ -66,6 +66,7 @@ local sUserKeyDir = Chat.GetUserKeyDir()
 'npc_dota_hero_crystal_maiden',
 'npc_dota_hero_dark_seer',
 'npc_dota_hero_dark_willow',
+'npc_dota_hero_dawnbreaker',
 'npc_dota_hero_dazzle',
 'npc_dota_hero_disruptor',
 'npc_dota_hero_death_prophet',
@@ -82,6 +83,7 @@ local sUserKeyDir = Chat.GetUserKeyDir()
 'npc_dota_hero_furion',
 'npc_dota_hero_grimstroke',
 'npc_dota_hero_gyrocopter',
+'npc_dota_hero_hoodwink',
 'npc_dota_hero_huskar',
 'npc_dota_hero_invoker',
 'npc_dota_hero_jakiro',
@@ -98,6 +100,7 @@ local sUserKeyDir = Chat.GetUserKeyDir()
 'npc_dota_hero_luna',
 'npc_dota_hero_lycan',
 'npc_dota_hero_magnataur',
+'npc_dota_hero_marci',
 'npc_dota_hero_mars',
 'npc_dota_hero_medusa',
 'npc_dota_hero_meepo',
@@ -117,6 +120,7 @@ local sUserKeyDir = Chat.GetUserKeyDir()
 'npc_dota_hero_phantom_lancer',
 'npc_dota_hero_phantom_assassin',
 'npc_dota_hero_phoenix',
+'npc_dota_hero_primal_beast',
 'npc_dota_hero_puck',
 'npc_dota_hero_pudge',
 'npc_dota_hero_pugna',
@@ -163,10 +167,6 @@ local sUserKeyDir = Chat.GetUserKeyDir()
 'npc_dota_hero_wisp',
 'npc_dota_hero_witch_doctor',
 'npc_dota_hero_zuus',
-'npc_dota_hero_hoodwink',
-'npc_dota_hero_dawnbreaker',
-'npc_dota_hero_marci',
-'npc_dota_hero_primal_beast',
 --]]
 
 

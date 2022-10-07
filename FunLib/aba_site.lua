@@ -1027,6 +1027,8 @@ function Site.IsTimeToFarm( bot )
 	then
 		return true
 	end
+	
+	if bot:GetNetWorth() < 35000 then return true end
 
 	return false
 
@@ -1434,6 +1436,12 @@ Site.ConsiderIsTimeToFarm["npc_dota_hero_nevermore"] = function()
 	end
 
 	return false
+
+end
+
+Site.ConsiderIsTimeToFarm["npc_dota_hero_obsidian_destroyer"] = function()
+
+	return Site.ConsiderIsTimeToFarm["npc_dota_hero_bristleback"]()
 
 end
 

@@ -332,7 +332,7 @@ function X.ConsiderQ()
 
 	for _, npcEnemy in pairs( nEnemyHeroesInRange )
 	do
-		if J.IsValid( npcEnemy )
+		if J.IsValidHero( npcEnemy )
 			and J.CanCastOnNonMagicImmune( npcEnemy )
 			and J.CanCastOnTargetAdvanced( npcEnemy )
 			and J.WillMagicKillTarget( bot, npcEnemy, nDamage, nCastPoint )
