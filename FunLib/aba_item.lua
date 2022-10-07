@@ -1466,8 +1466,8 @@ function Item.GetOutfitType( bot )
 		[1] = 'outfit_mid',
 		[2] = 'outfit_tank',
 		[3] = 'outfit_carry',
-		[4] = 'outfit_mage',
-		[5] = 'outfit_priest',
+		[4] = 'outfit_priest',
+		[5] = 'outfit_mage',
 	}
 
 	local nTeamPlayerIDs = GetTeamPlayers( GetTeam() )
