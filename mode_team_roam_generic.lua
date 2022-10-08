@@ -1595,6 +1595,7 @@ function X.IsSpecialCarry(bot)
 		["npc_dota_hero_mirana"] = true,
 		["npc_dota_hero_naga_siren"] = true,
 		["npc_dota_hero_nevermore"] = true,
+		["npc_dota_hero_obsidian_destroyer"] = true,
 		["npc_dota_hero_ogre_magi"] = true,
 		["npc_dota_hero_omniknight"] = true,
 		["npc_dota_hero_phantom_assassin"] = true,

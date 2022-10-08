@@ -174,6 +174,8 @@ local sHasDevelopmentHeroList = {
 
 	"npc_dota_hero_abaddon",
 	"npc_dota_hero_venomancer",
+	"npc_dota_hero_obsidian_destroyer",
+
 	"npc_dota_hero_silencer",
 	"npc_dota_hero_warlock",
 	"npc_dota_hero_necrolyte",
@@ -313,6 +315,7 @@ local sFifthList = {
 	"npc_dota_hero_templar_assassin",
 	"npc_dota_hero_razor",
 	"npc_dota_hero_mirana",
+	"npc_dota_hero_obsidian_destroyer",
 	
 }
 
@@ -323,6 +326,7 @@ local sPriestList = {
 
 	"npc_dota_hero_abaddon",
 	"npc_dota_hero_venomancer",
+
 	"npc_dota_hero_death_prophet",
 	"npc_dota_hero_jakiro",
 	"npc_dota_hero_lich",
@@ -348,6 +352,7 @@ local sMageList = {
 
 	"npc_dota_hero_abaddon",
 	"npc_dota_hero_venomancer",
+
 	"npc_dota_hero_crystal_maiden",
 	"npc_dota_hero_death_prophet",
 	"npc_dota_hero_jakiro",
@@ -373,6 +378,8 @@ local sMageList = {
 local sCarryList = {
 
 	"npc_dota_hero_abaddon",
+	"npc_dota_hero_obsidian_destroyer",
+
 	"npc_dota_hero_antimage",
 	"npc_dota_hero_arc_warden",
 	"npc_dota_hero_bloodseeker",
@@ -414,6 +421,8 @@ local sCarryList = {
 local sTankList = {
 
 	"npc_dota_hero_abaddon",
+	"npc_dota_hero_obsidian_destroyer",
+
 	"npc_dota_hero_bristleback",
 	"npc_dota_hero_chaos_knight",
 	"npc_dota_hero_dragon_knight",
@@ -432,6 +441,8 @@ local sTankList = {
 
 local sMidList = {
 
+	"npc_dota_hero_obsidian_destroyer",
+	
 	"npc_dota_hero_templar_assassin",
 	"npc_dota_hero_phantom_lancer",
 	"npc_dota_hero_arc_warden",

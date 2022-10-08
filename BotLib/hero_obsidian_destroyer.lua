@@ -268,12 +268,12 @@ function X.ConsiderQ()
 	local nSkillLV = abilityQ:GetLevel()
 	local nAttackDamage = bot:GetAttackDamage()
 	local nAttackRange = bot:GetAttackRange()
-	local nAbilityDamage = abilityQ:GetSpecialValueInt( 'mana_pool_damage_pct' ) * bot:GetMana()
+	local nAbilityDamage = abilityQ:GetSpecialValueInt( 'mana_pool_damage_pct' ) * bot:GetMana() * 0.01
 	local nDamageType = DAMAGE_TYPE_PURE
 
-	if talent7:isTrained()
+	if talent7:IsTrained()
 	then
-		nAbilityDamage = ( abilityQ:GetSpecialValueInt( 'mana_pool_damage_pct' ) + 2 ) * bot:GetMana()
+		nAbilityDamage = ( abilityQ:GetSpecialValueInt( 'mana_pool_damage_pct' ) + 2 ) * bot:GetMana() * 0.01
 	end
 
 	
@@ -310,7 +310,6 @@ function X.ConsiderQ()
 
 			if J.IsValid( creep )
 				and not creep:HasModifier( "modifier_fountain_glyph" )
-				and creep:GetHealth() <= X.GetRealAttackDamage( nAttackDamage, nAbilityDamage, creep )
 				and J.WillMixedDamageKillTarget( creep, nAttackDamage, 0, nAbilityDamage, nAttackProDelayTime )
 			then
 				return BOT_ACTION_DESIRE_HIGH, creep, "Q-KillCreep"
@@ -333,8 +332,8 @@ function X.ConsiderW()
 	local nManaCost = abilityW:GetManaCost()
 	local nDamage = abilityW:GetSpecialValueInt( 'damage' )
 	local nDamageType = DAMAGE_TYPE_MAGICAL
-	local nAlliedHeroesInRange = bot:GetNearbyHeroes( nCastRange, false, BOT_MODE_NONE )
-	local nEnemyHeroesInRange = bot:GetNearbyHeroes( nCastRange, true, BOT_MODE_NONE )
+	local nAlliedHeroesInRange = bot:GetNearbyHeroes( nCastRange + 300, false, BOT_MODE_NONE )
+	local nEnemyHeroesInRange = bot:GetNearbyHeroes( nCastRange + 300, true, BOT_MODE_NONE )
 
 	
 	local nMostManaEnemy = nil
@@ -346,7 +345,7 @@ function X.ConsiderW()
 			and J.CanCastOnTargetAdvanced( npcEnemy )
 			and ( npcEnemy:IsChanneling() or npcEnemy:IsCastingAbility() )
 		then
-			return BOT_ACTION_DESIRE_HIGH, npcEnemy, 'W-Interrupt:'..J.Chat.GetNormName( npcEnemy )
+			return BOT_ACTION_DESIRE_HIGH, npcEnemy, 'W-Interrupt:'..J.Chat.GetNormName( npcEnemy )..' CastRange:'..nCastRange
 		end
 
 		if J.IsValidHero( npcEnemy )
@@ -354,7 +353,7 @@ function X.ConsiderW()
 			and J.CanCastOnTargetAdvanced( npcEnemy )
 			and J.WillMagicKillTarget( bot, npcEnemy, nDamage, nCastPoint )
 		then
-			return BOT_ACTION_DESIRE_HIGH, npcEnemy, 'W-Kill:'..J.Chat.GetNormName( npcEnemy )
+			return BOT_ACTION_DESIRE_HIGH, npcEnemy, 'W-Kill:'..J.Chat.GetNormName( npcEnemy )..' CastRange:'..nCastRange
 		end
 		
 		if J.IsValidHero( npcEnemy )
@@ -368,7 +367,7 @@ function X.ConsiderW()
 
 		if ( nMostManaEnemy ~= nil )
 		then
-			return BOT_ACTION_DESIRE_HIGH, nMostManaEnemy, 'W-Attack:'..J.Chat.GetNormName( npcEnemy )
+			return BOT_ACTION_DESIRE_HIGH, nMostManaEnemy, 'W-Attack:'..J.Chat.GetNormName( npcEnemy )..' CastRange:'..nCastRange
 		end
 	end
 
@@ -380,7 +379,7 @@ function X.ConsiderW()
 			and J.CanCastOnTargetAdvanced( botTarget )
 			and J.IsInRange( botTarget, bot, nCastRange )
 		then
-			return BOT_ACTION_DESIRE_HIGH, botTarget, 'W-Attack:'..J.Chat.GetNormName( botTarget )
+			return BOT_ACTION_DESIRE_HIGH, botTarget, 'W-Attack:'..J.Chat.GetNormName( botTarget )..' CastRange:'..nCastRange
 		end
 	end
 
@@ -404,8 +403,10 @@ function X.ConsiderR()
 	local nAlliedHeroesInRange = bot:GetNearbyHeroes( nCastRange + nRadius, false, BOT_MODE_NONE )
 	local nEnemyHeroesInRange = bot:GetNearbyHeroes( nCastRange + nRadius, true, BOT_MODE_NONE )
 
+	if talent6:IsTrained() then nDamageMultiplier = nDamageMultiplier + 0.15 end
 
-	local nMinDamageThreshold = nBaseDamage + ( nSkillLV * 200 )
+
+	local nMinDamageThreshold = nBaseDamage * 2
 	local nAoeCount = 0
 	local nAoe = bot:FindAoELocation( true, true, bot:GetLocation(), nCastRange, nRadius, 0, 0 )
 
@@ -413,7 +414,7 @@ function X.ConsiderR()
 	do
 		if J.IsValidHero( npcEnemy )
 			and GetUnitToLocationDistance( npcEnemy, nAoe.targetloc ) <= nRadius
-			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and ( J.CanCastOnNonMagicImmune( npcEnemy ) or npcEnemy:HasModifier( 'modifier_obsidian_destroyer_astral_imprisonment_prison' ) )
 		then
 			local nMagicalDamage = ( bot:GetMaxMana() - npcEnemy:GetMaxMana() ) * nDamageMultiplier
 			local nRealMagicalDamge = npcEnemy:GetActualIncomingDamage( nMagicalDamage, DAMAGE_TYPE_MAGICAL )
@@ -421,6 +422,13 @@ function X.ConsiderR()
 			if nRealMagicalDamge >= nMinDamageThreshold
 			then
 				nAoeCount = nAoeCount + 1
+			end
+
+
+			if J.GetHP( npcEnemy ) >= 0.5
+				and nRealMagicalDamge >= npcEnemy:GetHealth()
+			then
+				return BOT_ACTION_DESIRE_HIGH, 'R-Kill'
 			end
 		end
 	end
@@ -432,14 +440,6 @@ function X.ConsiderR()
 
 
 	return BOT_ACTION_DESIRE_NONE, nil
-
-end
-
-function X.GetRealAttackDamage( nAttackDamage, nAbilityDamage, target )
-	
-	local RealDamage = target:GetActualIncomingDamage( nAttackDamage, DAMAGE_TYPE_PHYSICAL ) + target:GetActualIncomingDamage( nAbilityDamage, DAMAGE_TYPE_PURE )
-
-	return RealDamage
 
 end
 

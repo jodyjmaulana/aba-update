@@ -669,9 +669,7 @@ local function ItemUsageComplement()
 	hNearbyEnemyTowerList = bot:GetNearbyTowers( 888, true )
 	botTarget = J.GetProperTarget( bot )
 	nMode = bot:GetActiveMode()
-
-	local aether = J.IsItemAvailable( "item_aether_lens" )
-	if aether ~= nil then aetherRange = 250 else aetherRange = 0 end
+	aetherRange = J.GetBonusCastRange( bot )
 
 	local nItemSlot = { 5, 4, 3, 2, 1, 0, 15, 16 }
 
@@ -3072,6 +3070,60 @@ X.ConsiderItemDesire["item_moon_shard"] = function( hItem )
 	return BOT_ACTION_DESIRE_NONE
 
 end
+
+X.ConsiderItemDesire["item_meteor_hammer"] = function( hItem )
+
+	local nCastRange = 600 + aetherRange
+	local nRadius = 400
+	local sCastType = 'ground'
+	local nChannelTime = 2.5
+	local nDelayTime = nChannelTime + 0.5
+
+	local hEffectTarget = nil
+	local sCastMotive = nil
+	local nEnemyHeroesInRange = bot:GetNearbyHeroes( nCastRange + nRadius, true, BOT_MODE_NONE )
+
+	
+	if J.IsGoingOnSomeone( bot )
+	then
+		if J.IsValidHero( botTarget )
+			and J.IsInRange( botTarget, bot, nCastRange + nRadius )
+			and botTarget:HasModifier( 'modifier_obsidian_destroyer_astral_imprisonment_prison' )
+			and J.GetModifierTime( botTarget, 'modifier_obsidian_destroyer_astral_imprisonment_prison' ) < nDelayTime
+			and J.GetModifierTime( botTarget, 'modifier_obsidian_destroyer_astral_imprisonment_prison' ) >= ( nDelayTime - 0.5 )
+		then
+			local hEffectTarget = J.GetCastLocation( bot, botTarget, nCastRange, nRadius )
+			return BOT_ACTION_DESIRE_HIGH, hEffectTarget, sCastType, sCastMotive
+		end
+	end
+
+
+	local nTowerList = bot:GetNearbyTowers( 990, true )
+	local nBarrackList = bot:GetNearbyBarracks( 990, true )
+	local nEnemyAcient = GetAncient( GetOpposingTeam() )
+	local hBuildingList = {
+		nTowerList[1],
+		nBarrackList[1],
+		nEnemyAcient, 
+	}
+
+	for _, nBuilding in pairs( hBuildingList )
+	do
+		if J.IsValidBuilding( nBuilding )
+			and J.IsInRange( bot, nBuilding, nCastRange + nRadius - 50 )
+			and not nBuilding:HasModifier( 'modifier_fountain_glyph' )
+			and not nBuilding:HasModifier( 'modifier_invulnerable' )
+			and not nBuilding:HasModifier( 'modifier_backdoor_protection' )
+			and not J.IsKeyWordUnit( "DOTA_Outpost", nBuilding )
+			and #nEnemyHeroesInRange == 0
+		then
+			local hEffectTarget = J.GetCastLocation( bot, nBuilding, nCastRange, nRadius )
+			return BOT_ACTION_DESIRE_HIGH, hEffectTarget, sCastType, sCastMotive
+		end
+	end
+
+end
+
 
 --死灵书
 X.ConsiderItemDesire["item_necronomicon"] = function( hItem )
@@ -5738,7 +5790,7 @@ local function UseGlyph()
 
 	if GetGlyphCooldown( ) > 0
 		or DotaTime() < 60
-		or bot ~= GetTeamMember( 1 )
+		-- or bot ~= GetTeamMember( 1 )
 	then
 		return
 	end
