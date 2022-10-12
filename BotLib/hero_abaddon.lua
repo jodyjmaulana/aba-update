@@ -345,7 +345,20 @@ function X.ConsiderQ()
 	if bot:GetHealth() - ( nDamage * abilityQ:GetSpecialValueInt( 'self_damage' ) / 100 ) > 400
 		or bot:HasModifier( 'modifier_abaddon_borrowed_time' )
 	then
-		local npcWeakestAlly = J.GetVulnerableWeakestUnitMagicImmune( bot, true, false, nCastRange )
+		local npcWeakestAlly = nil
+		local npcWeakestAllyHealth = 100000
+		for _, npcAlly in pairs( nAlliedHeroesInRange )
+		do
+			if J.CanCastOnNonMagicImmune( npcAlly )
+				and npcAlly:GetHealth() <= npcWeakestAllyHealth
+				and J.GetHP( npcAlly ) <= 0.75
+				and npcAlly ~= bot
+			then
+				npcWeakestAlly = npcAlly
+				npcWeakestAllyHealth = npcWeakestAlly:GetHealth()
+			end
+		end
+
 		if ( npcWeakestAlly ~= nil )
 		then
 			return BOT_ACTION_DESIRE_HIGH, npcWeakestAlly, 'Q-Heal:'..J.Chat.GetNormName( npcWeakestAlly )
@@ -475,6 +488,7 @@ function X.ConsiderW()
 	for _, npcAlly in pairs( nAlliedHeroesInRange )
 	do
 		if J.IsDisabled( npcAlly )
+			or J.ShouldDispelStrongDebuff( npcAlly )
 		then
 			return BOT_ACTION_DESIRE_HIGH, npcAlly, "W-Protect:"..J.Chat.GetNormName( npcAlly )
 		end

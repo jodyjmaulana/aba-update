@@ -1011,6 +1011,56 @@ function J.ShouldEscape( bot )
 end
 
 
+function J.ShouldDispelBuff( npcTarget )
+
+	for _, modifier in pairs( J.Buff["dispellable_buffs"] )
+	do
+		if npcTarget:HasModifier( modifier )
+		then
+			return true
+		end
+	end
+
+	return false
+
+end
+
+
+function J.ShouldDispelDebuff( npcTarget )
+
+	if npcTarget:IsSilenced()
+		or npcTarget:IsRooted()
+		or npcTarget:IsNightmared()
+	then
+		return true
+	end
+
+	for _, modifier in pairs( J.Buff["dispellable_debuffs"] )
+	do
+		if npcTarget:HasModifier( modifier )
+		then
+			return true
+		end
+	end
+
+	return false
+
+end
+
+
+function J.ShouldDispelStrongDebuff( npcTarget )
+
+	if npcTarget:IsStunned()
+		or npcTarget:IsHexed()
+	then
+		return true
+	end
+
+	return J.ShouldDispelDebuff( npcTarget )
+
+end
+
+
 function J.IsDisabled( npcTarget )
 
 	if npcTarget:GetTeam() ~= GetTeam()
@@ -4117,6 +4167,9 @@ J.WillMixedDamageKillTarget( npcTarget, nPhysicalDamge, nMagicalDamage, nPureDam
 J.WillMagicKillTarget( bot, npcTarget, dmg, nDelay )
 J.HasForbiddenModifier( npcTarget )
 J.ShouldEscape( bot )
+J.ShouldDispelBuff( npcTarget )
+J.ShouldDispelDebuff( npcTarget )
+J.ShouldDispelStrongDebuff( npcTarget )
 J.IsDisabled( npcTarget )
 J.IsTaunted( npcTarget )
 J.IsInRange( bot, npcTarget, nCastRange )

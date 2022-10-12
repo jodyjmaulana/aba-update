@@ -1510,8 +1510,11 @@ X.ConsiderItemDesire["item_cyclone"] = function( hItem )
 	then
 		if botTarget:HasModifier( 'modifier_teleporting' )
 			 or botTarget:HasModifier( 'modifier_abaddon_borrowed_time' )
+			 or botTarget:HasModifier( "modifier_dazzle_shallow_grave" )
+			 or botTarget:HasModifier( "modifier_oracle_false_promise_timer" )
 			 or botTarget:HasModifier( "modifier_ursa_enrage" )
 			 or botTarget:HasModifier( "modifier_item_satanic_unholy" )
+			 or botTarget:HasModifier( "modifier_troll_warlord_battle_trance" )
 			 or botTarget:IsChanneling()
 		then
 			hEffectTarget = botTarget

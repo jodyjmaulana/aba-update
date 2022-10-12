@@ -152,7 +152,7 @@ local abilityR = bot:GetAbilityByName( sAbilityList[6] )
 local talent3 = bot:GetAbilityByName( sTalentList[3] )
 
 local castQDesire, castQTarget
-local castEDesire
+local castEDesire, castETarget
 local castRDesire, castRTarget
 
 local nKeepMana, nMP, nHP, nLV, hEnemyList, hAllyList, botTarget, sMotive
@@ -178,14 +178,19 @@ function X.SkillsComplement()
 
 
 
-	castEDesire, sMotive = X.ConsiderE()
+	castEDesire, castETarget, sMotive = X.ConsiderE()
 	if ( castEDesire > 0 )
 	then
 		J.SetReportMotive( bDebugMode, sMotive )
 
 		J.SetQueuePtToINT( bot, false )
 
-		bot:ActionQueue_UseAbility( abilityE )
+		if (castETarget ~= nil)
+		then
+			bot:ActionQueue_UseAbilityOnEntity( abilityE, castETarget )
+		else
+			bot:ActionQueue_UseAbility( abilityE )
+		end
 		return
 	end
 
@@ -472,6 +477,7 @@ function X.ConsiderE()
 
 
 	local nSkillLV = abilityE:GetLevel()
+	local nAbilityBehavior = abilityE:GetBehavior()
 
 
 	--进攻
@@ -484,7 +490,12 @@ function X.ConsiderE()
 			and ( not J.IsInRange( bot, botTarget, 1000 )
 					or J.IsChasingTarget( bot, botTarget ) )
 		then
-			return BOT_ACTION_DESIRE_HIGH, "E-隐身进攻:"..J.Chat.GetNormName( botTarget )
+			if nAbilityBehavior == ABILITY_BEHAVIOR_UNIT_TARGET
+			then
+				return BOT_ACTION_DESIRE_HIGH, bot, "E-隐身进攻:"..J.Chat.GetNormName( botTarget )
+			else
+				return BOT_ACTION_DESIRE_HIGH, nil, "E-隐身进攻:"..J.Chat.GetNormName( botTarget )
+			end
 		end
 	end
 
@@ -495,7 +506,12 @@ function X.ConsiderE()
 		and ( #hEnemyList >= 1 or nHP < 0.2 )
 		and bot:DistanceFromFountain() > 800
 	then
-		return BOT_ACTION_DESIRE_HIGH, "E-隐身逃跑"
+		if nAbilityBehavior == ABILITY_BEHAVIOR_UNIT_TARGET
+		then
+			return BOT_ACTION_DESIRE_HIGH, bot, "E-隐身进攻:"..J.Chat.GetNormName( botTarget )
+		else
+			return BOT_ACTION_DESIRE_HIGH, nil, "E-隐身逃跑"
+		end
 	end
 
 
@@ -506,7 +522,12 @@ function X.ConsiderE()
 		local nEnemyTowers = bot:GetNearbyTowers( 1600, true )
 		if #nEnemies == 0 and nEnemyTowers == 0
 		then
-			return BOT_ACTION_DESIRE_HIGH, "E-潜行"
+			if nAbilityBehavior == ABILITY_BEHAVIOR_UNIT_TARGET
+			then
+				return BOT_ACTION_DESIRE_HIGH, bot, "E-隐身进攻:"..J.Chat.GetNormName( botTarget )
+			else
+				return BOT_ACTION_DESIRE_HIGH, nil, "E-潜行"
+			end
 		end
 	end
 
