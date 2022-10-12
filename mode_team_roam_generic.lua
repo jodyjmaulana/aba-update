@@ -1609,6 +1609,7 @@ function X.IsSpecialCarry(bot)
 		["npc_dota_hero_sniper"] = true,
 		["npc_dota_hero_sven"] = true,
 		["npc_dota_hero_templar_assassin"] = true,
+		["npc_dota_hero_terrorblade"] = true,
 		["npc_dota_hero_tidehunter"] = true,
 		["npc_dota_hero_viper"] = true,
 	}

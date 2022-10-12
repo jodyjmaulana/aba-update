@@ -1622,6 +1622,9 @@ end
 
 X['off'] = {
 	'npc_dota_hero_abaddon',
+	'npc_dota_hero_obsidian_destroyer',
+	'npc_dota_hero_venomancer',
+
 	'npc_dota_hero_abyssal_underlord',
 	'npc_dota_hero_axe',
 	'npc_dota_hero_batrider',
@@ -1636,7 +1639,6 @@ X['off'] = {
 	'npc_dota_hero_legion_commander',
 	'npc_dota_hero_magnataur',
 	'npc_dota_hero_night_stalker',
-	'npc_dota_hero_obsidian_destroyer',
 	'npc_dota_hero_omniknight',
 	'npc_dota_hero_pangolier',
 	'npc_dota_hero_rattletrap',
@@ -1646,12 +1648,13 @@ X['off'] = {
 	'npc_dota_hero_spirit_breaker',
 	'npc_dota_hero_tidehunter',
 	'npc_dota_hero_tusk',
-	'npc_dota_hero_venomancer',
 	'npc_dota_hero_windrunner',
 }
 
 X['mid'] = {
 	'npc_dota_hero_alchemist',
+	'npc_dota_hero_obsidian_destroyer',
+
 	'npc_dota_hero_arc_warden',
 	'npc_dota_hero_bloodseeker',
 	'npc_dota_hero_broodmother',
@@ -1671,7 +1674,6 @@ X['mid'] = {
 	'npc_dota_hero_morphling',
 	'npc_dota_hero_necrolyte',
 	'npc_dota_hero_nevermore',
-	'npc_dota_hero_obsidian_destroyer',
 	'npc_dota_hero_puck',
 	'npc_dota_hero_pugna',
 	'npc_dota_hero_queenofpain',
@@ -1688,6 +1690,9 @@ X['mid'] = {
 
 X['safe'] = {
 	'npc_dota_hero_abaddon',
+	'npc_dota_hero_obsidian_destroyer',
+	'npc_dota_hero_terrorblade',
+
 	'npc_dota_hero_antimage',
 	'npc_dota_hero_chaos_knight',
 	"npc_dota_hero_mars",
@@ -1700,7 +1705,6 @@ X['safe'] = {
 	'npc_dota_hero_lycan',
 	'npc_dota_hero_monkey_king',
 	'npc_dota_hero_naga_siren',
-	'npc_dota_hero_obsidian_destroyer',
 	'npc_dota_hero_phantom_assassin',
 	'npc_dota_hero_phantom_lancer',
 	'npc_dota_hero_razor',
@@ -1724,6 +1728,8 @@ X['safe'] = {
 
 X['supp'] = {
 	'npc_dota_hero_abaddon',
+	'npc_dota_hero_venomancer',
+
 	'npc_dota_hero_ancient_apparition',
 	'npc_dota_hero_bane',
 --	'npc_dota_hero_bounty_hunter',
@@ -1766,7 +1772,6 @@ X['supp'] = {
 	'npc_dota_hero_queenofpain',
 	'npc_dota_hero_death_prophet',
 	'npc_dota_hero_windrunner',
-	'npc_dota_hero_venomancer',
 
 }
 
@@ -2131,6 +2136,7 @@ function X.IsABAHero()
 	
 		["npc_dota_hero_abaddon"] = true,
 		["npc_dota_hero_obsidian_destroyer"] = true,
+		["npc_dota_hero_terrorblade"] = true,
 		["npc_dota_hero_venomancer"] = true,
 
 		["npc_dota_hero_antimage"] = true,

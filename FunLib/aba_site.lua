@@ -1762,6 +1762,40 @@ Site.ConsiderIsTimeToFarm["npc_dota_hero_templar_assassin"] = function()
 
 end
 
+Site.ConsiderIsTimeToFarm["npc_dota_hero_terrorblade"] = function()
+
+	local bot = GetBot()
+	local botNetWorth = bot:GetNetWorth()
+
+	if DotaTime() > 9 * 60
+		and ( bot:GetLevel() < 25 or botNetWorth < 20000 )
+	then
+		return true
+	end
+
+
+	if not Site.IsHaveItem( bot, "item_black_king_bar" )
+		and botNetWorth < 21000
+	then
+		if Site.GetAroundAllyCount( bot, 1100 ) <= 2
+		then
+			return true
+		end
+	end
+
+	if not Site.IsHaveItem( bot, "item_satanic" )
+		and botNetWorth < 25000
+	then
+		if Site.GetAroundAllyCount( bot, 1000 ) <= 1
+		then
+			return true
+		end
+	end
+
+	return false
+
+end
+
 Site.ConsiderIsTimeToFarm["npc_dota_hero_tidehunter"] = function()
 
 	return Site.ConsiderIsTimeToFarm["npc_dota_hero_sven"]()
