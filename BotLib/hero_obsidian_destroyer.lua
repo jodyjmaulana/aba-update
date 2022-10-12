@@ -335,6 +335,42 @@ function X.ConsiderW()
 	local nAlliedHeroesInRange = bot:GetNearbyHeroes( nCastRange + 300, false, BOT_MODE_NONE )
 	local nEnemyHeroesInRange = bot:GetNearbyHeroes( nCastRange + 300, true, BOT_MODE_NONE )
 
+
+	for _, npcAlly in pairs( nAlliedHeroesInRange )
+	do
+		if J.CanCastOnNonMagicImmune( npcAlly )
+			and not npcAlly:HasModifier( 'modifier_abaddon_borrowed_time' )
+			and not npcAlly:HasModifier( 'modifier_obsidian_destroyer_astral_imprisonment_prison' )
+			and (
+				npcAlly:HasModifier( 'modifier_winter_wyvern_winters_curse' )
+				or ( npcAlly:HasModifier( 'modifier_legion_commander_duel' ) and npcAlly:GetUnitName() ~= "npc_dota_hero_legion_commander" )
+				or ( npcAlly:HasModifier( 'modifier_sniper_assassinate' ) and J.IsWillBeCastUnitTargetSpell( npcAlly, 1400 ) )
+			)
+		then
+			return BOT_ACTION_DESIRE_HIGH, npcAlly, 'W-Protect:'..J.Chat.GetNormName( npcAlly )
+		end
+
+		if J.IsDisabled( npcAlly )
+			and J.CanCastOnNonMagicImmune( npcAlly )
+			and npcAlly:WasRecentlyDamagedByAnyHero( 2.0 )
+			and not npcAlly:HasModifier( 'modifier_abaddon_borrowed_time' )
+			and not npcAlly:HasModifier( 'modifier_obsidian_destroyer_astral_imprisonment_prison' )
+		then
+			return BOT_ACTION_DESIRE_HIGH, npcAlly, 'W-Protect:'..J.Chat.GetNormName( npcAlly )
+		end
+
+		if J.IsRetreating( npcAlly )
+			and J.IsUnitTargetProjectileIncoming( npcAlly, 400 )
+			and not npcAlly:IsChanneling()
+			and J.CanCastOnNonMagicImmune( npcAlly )
+			and npcAlly:WasRecentlyDamagedByAnyHero( 1.0 )
+			and not npcAlly:HasModifier( 'modifier_abaddon_borrowed_time' )
+			and not npcAlly:HasModifier( 'modifier_obsidian_destroyer_astral_imprisonment_prison' )
+		then
+			return BOT_ACTION_DESIRE_HIGH, npcAlly, 'W-Protect:'..J.Chat.GetNormName( npcAlly )
+		end
+	end
+
 	
 	local nMostManaEnemy = nil
 	local nMostMana = 0
@@ -345,7 +381,7 @@ function X.ConsiderW()
 			and J.CanCastOnTargetAdvanced( npcEnemy )
 			and ( npcEnemy:IsChanneling() or npcEnemy:IsCastingAbility() )
 		then
-			return BOT_ACTION_DESIRE_HIGH, npcEnemy, 'W-Interrupt:'..J.Chat.GetNormName( npcEnemy )..' CastRange:'..nCastRange
+			return BOT_ACTION_DESIRE_HIGH, npcEnemy, 'W-Interrupt:'..J.Chat.GetNormName( npcEnemy )
 		end
 
 		if J.IsValidHero( npcEnemy )
@@ -353,7 +389,7 @@ function X.ConsiderW()
 			and J.CanCastOnTargetAdvanced( npcEnemy )
 			and J.WillMagicKillTarget( bot, npcEnemy, nDamage, nCastPoint )
 		then
-			return BOT_ACTION_DESIRE_HIGH, npcEnemy, 'W-Kill:'..J.Chat.GetNormName( npcEnemy )..' CastRange:'..nCastRange
+			return BOT_ACTION_DESIRE_HIGH, npcEnemy, 'W-Kill:'..J.Chat.GetNormName( npcEnemy )
 		end
 		
 		if J.IsValidHero( npcEnemy )
@@ -390,7 +426,11 @@ end
 
 function X.ConsiderR()
 	
-	if not abilityR:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+	if not abilityR:IsFullyCastable()
+		or abilityW:IsFullyCastable()
+	then
+		return BOT_ACTION_DESIRE_NONE, nil
+	end
 
 	local nSkillLV = abilityR:GetLevel()
 	local nCastRange = abilityR:GetSpecialValueInt( 'cast_range' ) + bonusRange
@@ -416,7 +456,7 @@ function X.ConsiderR()
 			and GetUnitToLocationDistance( npcEnemy, nAoe.targetloc ) <= nRadius
 			and ( J.CanCastOnNonMagicImmune( npcEnemy ) or npcEnemy:HasModifier( 'modifier_obsidian_destroyer_astral_imprisonment_prison' ) )
 		then
-			local nMagicalDamage = ( bot:GetMaxMana() - npcEnemy:GetMaxMana() ) * nDamageMultiplier
+			local nMagicalDamage = nBaseDamage + ( ( bot:GetMaxMana() - npcEnemy:GetMaxMana() ) * nDamageMultiplier )
 			local nRealMagicalDamge = npcEnemy:GetActualIncomingDamage( nMagicalDamage, DAMAGE_TYPE_MAGICAL )
 		
 			if nRealMagicalDamge >= nMinDamageThreshold
@@ -425,17 +465,17 @@ function X.ConsiderR()
 			end
 
 
-			if J.GetHP( npcEnemy ) >= 0.5
+			if J.GetHP( npcEnemy ) >= 0.3
 				and nRealMagicalDamge >= npcEnemy:GetHealth()
 			then
-				return BOT_ACTION_DESIRE_HIGH, 'R-Kill'
+				return BOT_ACTION_DESIRE_HIGH, nAoe.targetloc, 'R-Kill'
 			end
 		end
 	end
 
 	if nAoeCount >= 3
 	then
-		return BOT_ACTION_DESIRE_HIGH, 'R-Battle'
+		return BOT_ACTION_DESIRE_HIGH, nAoe.targetloc, 'R-Battle'
 	end
 
 
