@@ -489,6 +489,7 @@ function X.ConsiderE()
 			and J.IsInRange( bot, botTarget, 2500 )
 			and ( not J.IsInRange( bot, botTarget, 1000 )
 					or J.IsChasingTarget( bot, botTarget ) )
+			and not bot:HasModifier( 'modifier_bounty_hunter_wind_walk' )
 		then
 			if nAbilityBehavior == ABILITY_BEHAVIOR_UNIT_TARGET
 			then
@@ -505,6 +506,7 @@ function X.ConsiderE()
 		and bot:WasRecentlyDamagedByAnyHero( 3.0 )
 		and ( #hEnemyList >= 1 or nHP < 0.2 )
 		and bot:DistanceFromFountain() > 800
+		and not bot:HasModifier( 'modifier_bounty_hunter_wind_walk' )
 	then
 		if nAbilityBehavior == ABILITY_BEHAVIOR_UNIT_TARGET
 		then
@@ -519,8 +521,9 @@ function X.ConsiderE()
 	if J.IsInEnemyArea( bot ) and nLV >= 7 and nMP >= 280
 	then
 		local nEnemies = bot:GetNearbyHeroes( 1600, true, BOT_MODE_NONE )
-		local nEnemyTowers = bot:GetNearbyTowers( 1600, true )
+		local nEnemyTowers = bot:GetNearbyTowers( 800, true )
 		if #nEnemies == 0 and nEnemyTowers == 0
+			and not bot:HasModifier( 'modifier_bounty_hunter_wind_walk' )
 		then
 			if nAbilityBehavior == ABILITY_BEHAVIOR_UNIT_TARGET
 			then

@@ -22,6 +22,7 @@ Buff["enemy_is_immune"] = {
 "modifier_winter_wyvern_winters_curse_aura", --冰龙大
 "modifier_troll_warlord_battle_trance", --巨魔大
 "modifier_skeleton_king_reincarnation_scepter_active",
+"modifier_naga_siren_song_of_the_siren",
 --"modifier_modifier_dazzle_shallow_grave",
 --"modifier_oracle_false_promise_timer",
 --"modifier_item_blade_mail_reflect",

@@ -299,7 +299,7 @@ function X.ConsiderQ()
 
 	for _, npcEnemy in pairs( nEnemyHeroesInRange )
 	do
-		if J.IsValid( npcEnemy )
+		if J.IsValidHero( npcEnemy )
 			and J.CanCastOnNonMagicImmune( npcEnemy )
 			and J.WillMagicKillTarget( bot, npcEnemy, nDamage, nCastPoint )
 		then
@@ -309,7 +309,7 @@ function X.ConsiderQ()
 	end
 	
 	
-	local nAoeLoc = J.GetAoeEnemyHeroLocation( bot, nCastRange, nRadius, 3 )
+	local nAoeLoc = J.GetAoeEnemyHeroLocation( bot, nCastRange, nRadius, 2 )
 	if nAoeLoc ~= nil and bot:GetActiveMode() ~= BOT_MODE_RETREAT
 	then
 		nTargetLocation = nAoeLoc

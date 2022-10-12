@@ -359,7 +359,7 @@ function X.ConsiderQ()
 			end
 		end
 
-		if ( npcWeakestAlly ~= nil )
+		if npcWeakestAlly ~= nil
 		then
 			return BOT_ACTION_DESIRE_HIGH, npcWeakestAlly, 'Q-Heal:'..J.Chat.GetNormName( npcWeakestAlly )
 		end
@@ -369,7 +369,7 @@ function X.ConsiderQ()
 	if J.IsInTeamFight( bot, 1200 )
 	then
 		local npcWeakestEnemy = J.GetVulnerableWeakestUnitWithLotusCheck( bot, true, true, nCastRange )
-		if ( npcWeakestEnemy ~= nil )
+		if npcWeakestEnemy ~= nil
 		then
 			return BOT_ACTION_DESIRE_HIGH, npcWeakestEnemy, 'Q-Battle-Weakest:'..J.Chat.GetNormName( npcWeakestEnemy )
 		end
