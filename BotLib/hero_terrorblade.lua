@@ -633,7 +633,8 @@ function X.ConsiderR()
 	local nEnemyHeroesInRange = bot:GetNearbyHeroes( nCastRange, true, BOT_MODE_NONE )
 
 
-	if nHP > nMinThreshold * 0.01 then return BOT_ACTION_DESIRE_NONE, nil end
+	-- if nHP > nMinThreshold * 0.01 then return BOT_ACTION_DESIRE_NONE, nil end
+	if nHP > 0.4 then return BOT_ACTION_DESIRE_NONE, nil end
 
 
 	local npcStrongestEnemy = nil
