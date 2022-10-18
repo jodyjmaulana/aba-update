@@ -57,23 +57,23 @@ local tTalentTreeList = {
 
 local tAllAbilityBuildList = {
 	['outfit_carry'] = {
-        {3,2,3,2,3,6,2,2,3,1,6,1,1,1,6}
+		{1,3,2,2,3,6,2,2,3,3,6,1,1,1,6}
 	},
 
 	['outfit_mid'] = {
-        {3,2,3,2,3,6,2,2,3,1,6,1,1,1,6}
+		{1,3,2,2,3,6,2,2,3,3,6,1,1,1,6}
 	},
 
 	['outfit_priest'] = {
-        {3,2,3,2,3,6,2,2,3,1,6,1,1,1,6}
+		{1,3,2,2,3,6,2,2,3,3,6,1,1,1,6}
 	},
 
 	['outfit_mage'] = {
-        {3,2,3,2,3,6,2,2,3,1,6,1,1,1,6}
+		{1,3,2,2,3,6,2,2,3,3,6,1,1,1,6}
 	},
 
 	['outfit_tank'] = {
-        {3,2,3,2,3,6,2,2,3,1,6,1,1,1,6}
+		{1,3,2,2,3,6,2,2,3,3,6,1,1,1,6}
 	},
 }
 
@@ -437,6 +437,7 @@ function X.ConsiderW()
 	
 	if nSkillLV >= 4
 		and J.IsAllowedToSpam( bot, nManaCost )
+		and nMP >= 0.5
 	then
 		local nEnemyCreeps = bot:GetNearbyCreeps( 700, true )
 		if #nEnemyCreeps >= 1
@@ -484,6 +485,7 @@ function X.ConsiderE()
 
 
 	if ( J.IsPushing( bot ) or J.IsFarming( bot ) or J.IsDefending( bot ) )
+		and nLV <= 16
 	then
 		if #hAllyList >= #hEnemyList
 		then
@@ -577,10 +579,10 @@ function X.ConsiderF()
 			end
 		end
 
-		if #nEnemyHeroesInRange >= 4
-		then
-			return BOT_ACTION_DESIRE_HIGH, "F-Battle"
-		end
+		-- if #nEnemyHeroesInRange >= 4
+		-- then
+		-- 	return BOT_ACTION_DESIRE_HIGH, "F-Battle"
+		-- end
 	end
 
 
@@ -626,7 +628,7 @@ function X.ConsiderR()
 	local nCastRange = abilityR:GetCastRange() + bonusRange
 	local nCastPoint = abilityR:GetCastPoint()
 	local nManaCost = abilityR:GetManaCost()
-	local nMinThreshold = abilityR:GetSpecialValueInt( 'hit_point_minimum_pct' )
+	local nMinThreshold = abilityR:GetSpecialValueInt( 'hit_point_minimum_pct' ) + 5
 	local nAlliedHeroesInRange = bot:GetNearbyHeroes( nCastRange, false, BOT_MODE_NONE )
 	local nEnemyHeroesInRange = bot:GetNearbyHeroes( nCastRange, true, BOT_MODE_NONE )
 
