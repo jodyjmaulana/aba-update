@@ -173,6 +173,7 @@ local sUserKeyDir = Chat.GetUserKeyDir()
 local sHasDevelopmentHeroList = {
 
 	"npc_dota_hero_abaddon",
+	"npc_dota_hero_night_stalker",
 	"npc_dota_hero_obsidian_destroyer",
 	"npc_dota_hero_terrorblade",
 	"npc_dota_hero_venomancer",
@@ -294,6 +295,7 @@ local sThirdList = {
 local sFourthList = {
 		
 	"npc_dota_hero_abaddon",
+	"npc_dota_hero_night_stalker",
 	"npc_dota_hero_chaos_knight",
 	"npc_dota_hero_bristleback",
 	"npc_dota_hero_dragon_knight",
@@ -380,6 +382,7 @@ local sMageList = {
 local sCarryList = {
 
 	"npc_dota_hero_abaddon",
+	"npc_dota_hero_night_stalker",
 	"npc_dota_hero_obsidian_destroyer",
 	"npc_dota_hero_terrorblade",
 
@@ -424,6 +427,7 @@ local sCarryList = {
 local sTankList = {
 
 	"npc_dota_hero_abaddon",
+	"npc_dota_hero_night_stalker",
 	"npc_dota_hero_obsidian_destroyer",
 
 	"npc_dota_hero_bristleback",

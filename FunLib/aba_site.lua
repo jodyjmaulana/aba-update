@@ -512,16 +512,22 @@ end
 
 
 local tFarmerList = {
-	["npc_dota_hero_nevermore"] = true,
-	["npc_dota_hero_medusa"] = true,
-	["npc_dota_hero_razor"] = true,
-	["npc_dota_hero_luna"] = true,
-	["npc_dota_hero_sven"] = true,
 	["npc_dota_hero_antimage"] = true,
+	["npc_dota_hero_bloodseeker"] = true,
+	["npc_dota_hero_clinkz"] = true,
+	["npc_dota_hero_drow_ranger"] = true,
+	["npc_dota_hero_huskar"] = true,
+	["npc_dota_hero_luna"] = true,
+	["npc_dota_hero_medusa"] = true,
+	["npc_dota_hero_naga_siren"] = true,
+	["npc_dota_hero_nevermore"] = true,
 	["npc_dota_hero_phantom_assassin"] = true,
 	["npc_dota_hero_phantom_lancer"] = true,
-	["npc_dota_hero_naga_siren"] = true,
+	["npc_dota_hero_razor"] = true,
+	["npc_dota_hero_slark"] = true,
+	["npc_dota_hero_sven"] = true,
 	["npc_dota_hero_templar_assassin"] = true,
+	["npc_dota_hero_terrorblade"] = true,
 }
 function Site.IsSpecialFarmer( bot )
 
@@ -533,25 +539,29 @@ end
 
 
 local tFarmHeroList = {
-	["npc_dota_hero_nevermore"] = true,
-	["npc_dota_hero_drow_ranger"] = true,
-	["npc_dota_hero_luna"] = true,
-	["npc_dota_hero_sven"] = true,
-	["npc_dota_hero_axe"] = true,
+	["npc_dota_hero_abaddon"] = true,
 	["npc_dota_hero_antimage"] = true,
 	["npc_dota_hero_arc_warden"] = true,
+	["npc_dota_hero_axe"] = true,
 	["npc_dota_hero_bloodseeker"] = true,
+	["npc_dota_hero_clinkz"] = true,
+	["npc_dota_hero_drow_ranger"] = true,
+	["npc_dota_hero_huskar"] = true,
+	["npc_dota_hero_luna"] = true,
+	["npc_dota_hero_juggernaut"] = true,
 	["npc_dota_hero_medusa"] = true,
-	["npc_dota_hero_razor"] = true,
+	["npc_dota_hero_naga_siren"] = true,
+	["npc_dota_hero_nevermore"] = true,
+	["npc_dota_hero_night_stalker"] = true,
 	["npc_dota_hero_phantom_assassin"] = true,
 	["npc_dota_hero_phantom_lancer"] = true,
-	["npc_dota_hero_naga_siren"] = true,
-	["npc_dota_hero_templar_assassin"] = true,
-	["npc_dota_hero_huskar"] = true,
-	["npc_dota_hero_clinkz"] = true,
-	["npc_dota_hero_juggernaut"] = true,
-	["npc_dota_hero_tidehunter"] = true,
+	["npc_dota_hero_razor"] = true,
 	["npc_dota_hero_slark"] = true,
+	["npc_dota_hero_sven"] = true,
+	["npc_dota_hero_templar_assassin"] = true,
+	["npc_dota_hero_terrorblade"] = true,
+	["npc_dota_hero_tidehunter"] = true,
+	
 }
 function Site.IsShouldFarmHero( bot )
 
@@ -788,6 +798,8 @@ Site.ConsiderFarmNeutralType["npc_dota_hero_drow_ranger"] = function() return 'n
 
 Site.ConsiderFarmNeutralType["npc_dota_hero_phantom_lancer"] = function() return 'nearest' end
 
+Site.ConsiderFarmNeutralType["npc_dota_hero_terrorblade"] = function() return 'maxHP' end
+
 Site.ConsiderFarmNeutralType["npc_dota_hero_naga_siren"] = function() return 'maxHP' end
 
 Site.ConsiderFarmNeutralType["npc_dota_hero_viper"] = function() return 'maxHP' end
@@ -884,6 +896,7 @@ function Site.FindFarmNeutralTarget( creepList )
 	if Site.IsHaveItem( bot, "item_bfury" )
 	   or Site.IsHaveItem( bot, "item_maelstrom" )
 	   or Site.IsHaveItem( bot, "item_mjollnir" )
+	   or Site.IsHaveItem( bot, "item_gungir" )
 	   or Site.IsHaveItem( bot, "item_radiance" )
 	then
 		targetCreep = Site.GetMaxHPCreep( creepList )
@@ -1028,6 +1041,7 @@ function Site.IsTimeToFarm( bot )
 		return true
 	end
 	
+	-- This is debug
 	if bot:GetNetWorth() < 35000 then return true end
 
 	return false
@@ -1436,6 +1450,12 @@ Site.ConsiderIsTimeToFarm["npc_dota_hero_nevermore"] = function()
 	end
 
 	return false
+
+end
+
+Site.ConsiderIsTimeToFarm["npc_dota_hero_night_stalker"] = function()
+
+	return Site.ConsiderIsTimeToFarm["npc_dota_hero_bristleback"]()
 
 end
 
