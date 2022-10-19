@@ -123,7 +123,7 @@ X['sSellList'] = {
 	"item_assault",
 	"item_bracer",
 
-	"item_ultimate_scepter",
+	"item_point_booster",
 	"item_echo_sabre",
 	
 	"item_travel_boots",
@@ -296,7 +296,7 @@ function X.ConsiderQ()
 		if J.IsValidHero( npcEnemy )
 			and J.CanCastOnNonMagicImmune( npcEnemy )
 			and ( bot:HasScepter() or J.CanCastOnTargetAdvanced( npcEnemy ) )
-			and ( npcEnemy:IsChanneling() or npcEnemy:IsCastingAbility() )
+			and npcEnemy:IsChanneling()
 		then
 			if bot:HasScepter()
 			then
@@ -376,7 +376,7 @@ function X.ConsiderQ()
 		local nEnemyCreeps = bot:GetNearbyCreeps( nCastRange + nRadius, true )
 		for _, creep in pairs( nEnemyCreeps )
 		do
-			if J.IsValidUnit( creep )
+			if J.IsValid( creep )
 				and not creep:HasModifier( 'modifier_fountain_glyph' )
 				and J.IsKeyWordUnit( 'ranged', creep )
 				and J.WillMagicKillTarget( bot, creep, nDamage, nCastPoint )
@@ -417,7 +417,7 @@ function X.ConsiderQ()
 	then
 		local nEnemyCreeps = bot:GetNearbyCreeps( nCastRange + nRadius, true )
 		if #nEnemyCreeps >= 3
-			and J.IsValidUnit( nEnemyCreeps[1] )
+			and J.IsValid( nEnemyCreeps[1] )
 			and not nEnemyCreeps[1]:HasModifier( "modifier_fountain_glyph" )
 		then
 			local nAoeLoc = bot:FindAoELocation( true, false, bot:GetLocation(), nCastRange, nRadius, 0, 0 )
@@ -471,6 +471,7 @@ function X.ConsiderW()
 	if J.IsRetreating( bot )
 	then
 		if bot:WasRecentlyDamagedByAnyHero( 1.5 )
+			and #nEnemyHeroesInRange >= 1
 		then
 			return BOT_ACTION_DESIRE_HIGH, 'W-Retreat'
 		end
@@ -499,7 +500,7 @@ function X.ConsiderE()
 		local nEnemyCreeps = bot:GetNearbyCreeps( nCastRange + 400, true )
 		for _, creep in pairs( nEnemyCreeps )
 		do
-			if J.IsValidUnit( creep )
+			if J.IsValid( creep )
 			then
 				return BOT_ACTION_DESIRE_HIGH, creep, 'E-Heal-EnemyCreep'
 			end
@@ -508,7 +509,7 @@ function X.ConsiderE()
 		local nNeutralCreeps = bot:GetNearbyNeutralCreeps( nCastRange + 400 )
 		for _, creep in pairs( nNeutralCreeps )
 		do
-			if J.IsValidUnit( creep )
+			if J.IsValid( creep )
 				and ( not creep:IsAncientCreep() or X.IsNighttime() )
 			then
 				return BOT_ACTION_DESIRE_HIGH, creep, 'E-Heal-NeutralCreep'
@@ -518,7 +519,7 @@ function X.ConsiderE()
 		local nAlliedCreeps = bot:GetNearbyCreeps( nCastRange + 400, false )
 		for _, creep in pairs( nAlliedCreeps )
 		do
-			if J.IsValidUnit( creep )
+			if J.IsValid( creep )
 			then
 				return BOT_ACTION_DESIRE_HIGH, creep, 'E-Heal-AlliedCreep'
 			end
@@ -575,7 +576,7 @@ function X.IsNighttime()
 
 
 	local nCurrentTime = DotaTime()
-	local nCurrentMinute = math.floor( nCurrentMinute / 60 )
+	local nCurrentMinute = math.floor( nCurrentTime / 60 )
 
 	if nCurrentMinute % 10 >= 5
 	then

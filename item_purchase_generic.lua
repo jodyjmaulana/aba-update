@@ -624,7 +624,10 @@ function ItemPurchaseThink()
 
 		--当有飞鞋时卖掉其他早期鞋子
 		if currentTime > 18 * 60
-			and ( Item.HasItem( bot, "item_travel_boots" ) or Item.HasItem( bot, "item_travel_boots_2" ) )
+			and ( Item.HasItem( bot, "item_travel_boots" )
+				or Item.HasItem( bot, "item_travel_boots_2" )
+				or Item.HasItem( bot, "item_guardian_greaves" )
+				or Item.HasItem( bot, "item_boots_of_bearing" ) )
 		then
 			for i = 1, #Item['tEarlyBoots']
 			do

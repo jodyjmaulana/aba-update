@@ -426,7 +426,7 @@ function X.ConsiderW()
 
 		local nEnemyCreeps = bot:GetNearbyLaneCreeps( 700, true )
 		if #nEnemyCreeps >= 3
-			and J.IsValidUnit( nEnemyCreeps[1] )
+			and J.IsValid( nEnemyCreeps[1] )
 			and not nEnemyCreeps[1]:HasModifier( "modifier_fountain_glyph" )
 		then
 			return BOT_ACTION_DESIRE_HIGH, "W-Farm"

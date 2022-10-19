@@ -331,6 +331,7 @@ Item['tEarlyItem'] = {
 	 'item_tango',
 	 'item_flask',
 	 'item_infused_raindrop',
+	 'item_branches',
 	 -- 'item_magic_stick',
 	 -- 'item_orb_of_venom',
 	 'item_bracer',
@@ -340,8 +341,8 @@ Item['tEarlyItem'] = {
 	 'item_soul_ring',
 	 -- 'item_magic_wand',
 	 -- 'item_ancient_janggo',
-	 'item_refresher_shard',
-	 'item_cheese',
+	 -- 'item_refresher_shard',
+	 -- 'item_cheese',
 }
 
 Item['tEarlyBoots'] = {
