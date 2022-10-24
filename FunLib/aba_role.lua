@@ -1654,9 +1654,10 @@ X['off'] = {
 }
 
 X['mid'] = {
-	'npc_dota_hero_alchemist',
+	'npc_dota_hero_keeper_of_the_light',
 	'npc_dota_hero_obsidian_destroyer',
 
+	'npc_dota_hero_alchemist',
 	'npc_dota_hero_arc_warden',
 	'npc_dota_hero_bloodseeker',
 	'npc_dota_hero_broodmother',
@@ -1731,6 +1732,7 @@ X['safe'] = {
 
 X['supp'] = {
 	'npc_dota_hero_abaddon',
+	'npc_dota_hero_keeper_of_the_light',
 	'npc_dota_hero_venomancer',
 
 	'npc_dota_hero_ancient_apparition',
@@ -1747,7 +1749,6 @@ X['supp'] = {
 	'npc_dota_hero_enigma',
 	'npc_dota_hero_grimstroke',
 	'npc_dota_hero_jakiro',
-	'npc_dota_hero_keeper_of_the_light',
 	'npc_dota_hero_lich',
 	'npc_dota_hero_lina',
 	'npc_dota_hero_lion',

@@ -1630,6 +1630,7 @@ function X.IsSpecialSupport(bot)
 		["npc_dota_hero_dazzle"] = true,
 		["npc_dota_hero_death_prophet"] = true, 		
 		["npc_dota_hero_jakiro"] = true,
+		["npc_dota_hero_keeper_of_the_light"] = true,
 		["npc_dota_hero_lich"] = true,
 		["npc_dota_hero_lina"] = true,
 		["npc_dota_hero_lion"] = true,

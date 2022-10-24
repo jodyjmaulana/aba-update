@@ -173,6 +173,7 @@ local sUserKeyDir = Chat.GetUserKeyDir()
 local sHasDevelopmentHeroList = {
 
 	"npc_dota_hero_abaddon",
+	"npc_dota_hero_keeper_of_the_light",
 	"npc_dota_hero_night_stalker",
 	"npc_dota_hero_obsidian_destroyer",
 	"npc_dota_hero_terrorblade",
@@ -255,6 +256,7 @@ local sFirstList = {
 
 local sSecondList = {
 
+	"npc_dota_hero_keeper_of_the_light",
 	"npc_dota_hero_silencer",
 	"npc_dota_hero_warlock",
 	"npc_dota_hero_necrolyte",
@@ -329,6 +331,7 @@ local sFifthList = {
 local sPriestList = {
 
 	"npc_dota_hero_abaddon",
+	"npc_dota_hero_keeper_of_the_light",
 	"npc_dota_hero_venomancer",
 
 	"npc_dota_hero_death_prophet",
@@ -355,6 +358,7 @@ local sPriestList = {
 local sMageList = {
 
 	"npc_dota_hero_abaddon",
+	"npc_dota_hero_keeper_of_the_light",
 	"npc_dota_hero_venomancer",
 
 	"npc_dota_hero_crystal_maiden",
@@ -448,6 +452,7 @@ local sTankList = {
 
 local sMidList = {
 
+	"npc_dota_hero_keeper_of_the_light",
 	"npc_dota_hero_obsidian_destroyer",
 	
 	"npc_dota_hero_templar_assassin",
