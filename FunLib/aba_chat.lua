@@ -5,7 +5,7 @@
 --- Link:http://steamcommunity.com/sharedfiles/filedetails/?id=1627071163
 -----------------------------------------------------------------------------
 local Chat = {}
-local sRawLanguage = 'sCnName'
+local sRawLanguage = 'sEnName'
 
 
 Chat['sAllHeroList'] = {
@@ -32,6 +32,7 @@ Chat['sAllHeroList'] = {
 	'npc_dota_hero_crystal_maiden',
 	'npc_dota_hero_dark_seer',
 	'npc_dota_hero_dark_willow',
+	'npc_dota_hero_dawnbreaker',
 	'npc_dota_hero_dazzle',
 	'npc_dota_hero_disruptor',
 	'npc_dota_hero_death_prophet',
@@ -48,6 +49,7 @@ Chat['sAllHeroList'] = {
 	'npc_dota_hero_furion',
 	'npc_dota_hero_grimstroke',
 	'npc_dota_hero_gyrocopter',
+	'npc_dota_hero_hoodwink',
 	'npc_dota_hero_huskar',
 	'npc_dota_hero_invoker',
 	'npc_dota_hero_jakiro',
@@ -64,6 +66,7 @@ Chat['sAllHeroList'] = {
 	'npc_dota_hero_luna',
 	'npc_dota_hero_lycan',
 	'npc_dota_hero_magnataur',
+	'npc_dota_hero_marci',
 	'npc_dota_hero_mars',
 	'npc_dota_hero_medusa',
 	'npc_dota_hero_meepo',
@@ -83,6 +86,7 @@ Chat['sAllHeroList'] = {
 	'npc_dota_hero_phantom_lancer',
 	'npc_dota_hero_phantom_assassin',
 	'npc_dota_hero_phoenix',
+	'npc_dota_hero_primal_beast',
 	'npc_dota_hero_puck',
 	'npc_dota_hero_pudge',
 	'npc_dota_hero_pugna',
@@ -129,10 +133,6 @@ Chat['sAllHeroList'] = {
 	'npc_dota_hero_wisp',
 	'npc_dota_hero_witch_doctor',
 	'npc_dota_hero_zuus',
-	'npc_dota_hero_hoodwink',
-	'npc_dota_hero_dawnbreaker',
-	'npc_dota_hero_marci',
-	'npc_dota_hero_primal_beast',
 	
 }
 
@@ -218,7 +218,7 @@ Chat['tGameWordList'] = {
 		['sRawName'] = LANE_TOP,
 		['sShortName'] = 'top',
 		['sCnName'] = '上路',
-		['sEnName'] = 0,
+		['sEnName'] = 'top',
 
 	},
 
@@ -226,7 +226,7 @@ Chat['tGameWordList'] = {
 		['sRawName'] = LANE_MID,
 		['sShortName'] = 'mid',
 		['sCnName'] = '中路',
-		['sEnName'] = 0,
+		['sEnName'] = 'mid',
 
 	},
 
@@ -234,7 +234,7 @@ Chat['tGameWordList'] = {
 		['sRawName'] = LANE_BOT,
 		['sShortName'] = 'bot',
 		['sCnName'] = '下路',
-		['sEnName'] = 0,
+		['sEnName'] = 'bot',
 
 	},
 
@@ -315,7 +315,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_cyclone',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = 'EUL的神圣法杖',
-		['sEnName'] = 0,
+		['sEnName'] = 'Eul\'s Scepter of Divinity',
 
 	},
 
@@ -324,7 +324,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_cyclone',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = 'Eul的神圣法杖',
-		['sEnName'] = 0,
+		['sEnName'] = 'Eul\'s Scepter of Divinity',
 
 	},
 
@@ -332,7 +332,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_ultimate_scepter',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '阿哈利姆神杖',
-		['sEnName'] = 0,
+		['sEnName'] = 'Aghanim\'s Scepter',
 
 	},
 
@@ -340,7 +340,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_ultimate_scepter_2',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '阿哈利姆神杖2',
-		['sEnName'] = 0,
+		['sEnName'] = 'Aghanim\'s Blessing',
 
 	},
 
@@ -348,7 +348,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_rod_of_atos',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '阿托斯之棍',
-		['sEnName'] = 0,
+		['sEnName'] = 'Rod of Atos',
 
 	},
 
@@ -356,7 +356,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_shadow_amulet',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '暗影护符',
-		['sEnName'] = 0,
+		['sEnName'] = 'Shadow Amulet',
 
 	},
 
@@ -364,7 +364,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_desolator',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '黯灭',
-		['sEnName'] = 0,
+		['sEnName'] = 'Desolator',
 
 	},
 
@@ -372,7 +372,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_arcane_boots',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '奥术鞋',
-		['sEnName'] = 0,
+		['sEnName'] = 'Arcane Boots',
 
 	},
 
@@ -380,7 +380,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_silver_edge',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '白银之锋',
-		['sEnName'] = 0,
+		['sEnName'] = 'Silver Edge',
 
 	},
 
@@ -388,7 +388,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_platemail',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '板甲',
-		['sEnName'] = 0,
+		['sEnName'] = 'Platemail',
 
 	},
 
@@ -396,7 +396,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_javelin',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '标枪',
-		['sEnName'] = 0,
+		['sEnName'] = 'Javelin',
 
 	},
 
@@ -404,7 +404,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_crimson_guard',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '赤红甲',
-		['sEnName'] = 0,
+		['sEnName'] = 'Crimson Guard',
 
 	},
 
@@ -412,7 +412,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_orb_of_venom',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '淬毒之珠',
-		['sEnName'] = 0,
+		['sEnName'] = 'Orb of Venom',
 
 	},
 
@@ -420,7 +420,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_dagon',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '达贡之神力',
-		['sEnName'] = 0,
+		['sEnName'] = 'Dagon',
 
 	},
 
@@ -428,7 +428,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_dagon_2',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '达贡之神力2',
-		['sEnName'] = 0,
+		['sEnName'] = 'Dagon Lv2',
 
 	},
 
@@ -436,7 +436,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_dagon_3',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '达贡之神力3',
-		['sEnName'] = 0,
+		['sEnName'] = 'Dagon Lv3',
 
 	},
 
@@ -444,7 +444,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_dagon_4',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '达贡之神力4',
-		['sEnName'] = 0,
+		['sEnName'] = 'Dagon Lv4',
 
 	},
 
@@ -452,7 +452,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_dagon_5',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '达贡之神力5',
-		['sEnName'] = 0,
+		['sEnName'] = 'Dagon Lv5',
 
 	},
 
@@ -460,7 +460,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_claymore',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '大剑',
-		['sEnName'] = 0,
+		['sEnName'] = 'Claymore',
 
 	},
 
@@ -468,7 +468,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_greater_crit',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '代达罗斯之殇',
-		['sEnName'] = 0,
+		['sEnName'] = 'Daedalus',
 
 	},
 
@@ -476,7 +476,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_power_treads',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '动力鞋',
-		['sEnName'] = 0,
+		['sEnName'] = 'Power Treads',
 
 	},
 
@@ -484,7 +484,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_courier',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '动物信使',
-		['sEnName'] = 0,
+		['sEnName'] = 'Courier',
 
 	},
 
@@ -492,7 +492,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_pipe',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '洞察烟斗',
-		['sEnName'] = 0,
+		['sEnName'] = 'Pipe of Insight',
 
 	},
 
@@ -500,7 +500,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_quarterstaff',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '短棍',
-		['sEnName'] = 0,
+		['sEnName'] = 'Quarterstaff',
 
 	},
 
@@ -508,7 +508,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_demon_edge',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '恶魔刀锋',
-		['sEnName'] = 0,
+		['sEnName'] = 'Demon Edge',
 
 	},
 
@@ -516,7 +516,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_robe',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '法师长袍',
-		['sEnName'] = 0,
+		['sEnName'] = 'Robe of the Magi',
 
 	},
 
@@ -524,7 +524,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_veil_of_discord',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '纷争面纱',
-		['sEnName'] = 0,
+		['sEnName'] = 'Veil of Discord',
 
 	},
 
@@ -532,7 +532,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_mask_of_madness',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '疯狂面具',
-		['sEnName'] = 0,
+		['sEnName'] = 'Mask of Madness',
 
 	},
 
@@ -540,7 +540,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_nullifier',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '否决坠饰',
-		['sEnName'] = 0,
+		['sEnName'] = 'Nullifier',
 
 	},
 
@@ -548,7 +548,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_vladmir',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '弗拉迪米尔的祭品',
-		['sEnName'] = 0,
+		['sEnName'] = 'Vladmir\'s Offering',
 
 	},
 
@@ -556,7 +556,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_ward_sentry',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '岗哨守卫',
-		['sEnName'] = 0,
+		['sEnName'] = 'Sentry Ward',
 
 	},
 
@@ -564,7 +564,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_blades_of_attack',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '攻击之爪',
-		['sEnName'] = 0,
+		['sEnName'] = 'Blades of Attack',
 
 	},
 
@@ -572,7 +572,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_smoke_of_deceit',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '诡计之雾',
-		['sEnName'] = 0,
+		['sEnName'] = 'Smoke of Deceit',
 
 	},
 
@@ -580,7 +580,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_black_king_bar',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '黑皇杖',
-		['sEnName'] = 0,
+		['sEnName'] = 'Black King Bar',
 
 	},
 
@@ -588,7 +588,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_butterfly',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '蝴蝶',
-		['sEnName'] = 0,
+		['sEnName'] = 'Butterfly',
 
 	},
 
@@ -596,7 +596,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_bracer',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '护腕',
-		['sEnName'] = 0,
+		['sEnName'] = 'Bracer',
 
 	},
 
@@ -604,7 +604,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_blade_of_alacrity',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '欢欣之刃',
-		['sEnName'] = 0,
+		['sEnName'] = 'Blade of Alacrity',
 
 	},
 
@@ -612,7 +612,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_manta',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '幻影斧',
-		['sEnName'] = 0,
+		['sEnName'] = 'Manta Style',
 
 	},
 
@@ -620,7 +620,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_headdress',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '恢复头巾',
-		['sEnName'] = 0,
+		['sEnName'] = 'Headdress',
 
 	},
 
@@ -628,7 +628,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_radiance',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '辉耀',
-		['sEnName'] = 0,
+		['sEnName'] = 'Radiance',
 
 	},
 
@@ -636,7 +636,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_tpscroll',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '回城卷轴',
-		['sEnName'] = 0,
+		['sEnName'] = 'Town Portal Scroll',
 
 	},
 
@@ -644,7 +644,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_ring_of_health',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '回复戒指',
-		['sEnName'] = 0,
+		['sEnName'] = 'Ring of Health',
 
 	},
 
@@ -652,7 +652,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_echo_sabre',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '回音战刃',
-		['sEnName'] = 0,
+		['sEnName'] = 'Echo Sabre',
 
 	},
 
@@ -660,7 +660,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_kaya',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '慧光',
-		['sEnName'] = 0,
+		['sEnName'] = 'Kaya',
 
 	},
 
@@ -668,7 +668,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_yasha_and_kaya',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '慧夜对剑',
-		['sEnName'] = 0,
+		['sEnName'] = 'Yasha and Kaya',
 
 	},
 
@@ -676,7 +676,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_vitality_booster',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '活力之球',
-		['sEnName'] = 0,
+		['sEnName'] = 'Vitality Booster',
 
 	},
 
@@ -684,7 +684,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_ultimate_orb',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '极限法球',
-		['sEnName'] = 0,
+		['sEnName'] = 'Ultimate Orb',
 
 	},
 
@@ -692,7 +692,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_gloves',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '加速手套',
-		['sEnName'] = 0,
+		['sEnName'] = 'Gloves of Haste',
 
 	},
 
@@ -700,7 +700,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_pers',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '坚韧球',
-		['sEnName'] = 0,
+		['sEnName'] = 'Perseverance',
 
 	},
 
@@ -708,7 +708,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_monkey_king_bar',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '金箍棒',
-		['sEnName'] = 0,
+		['sEnName'] = 'Monkey King Bar',
 
 	},
 
@@ -716,7 +716,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_boots_of_elves',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '精灵布带',
-		['sEnName'] = 0,
+		['sEnName'] = 'Band of Elvenskin',
 
 	},
 
@@ -724,7 +724,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_point_booster',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '精气之球',
-		['sEnName'] = 0,
+		['sEnName'] = 'Point Booster',
 
 	},
 
@@ -732,7 +732,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_clarity',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '净化药水',
-		['sEnName'] = 0,
+		['sEnName'] = 'Clarity',
 
 	},
 
@@ -740,7 +740,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_diffusal_blade',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '净魂之刃',
-		['sEnName'] = 0,
+		['sEnName'] = 'Diffusal Blade',
 
 	},
 
@@ -748,7 +748,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_tranquil_boots',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '静谧之鞋',
-		['sEnName'] = 0,
+		['sEnName'] = 'Tranquil Boots',
 
 	},
 
@@ -756,7 +756,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_cloak',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '抗魔斗篷',
-		['sEnName'] = 0,
+		['sEnName'] = 'Cloak',
 
 	},
 
@@ -764,7 +764,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_null_talisman',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '空灵挂件',
-		['sEnName'] = 0,
+		['sEnName'] = 'Null Talisman',
 
 	},
 
@@ -772,7 +772,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_oblivion_staff',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '空明杖',
-		['sEnName'] = 0,
+		['sEnName'] = 'Oblivion Staff',
 
 	},
 
@@ -780,7 +780,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_fluffy_hat',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '毛毛帽',
-		['sEnName'] = 0,
+		['sEnName'] = 'Fluffy Hat',
 
 	},
 
@@ -788,7 +788,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_heart',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '恐鳌之心',
-		['sEnName'] = 0,
+		['sEnName'] = 'Heart of Tarrasque',
 
 	},
 
@@ -796,7 +796,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_bfury',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '狂战斧',
-		['sEnName'] = 0,
+		['sEnName'] = 'Blade Fury',
 
 	},
 
@@ -804,7 +804,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_broadsword',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '阔剑',
-		['sEnName'] = 0,
+		['sEnName'] = 'Broadsword',
 
 	},
 
@@ -812,7 +812,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_mjollnir',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '雷神之锤',
-		['sEnName'] = 0,
+		['sEnName'] = 'Mjollnir',
 
 	},
 
@@ -820,7 +820,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_gauntlets',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '力量手套',
-		['sEnName'] = 0,
+		['sEnName'] = 'Gauntlets of Strength',
 
 	},
 
@@ -828,7 +828,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_belt_of_strength',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '力量腰带',
-		['sEnName'] = 0,
+		['sEnName'] = 'Belt of Strength',
 
 	},
 
@@ -836,7 +836,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_sphere',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '林肯法球',
-		['sEnName'] = 0,
+		['sEnName'] = 'Linken Sphere',
 
 	},
 
@@ -844,7 +844,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_soul_ring',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '灵魂之戒',
-		['sEnName'] = 0,
+		['sEnName'] = 'Soul Ring',
 
 	},
 
@@ -852,7 +852,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_octarine_core',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '玲珑心',
-		['sEnName'] = 0,
+		['sEnName'] = 'Octarine Core',
 
 	},
 
@@ -860,7 +860,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_reaver',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '掠夺者之斧',
-		['sEnName'] = 0,
+		['sEnName'] = 'Reaver',
 
 	},
 
@@ -868,7 +868,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_hand_of_midas',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '迈达斯之手',
-		['sEnName'] = 0,
+		['sEnName'] = 'Hand of Midas',
 
 	},
 
@@ -876,7 +876,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_mekansm',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '梅肯斯姆',
-		['sEnName'] = 0,
+		['sEnName'] = 'Mekansm',
 
 	},
 
@@ -884,7 +884,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_mithril_hammer',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '秘银锤',
-		['sEnName'] = 0,
+		['sEnName'] = 'Mithril Hammer',
 
 	},
 
@@ -892,7 +892,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_slippers',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '敏捷便鞋',
-		['sEnName'] = 0,
+		['sEnName'] = 'Slippers of Agility',
 
 	},
 
@@ -900,7 +900,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_magic_stick',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '魔棒',
-		['sEnName'] = 0,
+		['sEnName'] = 'Magic Stick',
 
 	},
 
@@ -908,7 +908,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_enchanted_mango',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '魔法芒果',
-		['sEnName'] = 0,
+		['sEnName'] = 'Enchanted Mango',
 
 	},
 
@@ -916,7 +916,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_staff_of_wizardry',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '魔力法杖',
-		['sEnName'] = 0,
+		['sEnName'] = 'Staff of Wizardry',
 
 	},
 
@@ -924,7 +924,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_dragon_lance',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '魔龙枪',
-		['sEnName'] = 0,
+		['sEnName'] = 'Dragon Lance',
 
 	},
 
@@ -932,7 +932,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_bottle',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '魔瓶',
-		['sEnName'] = 0,
+		['sEnName'] = 'Bottle',
 
 	},
 
@@ -940,7 +940,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_magic_wand',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '魔杖',
-		['sEnName'] = 0,
+		['sEnName'] = 'Magic Wand',
 
 	},
 
@@ -948,7 +948,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_armlet',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '莫尔迪基安的臂章',
-		['sEnName'] = 0,
+		['sEnName'] = 'Armlet of Mordiggian',
 
 	},
 
@@ -956,7 +956,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_energy_booster',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '能量之球',
-		['sEnName'] = 0,
+		['sEnName'] = 'Energy Booster',
 
 	},
 
@@ -964,7 +964,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_assault',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '强袭胸甲',
-		['sEnName'] = 0,
+		['sEnName'] = 'Assault Cuirass',
 
 	},
 
@@ -972,7 +972,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_lotus_orb',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '清莲宝珠',
-		['sEnName'] = 0,
+		['sEnName'] = 'Lotus Orb',
 
 	},
 
@@ -980,7 +980,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_blade_mail',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '刃甲',
-		['sEnName'] = 0,
+		['sEnName'] = 'Blade Mail',
 
 	},
 
@@ -988,7 +988,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_ancient_janggo',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '韧鼓',
-		['sEnName'] = 0,
+		['sEnName'] = 'Drum of Endurance',
 
 	},
 
@@ -996,7 +996,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_satanic',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '撒旦之邪力',
-		['sEnName'] = 0,
+		['sEnName'] = 'Satanic',
 
 	},
 
@@ -1004,7 +1004,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_sange',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '散华',
-		['sEnName'] = 0,
+		['sEnName'] = 'Sange',
 
 	},
 
@@ -1012,7 +1012,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_kaya_and_sange',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '散慧对剑',
-		['sEnName'] = 0,
+		['sEnName'] = 'Kaya and Sange',
 
 	},
 
@@ -1020,7 +1020,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_sange_and_yasha',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '散夜对剑',
-		['sEnName'] = 0,
+		['sEnName'] = 'Sange and Yasha',
 
 	},
 
@@ -1028,7 +1028,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_talisman_of_evasion',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '闪避护符',
-		['sEnName'] = 0,
+		['sEnName'] = 'Talisman of Evasion',
 
 	},
 
@@ -1036,7 +1036,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_blink',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '闪烁匕首',
-		['sEnName'] = 0,
+		['sEnName'] = 'Blink Dagger',
 
 	},
 
@@ -1044,7 +1044,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_abyssal_blade',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '深渊之刃',
-		['sEnName'] = 0,
+		['sEnName'] = 'Abyssal Blade',
 
 	},
 
@@ -1052,7 +1052,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_mystic_staff',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '神秘法杖',
-		['sEnName'] = 0,
+		['sEnName'] = 'Mystic Staff',
 
 	},
 
@@ -1060,7 +1060,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_rapier',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '圣剑',
-		['sEnName'] = 0,
+		['sEnName'] = 'Divine Rapier',
 
 	},
 
@@ -1068,7 +1068,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_holy_locket',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '圣洁吊坠',
-		['sEnName'] = 0,
+		['sEnName'] = 'Holy Locket',
 
 	},
 
@@ -1076,7 +1076,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_relic',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '圣者遗物',
-		['sEnName'] = 0,
+		['sEnName'] = 'Sacred Relic',
 
 	},
 
@@ -1084,7 +1084,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_ogre_axe',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '食人魔之斧',
-		['sEnName'] = 0,
+		['sEnName'] = 'Ogre Axe',
 
 	},
 
@@ -1092,7 +1092,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_ring_of_protection',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '守护指环',
-		['sEnName'] = 0,
+		['sEnName'] = 'Ring of Protection',
 
 	},
 
@@ -1100,7 +1100,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_tango',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '树之祭祀',
-		['sEnName'] = 0,
+		['sEnName'] = 'Tango',
 
 	},
 
@@ -1108,7 +1108,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_refresher',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '刷新球',
-		['sEnName'] = 0,
+		['sEnName'] = 'Refresher Orb',
 
 	},
 
@@ -1116,7 +1116,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_lesser_crit',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '水晶剑',
-		['sEnName'] = 0,
+		['sEnName'] = 'Crystalys',
 
 	},
 
@@ -1124,7 +1124,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_skadi',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '斯嘉蒂之眼',
-		['sEnName'] = 0,
+		['sEnName'] = 'Eye of Skadi',
 
 	},
 
@@ -1132,7 +1132,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_necronomicon',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '死灵书',
-		['sEnName'] = 0,
+		['sEnName'] = 'Necronomicon',
 
 	},
 
@@ -1140,7 +1140,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_necronomicon_2',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '死灵书2',
-		['sEnName'] = 0,
+		['sEnName'] = 'Necronomicon Lv2',
 
 	},
 
@@ -1148,7 +1148,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_necronomicon_3',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '死灵书3',
-		['sEnName'] = 0,
+		['sEnName'] = 'Necronomicon Lv3',
 
 	},
 
@@ -1156,7 +1156,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_boots',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '速度之靴',
-		['sEnName'] = 0,
+		['sEnName'] = 'Boots of Speed',
 
 	},
 
@@ -1164,7 +1164,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_basher',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '碎颅锤',
-		['sEnName'] = 0,
+		['sEnName'] = 'Skull Basher',
 
 	},
 
@@ -1172,7 +1172,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_chainmail',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '锁子甲',
-		['sEnName'] = 0,
+		['sEnName'] = 'Chainmail',
 
 	},
 
@@ -1188,7 +1188,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_hood_of_defiance',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '挑战头巾',
-		['sEnName'] = 0,
+		['sEnName'] = 'Hood of Defiance',
 
 	},
 
@@ -1196,7 +1196,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_branches',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '铁树枝干',
-		['sEnName'] = 0,
+		['sEnName'] = 'Iron Branch',
 
 	},
 
@@ -1204,7 +1204,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_helm_of_iron_will',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '铁意头盔',
-		['sEnName'] = 0,
+		['sEnName'] = 'Helm of Iron Will',
 
 	},
 
@@ -1212,7 +1212,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_crown',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '王冠',
-		['sEnName'] = 0,
+		['sEnName'] = 'Crown',
 
 	},
 
@@ -1220,7 +1220,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_ring_of_basilius',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '王者之戒',
-		['sEnName'] = 0,
+		['sEnName'] = 'Ring of Basilius',
 
 	},
 
@@ -1228,7 +1228,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_glimmer_cape',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '微光披风',
-		['sEnName'] = 0,
+		['sEnName'] = 'Glimmer Cape',
 
 	},
 
@@ -1236,7 +1236,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_guardian_greaves',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '卫士胫甲',
-		['sEnName'] = 0,
+		['sEnName'] = 'Guardian Greaves',
 
 	},
 
@@ -1244,7 +1244,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_lifesteal',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '吸血面具',
-		['sEnName'] = 0,
+		['sEnName'] = 'Morbid Mask',
 
 	},
 
@@ -1252,7 +1252,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_shivas_guard',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '希瓦的守护',
-		['sEnName'] = 0,
+		['sEnName'] = 'Shiva\'s Guard',
 
 	},
 
@@ -1260,7 +1260,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_faerie_fire',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '仙灵之火',
-		['sEnName'] = 0,
+		['sEnName'] = 'Faerie Fire',
 
 	},
 
@@ -1268,7 +1268,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_vanguard',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '先锋盾',
-		['sEnName'] = 0,
+		['sEnName'] = 'Vanguard',
 
 	},
 
@@ -1276,7 +1276,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_sobi_mask',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '贤者面罩',
-		['sEnName'] = 0,
+		['sEnName'] = 'Sage\'s Mask',
 
 	},
 
@@ -1284,7 +1284,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_dust',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '显影之尘',
-		['sEnName'] = 0,
+		['sEnName'] = 'Dust of Appearance',
 
 	},
 
@@ -1292,7 +1292,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_phase_boots',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '相位鞋',
-		['sEnName'] = 0,
+		['sEnName'] = 'Phase Boots',
 
 	},
 
@@ -1300,7 +1300,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_sheepstick',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '邪恶镰刀',
-		['sEnName'] = 0,
+		['sEnName'] = 'Schyte of Vyse',
 
 	},
 
@@ -1308,7 +1308,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_ethereal_blade',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '虚灵之刃',
-		['sEnName'] = 0,
+		['sEnName'] = 'Ethereal Blade',
 
 	},
 
@@ -1316,7 +1316,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_void_stone',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '虚无宝石',
-		['sEnName'] = 0,
+		['sEnName'] = 'Void Stone',
 
 	},
 
@@ -1324,7 +1324,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_buckler',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '玄冥盾牌',
-		['sEnName'] = 0,
+		['sEnName'] = 'Buckler',
 
 	},
 
@@ -1332,7 +1332,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_maelstrom',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '漩涡',
-		['sEnName'] = 0,
+		['sEnName'] = 'Maelstrom',
 
 	},
 
@@ -1340,7 +1340,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_bloodthorn',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '血棘',
-		['sEnName'] = 0,
+		['sEnName'] = 'Bloodthorn',
 
 	},
 
@@ -1348,7 +1348,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_bloodstone',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '血精石',
-		['sEnName'] = 0,
+		['sEnName'] = 'Bloodstone',
 
 	},
 
@@ -1356,7 +1356,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_quelling_blade',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '压制之刃',
-		['sEnName'] = 0,
+		['sEnName'] = 'Quelling Blade',
 
 	},
 
@@ -1364,7 +1364,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_solar_crest',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '炎阳纹章',
-		['sEnName'] = 0,
+		['sEnName'] = 'Solar Crest',
 
 	},
 
@@ -1372,7 +1372,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_yasha',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '夜叉',
-		['sEnName'] = 0,
+		['sEnName'] = 'Yasha',
 
 	},
 
@@ -1380,7 +1380,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_aether_lens',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '以太透镜',
-		['sEnName'] = 0,
+		['sEnName'] = 'Aether Lens',
 
 	},
 
@@ -1388,7 +1388,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_moon_shard',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '银月之晶',
-		['sEnName'] = 0,
+		['sEnName'] = 'Moon Shard',
 
 	},
 
@@ -1396,7 +1396,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_eagle',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '鹰歌弓',
-		['sEnName'] = 0,
+		['sEnName'] = 'Eaglesong',
 
 	},
 
@@ -1404,7 +1404,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_invis_sword',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '影刃',
-		['sEnName'] = 0,
+		['sEnName'] = 'Shadow Blade',
 
 	},
 
@@ -1412,7 +1412,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_urn_of_shadows',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '影之灵龛',
-		['sEnName'] = 0,
+		['sEnName'] = 'Urn of Shadows',
 
 	},
 
@@ -1420,7 +1420,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_aeon_disk',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '永恒之盘',
-		['sEnName'] = 0,
+		['sEnName'] = 'Aeon Disk',
 
 	},
 
@@ -1428,7 +1428,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_medallion_of_courage',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '勇气勋章',
-		['sEnName'] = 0,
+		['sEnName'] = 'Medallion of Courage',
 
 	},
 
@@ -1436,7 +1436,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_ghost',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '幽魂权杖',
-		['sEnName'] = 0,
+		['sEnName'] = 'Ghost Scepter',
 
 	},
 
@@ -1444,7 +1444,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_force_staff',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '原力法杖',
-		['sEnName'] = 0,
+		['sEnName'] = 'Force Staff',
 
 	},
 
@@ -1452,7 +1452,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_aegis',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '不朽之守护',
-		['sEnName'] = 0,
+		['sEnName'] = 'Aegis of Immortal',
 
 	},
 
@@ -1460,7 +1460,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_circlet',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '圆环',
-		['sEnName'] = 0,
+		['sEnName'] = 'Circlet',
 
 	},
 
@@ -1468,7 +1468,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_travel_boots',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '远行鞋',
-		['sEnName'] = 0,
+		['sEnName'] = 'Boots of Travel',
 
 	},
 
@@ -1476,7 +1476,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_travel_boots_2',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '远行鞋2',
-		['sEnName'] = 0,
+		['sEnName'] = 'Boots of Travel Lv2',
 
 	},
 
@@ -1484,7 +1484,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_wraith_band',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '怨灵系带',
-		['sEnName'] = 0,
+		['sEnName'] = 'Wraith Band',
 
 	},
 
@@ -1492,7 +1492,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_meteor_hammer',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '陨星锤',
-		['sEnName'] = 0,
+		['sEnName'] = 'Meteor Hammer',
 
 	},
 
@@ -1500,7 +1500,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_ward_observer',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '侦查守卫',
-		['sEnName'] = 0,
+		['sEnName'] = 'Observer Ward',
 
 	},
 
@@ -1508,7 +1508,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_gem',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '真视宝石',
-		['sEnName'] = 0,
+		['sEnName'] = 'Gem of True Sight',
 
 	},
 
@@ -1516,7 +1516,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_hyperstone',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '振奋宝石',
-		['sEnName'] = 0,
+		['sEnName'] = 'Hyperstone',
 
 	},
 
@@ -1524,7 +1524,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_soul_booster',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '镇魂石',
-		['sEnName'] = 0,
+		['sEnName'] = 'Soul Booster',
 
 	},
 
@@ -1532,7 +1532,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_helm_of_the_dominator',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '支配头盔',
-		['sEnName'] = 0,
+		['sEnName'] = 'Helm of the Dominator',
 
 	},
 
@@ -1540,7 +1540,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_flask',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '治疗药膏',
-		['sEnName'] = 0,
+		['sEnName'] = 'Healing Salve',
 
 	},
 
@@ -1548,7 +1548,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_ring_of_health',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '治疗指环',
-		['sEnName'] = 0,
+		['sEnName'] = 'Ring of Health',
 
 	},
 
@@ -1556,7 +1556,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_mantle',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '智力斗篷',
-		['sEnName'] = 0,
+		['sEnName'] = 'Mantle of Intelligence',
 
 	},
 
@@ -1564,7 +1564,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_orchid',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '紫怨',
-		['sEnName'] = 0,
+		['sEnName'] = 'Orchid Malevolence',
 
 	},
 
@@ -1572,7 +1572,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_spirit_vessel',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '魂之灵瓮',
-		['sEnName'] = 0,
+		['sEnName'] = 'Spirit Vessel',
 
 	},
 
@@ -1580,7 +1580,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_blight_stone',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '枯萎之石',
-		['sEnName'] = 0,
+		['sEnName'] = 'Blight Stone',
 
 	},
 
@@ -1588,7 +1588,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_hurricane_pike',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '飓风长戟',
-		['sEnName'] = 0,
+		['sEnName'] = 'Hurricane Pike',
 
 	},
 
@@ -1596,7 +1596,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_tome_of_knowledge',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '知识之书',
-		['sEnName'] = 0,
+		['sEnName'] = 'Tome of Knowledge',
 
 	},
 
@@ -1604,7 +1604,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_infused_raindrop',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '凝魂之露',
-		['sEnName'] = 0,
+		['sEnName'] = 'Infused Raindrop',
 
 	},
 
@@ -1612,7 +1612,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_wind_lace',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '风灵之纹',
-		['sEnName'] = 0,
+		['sEnName'] = 'Wind Lace',
 
 	},
 
@@ -1620,7 +1620,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_refresher_shard',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '刷新球碎片',
-		['sEnName'] = 0,
+		['sEnName'] = 'Refresher Shard',
 
 	},
 
@@ -1628,7 +1628,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_cheese',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '奶酪',
-		['sEnName'] = 0,
+		['sEnName'] = 'Cheese',
 
 	},
 
@@ -1636,7 +1636,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_blitz_knuckles',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '闪电指套',
-		['sEnName'] = 0,
+		['sEnName'] = 'Blitz Knuckles',
 
 	},
 
@@ -1644,7 +1644,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_voodoo_mask',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '巫毒面具',
-		['sEnName'] = 0,
+		['sEnName'] = 'Voodoo Mask',
 
 	},
 
@@ -1652,7 +1652,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_aghanims_shard',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '阿哈利姆魔晶',
-		['sEnName'] = 0,
+		['sEnName'] = 'Aghanim\'s Shard',
 
 	},
 
@@ -1660,7 +1660,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_helm_of_the_overlord',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '统御头盔',
-		['sEnName'] = 0,
+		['sEnName'] = 'Helm of the Overlord',
 
 	},
 
@@ -1780,7 +1780,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_keen_optic',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '基恩镜片',
-		['sEnName'] = 0,
+		['sEnName'] = 'Keen Optic',
 
 	},
 
@@ -1788,7 +1788,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_poor_mans_shield',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '穷鬼盾',
-		['sEnName'] = 0,
+		['sEnName'] = 'Poor Man\'s Shield',
 
 	},
 
@@ -1797,7 +1797,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_iron_talon',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '寒铁钢爪',
-		['sEnName'] = 0,
+		['sEnName'] = 'Iron Talon',
 
 	},
 
@@ -1805,7 +1805,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_ironwood_tree',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '铁树之木',
-		['sEnName'] = 0,
+		['sEnName'] = 'Ironwood Tree',
 
 	},
 
@@ -1813,7 +1813,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_royal_jelly',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '蜂王浆',
-		['sEnName'] = 0,
+		['sEnName'] = 'Royal Jelly',
 
 	},
 
@@ -1821,7 +1821,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_mango_tree',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '芒果树',
-		['sEnName'] = 0,
+		['sEnName'] = 'Mango Tree',
 
 	},
 
@@ -1829,7 +1829,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_ocean_heart',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '海洋之心',
-		['sEnName'] = 0,
+		['sEnName'] = 'Ocean Heart',
 
 	},
 
@@ -1837,7 +1837,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_broom_handle',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '扫帚柄',
-		['sEnName'] = 0,
+		['sEnName'] = 'Broom Handle',
 
 	},
 
@@ -1846,7 +1846,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_trusty_shovel',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '可靠铁铲',
-		['sEnName'] = 0,
+		['sEnName'] = 'Trusty Shovel',
 
 	},
 
@@ -1854,7 +1854,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_faded_broach',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '暗淡胸针',
-		['sEnName'] = 0,
+		['sEnName'] = 'Faded Broach',
 
 	},
 
@@ -1862,7 +1862,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_arcane_ring',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '奥术指环',
-		['sEnName'] = 0,
+		['sEnName'] = 'Arcane Ring',
 
 	},
 
@@ -1870,7 +1870,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_grove_bow',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '林野长弓',
-		['sEnName'] = 0,
+		['sEnName'] = 'Grove Bow',
 
 	},
 
@@ -1878,7 +1878,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_vampire_fangs',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '吸血鬼獠牙',
-		['sEnName'] = 0,
+		['sEnName'] = 'Vampire Fangs',
 
 	},
 
@@ -1886,7 +1886,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_ring_of_aquila',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '天鹰之戒',
-		['sEnName'] = 0,
+		['sEnName'] = 'Ring of Aquila',
 
 	},
 
@@ -1895,7 +1895,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_pupils_gift',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '学徒之礼',
-		['sEnName'] = 0,
+		['sEnName'] = 'Pupil\'s Gift',
 
 	},
 
@@ -1903,7 +1903,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_imp_claw',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '魔童之爪',
-		['sEnName'] = 0,
+		['sEnName'] = 'Imp Claw',
 
 	},
 
@@ -1911,7 +1911,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_philosophers_stone',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '贤者石',
-		['sEnName'] = 0,
+		['sEnName'] = 'Philosopher\'s Stone',
 
 	},
 
@@ -1919,7 +1919,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_nether_shawl',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '幽冥披巾',
-		['sEnName'] = 0,
+		['sEnName'] = 'Nether Shawl',
 
 	},
 
@@ -1927,7 +1927,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_dragon_scale',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '炎龙之鳞',
-		['sEnName'] = 0,
+		['sEnName'] = 'Dragon Scale',
 
 	},
 
@@ -1935,7 +1935,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_essence_ring',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '精华指环',
-		['sEnName'] = 0,
+		['sEnName'] = 'Essence Ring',
 
 	},
 
@@ -1944,7 +1944,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_vambrace',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '臂甲',
-		['sEnName'] = 0,
+		['sEnName'] = 'Vambrace',
 
 	},
 
@@ -1952,7 +1952,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_clumsy_net',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '笨拙渔网',
-		['sEnName'] = 0,
+		['sEnName'] = 'Clumsy Net',
 
 	},
 
@@ -1960,7 +1960,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_repair_kit',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '维修器具',
-		['sEnName'] = 0,
+		['sEnName'] = 'Repair Kit',
 
 	},
 
@@ -1968,7 +1968,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_craggy_coat',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '崎岖外衣',
-		['sEnName'] = 0,
+		['sEnName'] = 'Craggy Coat',
 
 	},
 
@@ -1976,7 +1976,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_greater_faerie_fire',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '高级仙灵之火',
-		['sEnName'] = 0,
+		['sEnName'] = 'Greater Faerie Fire',
 
 	},
 
@@ -1984,7 +1984,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_quickening_charm',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '加速护符',
-		['sEnName'] = 0,
+		['sEnName'] = 'Quickening Charm',
 
 	},
 
@@ -1993,7 +1993,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_mind_breaker',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '智灭',
-		['sEnName'] = 0,
+		['sEnName'] = 'Mind Breaker',
 
 	},
 
@@ -2001,7 +2001,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_spider_legs',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '网虫腿',
-		['sEnName'] = 0,
+		['sEnName'] = 'Spider Legs',
 
 	},
 
@@ -2009,7 +2009,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_enchanted_quiver',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '魔力箭袋',
-		['sEnName'] = 0,
+		['sEnName'] = 'Enchanted Quiver',
 
 	},
 
@@ -2017,7 +2017,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_paladin_sword',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '骑士剑',
-		['sEnName'] = 0,
+		['sEnName'] = 'Paladin Sword',
 
 	},
 
@@ -2025,7 +2025,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_orb_of_destruction',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '毁灭灵球',
-		['sEnName'] = 0,
+		['sEnName'] = 'Orb of Destruction',
 
 	},
 
@@ -2033,7 +2033,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_titan_sliver',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '巨神残铁',
-		['sEnName'] = 0,
+		['sEnName'] = 'Titan Sliver',
 
 	},
 
@@ -2042,7 +2042,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_witless_shako',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '无知小帽',
-		['sEnName'] = 0,
+		['sEnName'] = 'Witless Shako',
 
 	},
 
@@ -2050,7 +2050,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_timeless_relic',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '永恒遗物',
-		['sEnName'] = 0,
+		['sEnName'] = 'Timeless Relic',
 
 	},
 
@@ -2058,7 +2058,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_spell_prism',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '法术棱镜',
-		['sEnName'] = 0,
+		['sEnName'] = 'Spell Prism',
 
 	},
 
@@ -2066,7 +2066,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_princes_knife',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '亲王短刀',
-		['sEnName'] = 0,
+		['sEnName'] = 'Prince\'s Knife',
 
 	},
 
@@ -2074,7 +2074,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_flicker',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '闪灵',
-		['sEnName'] = 0,
+		['sEnName'] = 'Flicker',
 
 	},
 
@@ -2082,7 +2082,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_spy_gadget',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '望远镜',
-		['sEnName'] = 0,
+		['sEnName'] = 'Telescope',
 
 	},
 
@@ -2091,7 +2091,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_ninja_gear',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '忍者用具',
-		['sEnName'] = 0,
+		['sEnName'] = 'Ninja Gear',
 
 	},
 
@@ -2099,7 +2099,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_illusionsts_cape',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '幻术师披风',
-		['sEnName'] = 0,
+		['sEnName'] = 'Illusionist\'s Cape',
 
 	},
 
@@ -2107,7 +2107,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_havoc_hammer',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '浩劫巨锤',
-		['sEnName'] = 0,
+		['sEnName'] = 'Havoc Hammer',
 
 	},
 
@@ -2115,7 +2115,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_panic_button',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '魔力明灯',
-		['sEnName'] = 0,
+		['sEnName'] = 'Magic Lamp',
 
 	},
 
@@ -2123,7 +2123,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_the_leveller',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '平世剑',
-		['sEnName'] = 0,
+		['sEnName'] = 'Leveler',
 
 	},
 
@@ -2131,7 +2131,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_minotaur_horn',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '恶牛角',
-		['sEnName'] = 0,
+		['sEnName'] = 'Minotaur Horn',
 
 	},
 
@@ -2140,7 +2140,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_force_boots',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '原力靴',
-		['sEnName'] = 0,
+		['sEnName'] = 'Force Boots',
 
 	},
 
@@ -2148,7 +2148,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_desolator_2',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '寂灭',
-		['sEnName'] = 0,
+		['sEnName'] = 'Stygian Desolator',
 
 	},
 
@@ -2156,7 +2156,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_seer_stone',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '先哲之石',
-		['sEnName'] = 0,
+		['sEnName'] = 'Seer Stone',
 
 	},
 
@@ -2164,7 +2164,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_mirror_shield',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '神镜盾',
-		['sEnName'] = 0,
+		['sEnName'] = 'Mirror Shield',
 
 	},
 
@@ -2172,7 +2172,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_apex',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '极',
-		['sEnName'] = 0,
+		['sEnName'] = 'Apex',
 
 	},
 
@@ -2180,7 +2180,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_ballista',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '弩炮',
-		['sEnName'] = 0,
+		['sEnName'] = 'Ballista',
 
 	},
 
@@ -2188,7 +2188,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_woodland_striders',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '林地神行靴',
-		['sEnName'] = 0,
+		['sEnName'] = 'Woodland Striders',
 
 	},
 
@@ -2196,7 +2196,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_trident',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '三元重戟',
-		['sEnName'] = 0,
+		['sEnName'] = 'Trident',
 
 	},
 
@@ -2204,7 +2204,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_demonicon',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '冥灵书',
-		['sEnName'] = 0,
+		['sEnName'] = 'Book of the Dead',
 
 	},
 
@@ -2212,7 +2212,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_fallen_sky',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '堕天斧',
-		['sEnName'] = 0,
+		['sEnName'] = 'Fallen Sky',
 
 	},
 
@@ -2220,7 +2220,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_pirate_hat',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '海盗帽',
-		['sEnName'] = 0,
+		['sEnName'] = 'Pirate Hat',
 
 	},
 
@@ -2228,7 +2228,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_ex_machina',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '机械之心',
-		['sEnName'] = 0,
+		['sEnName'] = 'Ex Machina',
 
 	},
 	
@@ -2238,7 +2238,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_falcon_blade',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '猎鹰战刃',
-		['sEnName'] = 0,
+		['sEnName'] = 'Falcon Blade',
 
 	},
  
@@ -2246,7 +2246,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_orb_of_corrosion',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '腐蚀之球',
-		['sEnName'] = 0,
+		['sEnName'] = 'Orb of Corrosion',
 
 	},
  
@@ -2254,7 +2254,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_witch_blade',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '巫师之刃',
-		['sEnName'] = 0,
+		['sEnName'] = 'Witch Blade',
 
 	},
  
@@ -2262,7 +2262,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_gungir',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '缚灵索',
-		['sEnName'] = 0,
+		['sEnName'] = 'Gleipnir',
 
 	},
  
@@ -2270,7 +2270,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_mage_slayer',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '法师克星',
-		['sEnName'] = 0,
+		['sEnName'] = 'Mage Slayer',
 
 	},
  
@@ -2278,7 +2278,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_eternal_shroud',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '永世法衣',
-		['sEnName'] = 0,
+		['sEnName'] = 'Eternal Shroud',
 
 	},
  
@@ -2286,7 +2286,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_overwhelming_blink',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '盛势闪光',
-		['sEnName'] = 0,
+		['sEnName'] = 'Overwhelming Blink',
 
 	},
  
@@ -2294,7 +2294,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_swift_blink',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '迅疾闪光',
-		['sEnName'] = 0,
+		['sEnName'] = 'Swift Blink',
 
 	},
  
@@ -2302,7 +2302,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_arcane_blink',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '秘奥闪光',
-		['sEnName'] = 0,
+		['sEnName'] = 'Arcane Blink',
 
 	},
  
@@ -2311,7 +2311,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_mysterious_hat',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '仙灵饰品',
-		['sEnName'] = 0,
+		['sEnName'] = 'Fairy\'s Trinket',
 
 	},
  
@@ -2319,7 +2319,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_chipped_vest',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '碎裂背心',
-		['sEnName'] = 0,
+		['sEnName'] = 'Chipped Vest',
 
 	},
  
@@ -2327,7 +2327,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_possessed_mask',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '附魂面具',
-		['sEnName'] = 0,
+		['sEnName'] = 'Possessed Mask',
 
 	},
  
@@ -2335,7 +2335,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_quicksilver_amulet',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '银闪护符',
-		['sEnName'] = 0,
+		['sEnName'] = 'Quicksilver Amulet',
 
 	},
  
@@ -2343,7 +2343,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_bullwhip',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '凌厉长靴',
-		['sEnName'] = 0,
+		['sEnName'] = 'Bullwhip',
 
 	},
  
@@ -2351,7 +2351,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_elven_tunic',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '精灵外衣',
-		['sEnName'] = 0,
+		['sEnName'] = 'Elven Tunic',
 
 	},
  
@@ -2359,7 +2359,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_cloak_of_flames',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '火焰斗篷',
-		['sEnName'] = 0,
+		['sEnName'] = 'Cloak of Flames',
 
 	},
  
@@ -2367,7 +2367,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_ceremonial_robe',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '祭礼长袍',
-		['sEnName'] = 0,
+		['sEnName'] = 'Ceremonial Robe',
 
 	},
  
@@ -2375,7 +2375,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_psychic_headband',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '通灵头带',
-		['sEnName'] = 0,
+		['sEnName'] = 'Psychic Headband',
 
 	},
  
@@ -2383,7 +2383,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_penta_edged_sword',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '五锋长剑',
-		['sEnName'] = 0,
+		['sEnName'] = 'Penta-Edged Sword',
 
 	},
  
@@ -2391,7 +2391,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_stormcrafter',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '风暴宝器',
-		['sEnName'] = 0,
+		['sEnName'] = 'Stormcrafter',
 
 	},
  
@@ -2399,7 +2399,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_trickster_cloak',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '欺诈师斗篷',
-		['sEnName'] = 0,
+		['sEnName'] = 'Trickster Cloak',
 
 	},
  
@@ -2407,7 +2407,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_giants_ring',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '巨人之戒',
-		['sEnName'] = 0,
+		['sEnName'] = 'Giant\'s Ring',
 
 	},
  
@@ -2415,7 +2415,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_book_of_shadows',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '暗影邪典',
-		['sEnName'] = 0,
+		['sEnName'] = 'Book of Shadows',
 
 	},
 	
@@ -2423,7 +2423,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_wind_waker',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '风之杖',
-		['sEnName'] = 0,
+		['sEnName'] = 'Wind Waker',
 
 	},
 	
@@ -2432,7 +2432,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_unstable_wand',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '豚杆',
-		['sEnName'] = 0,
+		['sEnName'] = 'Pig Pole',
 
 	},
 
@@ -2440,7 +2440,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_pogo_stick',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '杂技玩具',
-		['sEnName'] = 0,
+		['sEnName'] = 'Tumbler\'s Toy',
 
 	},
 
@@ -2448,7 +2448,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_misericorde',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '飞贼之刃',
-		['sEnName'] = 0,
+		['sEnName'] = 'Brigand\'s Blade',
 
 	},
 
@@ -2456,7 +2456,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_paintball',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '仙灵榴弹',
-		['sEnName'] = 0,
+		['sEnName'] = 'Fae Grenade',
 
 	},
 
@@ -2464,7 +2464,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_black_powder_bag',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '炸雷服',
-		['sEnName'] = 0,
+		['sEnName'] = 'Blast Rig',
 
 	},
 
@@ -2472,7 +2472,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_ascetic_cap',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '简普短帽',
-		['sEnName'] = 0,
+		['sEnName'] = 'Ascetic Cap',
 
 	},
 
@@ -2480,7 +2480,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_heavy_blade',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '行巫之祸',
-		['sEnName'] = 0,
+		['sEnName'] = 'Witchbane',
 
 	},
 
@@ -2488,7 +2488,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_force_field',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '秘术师铠甲',
-		['sEnName'] = 0,
+		['sEnName'] = 'Arcanist\'s Armor',
 
 	},
 	
@@ -2497,7 +2497,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_revenants_brooch',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '亡魂胸针',
-		['sEnName'] = 0,
+		['sEnName'] = 'Revenant\'s Brooch',
 
 	},
 
@@ -2505,7 +2505,7 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_boots_of_bearing',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '宽容之靴',
-		['sEnName'] = 0,
+		['sEnName'] = 'Boots of Bearing',
 
 	},
 
@@ -2513,9 +2513,9 @@ Chat['tItemNameList'] = {
 		['sRawName'] = 'item_wraith_pact',
 		['sShortName'] = 'itemNull',
 		['sCnName'] = '怨灵之契',
-		['sEnName'] = 0,
+		['sEnName'] = 'Wraith Pact',
 
-	},	
+	},
 	
 --内部自定义新物品
 	[274] = {
@@ -2565,6 +2565,143 @@ Chat['tItemNameList'] = {
 		['sEnName'] = 0,
 
 	},
+
+	--7.32
+	[280] = {
+		['sRawName'] = 'item_seeds_of_serenity',
+		['sShortName'] = 'itemNull',
+		['sCnName'] = '',
+		['sEnName'] = 'Seeds of Serenity',
+
+	},
+
+	[281] = {
+		['sRawName'] = 'item_lance_of_pursuit',
+		['sShortName'] = 'itemNull',
+		['sCnName'] = '',
+		['sEnName'] = 'Lance of Pursuit',
+
+	},
+
+	[282] = {
+		['sRawName'] = 'item_occult_bracelet',
+		['sShortName'] = 'itemNull',
+		['sCnName'] = '',
+		['sEnName'] = 'Occult Bracelet',
+
+	},
+
+	[283] = {
+		['sRawName'] = 'item_tome_of_omniscience',
+		['sShortName'] = 'itemNull',
+		['sCnName'] = '',
+		['sEnName'] = 'Tome of Omniscience',
+
+	},
+
+	[284] = {
+		['sRawName'] = 'item_ogre_seal_totem',
+		['sShortName'] = 'itemNull',
+		['sCnName'] = '',
+		['sEnName'] = 'Ogre Seal Totem',
+
+	},
+
+	[285] = {
+		['sRawName'] = 'item_wand_of_the_brine',
+		['sShortName'] = 'itemNull',
+		['sCnName'] = '',
+		['sEnName'] = 'Wand of the Brine',
+
+	},
+
+	[286] = {
+		['sRawName'] = 'item_slime_vial',
+		['sShortName'] = 'itemNull',
+		['sCnName'] = '',
+		['sEnName'] = 'Slime Vial',
+
+	},
+
+	[287] = {
+		['sRawName'] = 'item_harpoon',
+		['sShortName'] = 'itemNull',
+		['sCnName'] = '',
+		['sEnName'] = 'Harpoon',
+
+	},
+
+	[288] = {
+		['sRawName'] = 'item_guardian_shell',
+		['sShortName'] = 'itemNull',
+		['sCnName'] = '',
+		['sEnName'] = 'Guardian Shell',
+
+	},
+
+	[289] = {
+		['sRawName'] = 'item_arcane_scout',
+		['sShortName'] = 'itemNull',
+		['sCnName'] = '',
+		['sEnName'] = 'Arcane Scout',
+
+	},
+
+	[290] = {
+		['sRawName'] = 'item_barricade',
+		['sShortName'] = 'itemNull',
+		['sCnName'] = '',
+		['sEnName'] = 'Barricade',
+
+	},
+
+	[291] = {
+		['sRawName'] = 'item_eye_of_the_vizier',
+		['sShortName'] = 'itemNull',
+		['sCnName'] = '',
+		['sEnName'] = 'Eye of the Vizier',
+
+	},
+
+	[292] = {
+		['sRawName'] = 'item_manacles_of_power',
+		['sShortName'] = 'itemNull',
+		['sCnName'] = '',
+		['sEnName'] = 'Manacles of Power',
+
+	},
+
+	[293] = {
+		['sRawName'] = 'item_bottomless_chalice',
+		['sShortName'] = 'itemNull',
+		['sCnName'] = '',
+		['sEnName'] = 'Bottomless Chalice',
+
+	},
+
+	[294] = {
+		['sRawName'] = 'item_wand_of_sanctitude',
+		['sShortName'] = 'itemNull',
+		['sCnName'] = '',
+		['sEnName'] = 'Wand of Sanctitude',
+
+	},
+
+	[295] = {
+		['sRawName'] = 'item_specialists_array',
+		['sShortName'] = 'itemNull',
+		['sCnName'] = '',
+		['sEnName'] = 'Specialist\'s Array',
+
+	},
+
+	[296] = {
+		['sRawName'] = 'item_dagger_of_ristul',
+		['sShortName'] = 'itemNull',
+		['sCnName'] = '',
+		['sEnName'] = 'Dagger of Ristful',
+
+	},
 	
 }
 
@@ -2591,991 +2728,991 @@ Chat['tHeroNameList'] = {
 
 	--001
 	['npc_dota_hero_abaddon'] = {
-		['sNormName'] = '死骑',
+		['sNormName'] = 'Abaddon',
 		['sShortName'] = 'loa',
 		['sCnName'] = '亚巴顿',
-		['sEnName'] = 0,
+		['sEnName'] = 'Abaddon',
 
 	},
 
 	--002
 	['npc_dota_hero_alchemist'] = {
-		['sNormName'] = '炼金',
+		['sNormName'] = 'Alchemist',
 		['sShortName'] = 'ga',
 		['sCnName'] = '炼金术士',
-		['sEnName'] = 0,
+		['sEnName'] = 'Alchemist',
 
 	},
 
 	--003
 	['npc_dota_hero_axe'] = {
-		['sNormName'] = '斧王',
+		['sNormName'] = 'Axe',
 		['sShortName'] = 'axe',
 		['sCnName'] = '斧王',
-		['sEnName'] = 0,
+		['sEnName'] = 'Axe',
 
 	},
 
 	--004
 	['npc_dota_hero_beastmaster'] = {
-		['sNormName'] = '兽王',
+		['sNormName'] = 'Beastmaster',
 		['sShortName'] = 'bm',
 		['sCnName'] = '兽王',
-		['sEnName'] = 0,
+		['sEnName'] = 'Beastmaster',
 
 	},
 
 	--005
 	['npc_dota_hero_brewmaster'] = {
-		['sNormName'] = '熊猫',
+		['sNormName'] = 'Brewmaster',
 		['sShortName'] = 'panda',
 		['sCnName'] = '酒仙',
-		['sEnName'] = 0,
+		['sEnName'] = 'Brewmaster',
 
 	},
 
 	--006
 	['npc_dota_hero_bristleback'] = {
-		['sNormName'] = '钢背',
+		['sNormName'] = 'Bristleback',
 		['sShortName'] = 'bb',
 		['sCnName'] = '钢背兽',
-		['sEnName'] = 0,
+		['sEnName'] = 'Bristleback',
 
 	},
 
 	--007
 	['npc_dota_hero_centaur'] = {
-		['sNormName'] = '人马',
+		['sNormName'] = 'Centaur Warrunner',
 		['sShortName'] = 'cent',
 		['sCnName'] = '半人马战行者',
-		['sEnName'] = 0,
+		['sEnName'] = 'Centaur Warrunner',
 
 	},
 
 	--008
 	['npc_dota_hero_chaos_knight'] = {
-		['sNormName'] = '混沌',
+		['sNormName'] = 'Chaos Knight',
 		['sShortName'] = 'ck',
 		['sCnName'] = '混沌骑士',
-		['sEnName'] = 0,
+		['sEnName'] = 'Chaos Knight',
 
 	},
 
 	--009
 	['npc_dota_hero_rattletrap'] = {
-		['sNormName'] = '发条',
+		['sNormName'] = 'Clockwerk',
 		['sShortName'] = 'cg',
 		['sCnName'] = '发条技师',
-		['sEnName'] = 0,
+		['sEnName'] = 'Clockwerk',
 
 	},
 
 	--010
 	['npc_dota_hero_doom_bringer'] = {
-		['sNormName'] = '末日',
+		['sNormName'] = 'Doom',
 		['sShortName'] = 'doom',
 		['sCnName'] = '末日使者',
-		['sEnName'] = 0,
+		['sEnName'] = 'Doom',
 
 	},
 
 	--011
 	['npc_dota_hero_dragon_knight'] = {
-		['sNormName'] = '龙骑',
+		['sNormName'] = 'Dragon Knight',
 		['sShortName'] = 'dk',
 		['sCnName'] = '龙骑士',
-		['sEnName'] = 0,
+		['sEnName'] = 'Dragon Knight',
 
 	},
 
 	--012
 	['npc_dota_hero_earth_spirit'] = {
-		['sNormName'] = '土猫',
+		['sNormName'] = 'Earth Spirit',
 		['sShortName'] = 'earthspirit',
 		['sCnName'] = '大地之灵',
-		['sEnName'] = 0,
+		['sEnName'] = 'Earth Spirit',
 
 	},
 
 	--013
 	['npc_dota_hero_earthshaker'] = {
-		['sNormName'] = '小牛',
+		['sNormName'] = 'Earthshaker',
 		['sShortName'] = 'es',
 		['sCnName'] = '撼地者',
-		['sEnName'] = 0,
+		['sEnName'] = 'Earthshaker',
 
 	},
 
 	--014
 	['npc_dota_hero_elder_titan'] = {
-		['sNormName'] = '大牛',
+		['sNormName'] = 'Elder Titan',
 		['sShortName'] = 'et',
 		['sCnName'] = '上古巨神',
-		['sEnName'] = 0,
+		['sEnName'] = 'Elder Titan',
 
 	},
 
 	--015
 	['npc_dota_hero_grimstroke'] = {
-		['sNormName'] = '笔仙',
+		['sNormName'] = 'Grimstroke',
 		['sShortName'] = 'grimstroke',
 		['sCnName'] = '天涯墨客',
-		['sEnName'] = 0,
+		['sEnName'] = 'Grimstroke',
 
 	},
 
 	--016
 	['npc_dota_hero_huskar'] = {
-		['sNormName'] = '神灵',
+		['sNormName'] = 'Huskar',
 		['sShortName'] = 'hus',
 		['sCnName'] = '哈斯卡',
-		['sEnName'] = 0,
+		['sEnName'] = 'Huskar',
 
 	},
 
 	--017
 	['npc_dota_hero_wisp'] = {
-		['sNormName'] = '小精灵',
+		['sNormName'] = 'Io',
 		['sShortName'] = 'wisp',
 		['sCnName'] = '艾欧',
-		['sEnName'] = 0,
+		['sEnName'] = 'Io',
 
 	},
 
 	--018
 	['npc_dota_hero_kunkka'] = {
-		['sNormName'] = '船长',
+		['sNormName'] = 'Kunkka',
 		['sShortName'] = 'coco',
 		['sCnName'] = '昆卡',
-		['sEnName'] = 0,
+		['sEnName'] = 'Kunkka',
 
 	},
 
 	--019
 	['npc_dota_hero_legion_commander'] = {
-		['sNormName'] = '军团',
+		['sNormName'] = 'Legion Commander',
 		['sShortName'] = 'legion',
 		['sCnName'] = '军团指挥官',
-		['sEnName'] = 0,
+		['sEnName'] = 'Legion Commander',
 
 	},
 
 	--020
 	['npc_dota_hero_life_stealer'] = {
-		['sNormName'] = '小狗',
+		['sNormName'] = 'Lifestealer',
 		['sShortName'] = 'naix',
 		['sCnName'] = '噬魂鬼',
-		['sEnName'] = 0,
+		['sEnName'] = 'Lifestealer',
 
 	},
 
 	--021
 	['npc_dota_hero_lycan'] = {
-		['sNormName'] = '狼人',
+		['sNormName'] = 'Lycan',
 		['sShortName'] = 'lyc',
 		['sCnName'] = '狼人',
-		['sEnName'] = 0,
+		['sEnName'] = 'Lycan',
 
 	},
 
 	--022
 	['npc_dota_hero_magnataur'] = {
-		['sNormName'] = '猛犸',
+		['sNormName'] = 'Magnus',
 		['sShortName'] = 'mag',
 		['sCnName'] = '马格纳斯',
-		['sEnName'] = 0,
+		['sEnName'] = 'Magnus',
 
 	},
 
 	--023
 	['npc_dota_hero_night_stalker'] = {
-		['sNormName'] = '夜魔',
+		['sNormName'] = 'Night Stalker',
 		['sShortName'] = 'ns',
 		['sCnName'] = '暗夜魔王',
-		['sEnName'] = 0,
+		['sEnName'] = 'Night Stalker',
 
 	},
 
 	--024
 	['npc_dota_hero_omniknight'] = {
-		['sNormName'] = '全能',
+		['sNormName'] = 'Omniknight',
 		['sShortName'] = 'ok',
 		['sCnName'] = '全能骑士',
-		['sEnName'] = 0,
+		['sEnName'] = 'Omniknight',
 
 	},
 
 	--025
 	['npc_dota_hero_phoenix'] = {
-		['sNormName'] = '凤凰',
+		['sNormName'] = 'Phoenix',
 		['sShortName'] = 'pho',
 		['sCnName'] = '凤凰',
-		['sEnName'] = 0,
+		['sEnName'] = 'Phoenix',
 
 	},
 
 	--026
 	['npc_dota_hero_pudge'] = {
-		['sNormName'] = '屠夫',
+		['sNormName'] = 'Pudge',
 		['sShortName'] = 'pudge',
 		['sCnName'] = '帕吉',
-		['sEnName'] = 0,
+		['sEnName'] = 'Pudge',
 
 	},
 
 	--027
 	['npc_dota_hero_sand_king'] = {
-		['sNormName'] = '沙王',
+		['sNormName'] = 'Sand King',
 		['sShortName'] = 'sk',
 		['sCnName'] = '沙王',
-		['sEnName'] = 0,
+		['sEnName'] = 'Sand King',
 
 	},
 
 	--028
 	['npc_dota_hero_slardar'] = {
-		['sNormName'] = '大鱼',
+		['sNormName'] = 'Slardar',
 		['sShortName'] = 'sg',
 		['sCnName'] = '斯拉达',
-		['sEnName'] = 0,
+		['sEnName'] = 'Slardar',
 
 	},
 
 	--029
 	['npc_dota_hero_spirit_breaker'] = {
-		['sNormName'] = '白牛',
+		['sNormName'] = 'Spirit Breaker',
 		['sShortName'] = 'sb',
 		['sCnName'] = '裂魂人',
-		['sEnName'] = 0,
+		['sEnName'] = 'Spirit Breaker',
 
 	},
 
 	--030
 	['npc_dota_hero_sven'] = {
-		['sNormName'] = '流浪',
+		['sNormName'] = 'Sven',
 		['sShortName'] = 'sv',
 		['sCnName'] = '斯温',
-		['sEnName'] = 0,
+		['sEnName'] = 'Sven',
 
 	},
 
 	--031
 	['npc_dota_hero_tidehunter'] = {
-		['sNormName'] = '潮汐',
+		['sNormName'] = 'Tidehunter',
 		['sShortName'] = 'th',
 		['sCnName'] = '潮汐猎人',
-		['sEnName'] = 0,
+		['sEnName'] = 'Tidehunter',
 
 	},
 
 	--032
 	['npc_dota_hero_shredder'] = {
-		['sNormName'] = '伐木机',
+		['sNormName'] = 'Timbersaw',
 		['sShortName'] = 'gs',
 		['sCnName'] = '伐木机',
-		['sEnName'] = 0,
+		['sEnName'] = 'Timbersaw',
 
 	},
 
 	--033
 	['npc_dota_hero_tiny'] = {
-		['sNormName'] = '山岭',
+		['sNormName'] = 'Tiny',
 		['sShortName'] = 'tiny',
 		['sCnName'] = '小小',
-		['sEnName'] = 0,
+		['sEnName'] = 'Tiny',
 
 	},
 
 	--034
 	['npc_dota_hero_treant'] = {
-		['sNormName'] = '大树',
+		['sNormName'] = 'Treant Protector',
 		['sShortName'] = 'tp',
 		['sCnName'] = '树精卫士',
-		['sEnName'] = 0,
+		['sEnName'] = 'Treant Protector',
 
 	},
 
 	--035
 	['npc_dota_hero_tusk'] = {
-		['sNormName'] = '海民',
+		['sNormName'] = 'Tusk',
 		['sShortName'] = 'tusk',
 		['sCnName'] = '巨牙海民',
-		['sEnName'] = 0,
+		['sEnName'] = 'Tusk',
 
 	},
 
 	--036
 	['npc_dota_hero_abyssal_underlord'] = {
-		['sNormName'] = '大屁股',
+		['sNormName'] = 'Underlord',
 		['sShortName'] = 'au',
 		['sCnName'] = '孽主',
-		['sEnName'] = 0,
+		['sEnName'] = 'Underlord',
 
 	},
 
 	--037
 	['npc_dota_hero_undying'] = {
-		['sNormName'] = '尸王',
+		['sNormName'] = 'Undying',
 		['sShortName'] = 'ud',
 		['sCnName'] = '不朽尸王',
-		['sEnName'] = 0,
+		['sEnName'] = 'Undying',
 
 	},
 
 	--038
 	['npc_dota_hero_skeleton_king'] = {
-		['sNormName'] = '骷髅王',
+		['sNormName'] = 'Wraith King',
 		['sShortName'] = 'snk',
 		['sCnName'] = '冥魂大帝',
-		['sEnName'] = 0,
+		['sEnName'] = 'Wraith King',
 
 	},
 
 	--039
 	['npc_dota_hero_antimage'] = {
-		['sNormName'] = '敌法',
+		['sNormName'] = 'Anti-Mage',
 		['sShortName'] = 'am',
 		['sCnName'] = '敌法师',
-		['sEnName'] = 0,
+		['sEnName'] = 'Anti-Mage',
 
 	},
 
 	--040
 	['npc_dota_hero_arc_warden'] = {
-		['sNormName'] = '电 狗',
+		['sNormName'] = 'Arc Warden',
 		['sShortName'] = 'arc',
 		['sCnName'] = '天穹守望者',
-		['sEnName'] = 0,
+		['sEnName'] = 'Arc Warden',
 
 	},
 
 	--041
 	['npc_dota_hero_bloodseeker'] = {
-		['sNormName'] = '血魔',
+		['sNormName'] = 'Bloodseeker',
 		['sShortName'] = 'bs',
 		['sCnName'] = '血魔',
-		['sEnName'] = 0,
+		['sEnName'] = 'Bloodseeker',
 
 	},
 
 	--042
 	['npc_dota_hero_bounty_hunter'] = {
-		['sNormName'] = '赏金',
+		['sNormName'] = 'Bounty Hunter',
 		['sShortName'] = 'bh',
 		['sCnName'] = '赏金猎人',
-		['sEnName'] = 0,
+		['sEnName'] = 'Bounty Hunter',
 
 	},
 
 	--043
 	['npc_dota_hero_broodmother'] = {
-		['sNormName'] = '蜘蛛',
+		['sNormName'] = 'Broodmother',
 		['sShortName'] = 'br',
 		['sCnName'] = '育母蜘蛛',
-		['sEnName'] = 0,
+		['sEnName'] = 'Broodmother',
 
 	},
 
 	--044
 	['npc_dota_hero_clinkz'] = {
-		['sNormName'] = '骨弓',
+		['sNormName'] = 'Clinkz',
 		['sShortName'] = 'bone',
 		['sCnName'] = '克林克兹',
-		['sEnName'] = 0,
+		['sEnName'] = 'Clinkz',
 
 	},
 
 	--045
 	['npc_dota_hero_dark_willow'] = {
-		['sNormName'] = '小仙女',
+		['sNormName'] = 'Dark Willow',
 		['sShortName'] = 'dw',
 		['sCnName'] = '邪影芳灵',
-		['sEnName'] = 0,
+		['sEnName'] = 'Dark Willow',
 
 	},
 
 	--046
 	['npc_dota_hero_drow_ranger'] = {
-		['sNormName'] = '小黑',
+		['sNormName'] = 'Drow Ranger',
 		['sShortName'] = 'dr',
 		['sCnName'] = '卓尔游侠',
-		['sEnName'] = 0,
+		['sEnName'] = 'Drow Ranger',
 
 	},
 
 	--047
 	['npc_dota_hero_ember_spirit'] = {
-		['sNormName'] = '火猫',
+		['sNormName'] = 'Ember Spirit',
 		['sShortName'] = 'ember',
 		['sCnName'] = '灰烬之灵',
-		['sEnName'] = 0,
+		['sEnName'] = 'Ember Spirit',
 
 	},
 
 	--048
 	['npc_dota_hero_faceless_void'] = {
-		['sNormName'] = '虚空',
+		['sNormName'] = 'Faceless Void',
 		['sShortName'] = 'fv',
 		['sCnName'] = '虚空假面',
-		['sEnName'] = 0,
+		['sEnName'] = 'Faceless Void',
 
 	},
 
 	--049
 	['npc_dota_hero_gyrocopter'] = {
-		['sNormName'] = '飞机',
+		['sNormName'] = 'Gyrocopter',
 		['sShortName'] = 'av',
 		['sCnName'] = '矮人直升机',
-		['sEnName'] = 0,
+		['sEnName'] = 'Gyrocopter',
 
 	},
 
 	--050
 	['npc_dota_hero_juggernaut'] = {
-		['sNormName'] = '剑圣',
+		['sNormName'] = 'Juggernaut',
 		['sShortName'] = 'jugg',
 		['sCnName'] = '主宰',
-		['sEnName'] = 0,
+		['sEnName'] = 'Juggernaut',
 
 	},
 
 	--051
 	['npc_dota_hero_lone_druid'] = {
-		['sNormName'] = '熊德',
+		['sNormName'] = 'Lone Druid',
 		['sShortName'] = 'ld',
 		['sCnName'] = '德鲁伊',
-		['sEnName'] = 0,
+		['sEnName'] = 'Lone Druid',
 
 	},
 
 	--052
 	['npc_dota_hero_luna'] = {
-		['sNormName'] = '月骑',
+		['sNormName'] = 'Luna',
 		['sShortName'] = 'luna',
 		['sCnName'] = '露娜',
-		['sEnName'] = 0,
+		['sEnName'] = 'Luna',
 
 	},
 
 	--053
 	['npc_dota_hero_medusa'] = {
-		['sNormName'] = '一姐',
+		['sNormName'] = 'Medusa',
 		['sShortName'] = 'med',
 		['sCnName'] = '美杜莎',
-		['sEnName'] = 0,
+		['sEnName'] = 'Medusa',
 
 	},
 
 	--054
 	['npc_dota_hero_meepo'] = {
-		['sNormName'] = '狗头',
+		['sNormName'] = 'Meepo',
 		['sShortName'] = 'meepo',
 		['sCnName'] = '米波',
-		['sEnName'] = 0,
+		['sEnName'] = 'Meepo',
 
 	},
 
 	--055
 	['npc_dota_hero_mirana'] = {
-		['sNormName'] = '白虎',
+		['sNormName'] = 'Mirana',
 		['sShortName'] = 'pom',
 		['sCnName'] = '米拉娜',
-		['sEnName'] = 0,
+		['sEnName'] = 'Mirana',
 
 	},
 
 	--056
 	['npc_dota_hero_monkey_king'] = {
-		['sNormName'] = '大圣',
+		['sNormName'] = 'Monkey King',
 		['sShortName'] = 'monkey',
 		['sCnName'] = '齐天大圣',
-		['sEnName'] = 0,
+		['sEnName'] = 'Monkey King',
 
 	},
 
 	--057
 	['npc_dota_hero_morphling'] = {
-		['sNormName'] = '水人',
+		['sNormName'] = 'Morphling',
 		['sShortName'] = 'mor',
 		['sCnName'] = '变体精灵',
-		['sEnName'] = 0,
+		['sEnName'] = 'Morphling',
 
 	},
 
 	--058
 	['npc_dota_hero_naga_siren'] = {
-		['sNormName'] = '小娜迦',
+		['sNormName'] = 'Naga Siren',
 		['sShortName'] = 'naga',
 		['sCnName'] = '娜迦海妖',
-		['sEnName'] = 0,
+		['sEnName'] = 'Naga Siren',
 
 	},
 
 	--059
 	['npc_dota_hero_nyx_assassin'] = {
-		['sNormName'] = '小强',
+		['sNormName'] = 'Nyx Assassin',
 		['sShortName'] = 'na',
 		['sCnName'] = '司夜刺客',
-		['sEnName'] = 0,
+		['sEnName'] = 'Nyx Assassin',
 
 	},
 
 	--060
 	['npc_dota_hero_phantom_assassin'] = {
-		['sNormName'] = '幻刺',
+		['sNormName'] = 'Phantom Assassin',
 		['sShortName'] = 'pa',
 		['sCnName'] = '幻影刺客',
-		['sEnName'] = 0,
+		['sEnName'] = 'Phantom Assassin',
 
 	},
 
 	--061
 	['npc_dota_hero_phantom_lancer'] = {
-		['sNormName'] = '猴子',
+		['sNormName'] = 'Phantom Lancer',
 		['sShortName'] = 'pl',
 		['sCnName'] = '幻影长矛手',
-		['sEnName'] = 0,
+		['sEnName'] = 'Phantom Lancer',
 
 	},
 
 	--062
 	['npc_dota_hero_razor'] = {
-		['sNormName'] = '电棍',
+		['sNormName'] = 'Razor',
 		['sShortName'] = 'razor',
 		['sCnName'] = '剃刀',
-		['sEnName'] = 0,
+		['sEnName'] = 'Razor',
 
 	},
 
 	--063
 	['npc_dota_hero_riki'] = {
-		['sNormName'] = '隐刺',
+		['sNormName'] = 'Riki',
 		['sShortName'] = 'sa',
 		['sCnName'] = '力丸',
-		['sEnName'] = 0,
+		['sEnName'] = 'Riki',
 
 	},
 
 	--064
 	['npc_dota_hero_nevermore'] = {
-		['sNormName'] = '影魔',
+		['sNormName'] = 'Shadow Fiend',
 		['sShortName'] = 'sf',
 		['sCnName'] = '影魔',
-		['sEnName'] = 0,
+		['sEnName'] = 'Shadow Fiend',
 
 	},
 
 	--065
 	['npc_dota_hero_slark'] = {
-		['sNormName'] = '小鱼',
+		['sNormName'] = 'Slark',
 		['sShortName'] = 'nc',
 		['sCnName'] = '斯拉克',
-		['sEnName'] = 0,
+		['sEnName'] = 'Slark',
 
 	},
 
 	--066
 	['npc_dota_hero_sniper'] = {
-		['sNormName'] = '火枪',
+		['sNormName'] = 'Sniper',
 		['sShortName'] = 'sniper',
 		['sCnName'] = '狙击手',
-		['sEnName'] = 0,
+		['sEnName'] = 'Sniper',
 
 	},
 
 	--067
 	['npc_dota_hero_spectre'] = {
-		['sNormName'] = '幽鬼',
+		['sNormName'] = 'Spectre',
 		['sShortName'] = 'spe',
 		['sCnName'] = '幽鬼',
-		['sEnName'] = 0,
+		['sEnName'] = 'Spectre',
 
 	},
 
 	--068
 	['npc_dota_hero_templar_assassin'] = {
-		['sNormName'] = '圣堂',
+		['sNormName'] = 'Templar Assassin',
 		['sShortName'] = 'ta',
 		['sCnName'] = '圣堂刺客',
-		['sEnName'] = 0,
+		['sEnName'] = 'Templar Assassin',
 
 	},
 
 	--069
 	['npc_dota_hero_terrorblade'] = {
-		['sNormName'] = '魂守',
+		['sNormName'] = 'Terrorblade',
 		['sShortName'] = 'tb',
 		['sCnName'] = '恐怖利刃',
-		['sEnName'] = 0,
+		['sEnName'] = 'Terrorblade',
 
 	},
 
 	--070
 	['npc_dota_hero_troll_warlord'] = {
-		['sNormName'] = '巨魔',
+		['sNormName'] = 'Troll Warlord',
 		['sShortName'] = 'tw',
 		['sCnName'] = '巨魔战将',
-		['sEnName'] = 0,
+		['sEnName'] = 'Troll Warlord',
 
 	},
 
 	--071
 	['npc_dota_hero_ursa'] = {
-		['sNormName'] = '拍拍',
+		['sNormName'] = 'Ursa',
 		['sShortName'] = 'ursa',
 		['sCnName'] = '熊战士',
-		['sEnName'] = 0,
+		['sEnName'] = 'Ursa',
 
 	},
 
 	--072
 	['npc_dota_hero_vengefulspirit'] = {
-		['sNormName'] = 'VS',
+		['sNormName'] = 'Vengeful Spirit',
 		['sShortName'] = 'vs',
 		['sCnName'] = '复仇之魂',
-		['sEnName'] = 0,
+		['sEnName'] = 'Vengeful Spirit',
 
 	},
 
 	--073
 	['npc_dota_hero_venomancer'] = {
-		['sNormName'] = '剧毒',
+		['sNormName'] = 'Venomancer',
 		['sShortName'] = 'veno',
 		['sCnName'] = '剧毒术士',
-		['sEnName'] = 0,
+		['sEnName'] = 'Venomancer',
 
 	},
 
 	--074
 	['npc_dota_hero_viper'] = {
-		['sNormName'] = '毒龙',
+		['sNormName'] = 'Viper',
 		['sShortName'] = 'vip',
 		['sCnName'] = '冥界亚龙',
-		['sEnName'] = 0,
+		['sEnName'] = 'Viper',
 
 	},
 
 	--075
 	['npc_dota_hero_weaver'] = {
-		['sNormName'] = '蚂蚁',
+		['sNormName'] = 'Weaver',
 		['sShortName'] = 'nw',
 		['sCnName'] = '编织者',
-		['sEnName'] = 0,
+		['sEnName'] = 'Weaver',
 
 	},
 
 	--076
 	['npc_dota_hero_ancient_apparition'] = {
-		['sNormName'] = '冰魂',
+		['sNormName'] = 'Ancient Apparition',
 		['sShortName'] = 'aa',
 		['sCnName'] = '远古冰魄',
-		['sEnName'] = 0,
+		['sEnName'] = 'Ancient Apparition',
 
 	},
 
 	--077
 	['npc_dota_hero_bane'] = {
-		['sNormName'] = '祸乱',
+		['sNormName'] = 'Bane',
 		['sShortName'] = 'bane',
 		['sCnName'] = '祸乱之源',
-		['sEnName'] = 0,
+		['sEnName'] = 'Bane',
 
 	},
 
 	--078
 	['npc_dota_hero_batrider'] = {
-		['sNormName'] = '蝙蝠',
+		['sNormName'] = 'Batrider',
 		['sShortName'] = 'bat',
 		['sCnName'] = '蝙蝠骑士',
-		['sEnName'] = 0,
+		['sEnName'] = 'Batrider',
 
 	},
 
 	--079
 	['npc_dota_hero_chen'] = {
-		['sNormName'] = '陈',
+		['sNormName'] = 'Chen',
 		['sShortName'] = 'chen',
 		['sCnName'] = '陈',
-		['sEnName'] = 0,
+		['sEnName'] = 'Chen',
 
 	},
 
 	--080
 	['npc_dota_hero_crystal_maiden'] = {
-		['sNormName'] = '冰女',
+		['sNormName'] = 'Crystal Maiden',
 		['sShortName'] = 'cm',
 		['sCnName'] = '水晶室女',
-		['sEnName'] = 0,
+		['sEnName'] = 'Crystal Maiden',
 
 	},
 
 	--081
 	['npc_dota_hero_dark_seer'] = {
-		['sNormName'] = '兔子',
+		['sNormName'] = 'Dark Seer',
 		['sShortName'] = 'ds',
 		['sCnName'] = '黑暗贤者',
-		['sEnName'] = 0,
+		['sEnName'] = 'Dark Seer',
 
 	},
 
 	--082
 	['npc_dota_hero_dazzle'] = {
-		['sNormName'] = '暗牧',
+		['sNormName'] = 'Dazzle',
 		['sShortName'] = 'sp',
 		['sCnName'] = '戴泽',
-		['sEnName'] = 0,
+		['sEnName'] = 'Dazzle',
 
 	},
 
 	--083
 	['npc_dota_hero_death_prophet'] = {
-		['sNormName'] = 'DP',
+		['sNormName'] = 'Death Prophet',
 		['sShortName'] = 'DP',
 		['sCnName'] = '死亡先知',
-		['sEnName'] = 0,
+		['sEnName'] = 'Death Prophet',
 
 	},
 
 	--084
 	['npc_dota_hero_disruptor'] = {
-		['sNormName'] = '萨尔',
+		['sNormName'] = 'Disruptor',
 		['sShortName'] = 'thrall',
 		['sCnName'] = '干扰者',
-		['sEnName'] = 0,
+		['sEnName'] = 'Disruptor',
 
 	},
 
 	--085
 	['npc_dota_hero_enchantress'] = {
-		['sNormName'] = '小鹿',
+		['sNormName'] = 'Enchantress',
 		['sShortName'] = 'eh',
 		['sCnName'] = '魅惑魔女',
-		['sEnName'] = 0,
+		['sEnName'] = 'Enchantress',
 
 	},
 
 	--086
 	['npc_dota_hero_enigma'] = {
-		['sNormName'] = '谜团',
+		['sNormName'] = 'Enigma',
 		['sShortName'] = 'em',
 		['sCnName'] = '谜团',
-		['sEnName'] = 0,
+		['sEnName'] = 'Enigma',
 
 	},
 
 	--087
 	['npc_dota_hero_invoker'] = {
-		['sNormName'] = '卡尔',
+		['sNormName'] = 'Invoker',
 		['sShortName'] = 'invoker',
 		['sCnName'] = '祈求者',
-		['sEnName'] = 0,
+		['sEnName'] = 'Invoker',
 
 	},
 
 	--088
 	['npc_dota_hero_jakiro'] = {
-		['sNormName'] = '双头龙',
+		['sNormName'] = 'Jakiro',
 		['sShortName'] = 'thd',
 		['sCnName'] = '杰奇洛',
-		['sEnName'] = 0,
+		['sEnName'] = 'Jakiro',
 
 	},
 
 	--089
 	['npc_dota_hero_keeper_of_the_light'] = {
-		['sNormName'] = '光法',
+		['sNormName'] = 'Keeper of the Light',
 		['sShortName'] = 'kotl',
 		['sCnName'] = '光之守卫',
-		['sEnName'] = 0,
+		['sEnName'] = 'Keeper of the Light',
 
 	},
 
 	--090
 	['npc_dota_hero_leshrac'] = {
-		['sNormName'] = '老鹿',
+		['sNormName'] = 'Leshrac',
 		['sShortName'] = 'TS',
 		['sCnName'] = '拉席克',
-		['sEnName'] = 0,
+		['sEnName'] = 'Leshrac',
 
 	},
 
 	--091
 	['npc_dota_hero_lich'] = {
-		['sNormName'] = '巫妖',
+		['sNormName'] = 'Lich',
 		['sShortName'] = 'lich',
 		['sCnName'] = '巫妖',
-		['sEnName'] = 0,
+		['sEnName'] = 'Lich',
 
 	},
 
 	--092
 	['npc_dota_hero_lina'] = {
-		['sNormName'] = '火女',
+		['sNormName'] = 'Lina',
 		['sShortName'] = 'lina',
 		['sCnName'] = '莉娜',
-		['sEnName'] = 0,
+		['sEnName'] = 'Lina',
 
 	},
 
 	--093
 	['npc_dota_hero_lion'] = {
-		['sNormName'] = '莱恩',
+		['sNormName'] = 'Lion',
 		['sShortName'] = 'lion',
 		['sCnName'] = '莱恩',
-		['sEnName'] = 0,
+		['sEnName'] = 'Lion',
 
 	},
 
 	--094
 	['npc_dota_hero_furion'] = {
-		['sNormName'] = '先知',
+		['sNormName'] = 'Nature\'s Prophet',
 		['sShortName'] = 'fur',
 		['sCnName'] = '先知',
-		['sEnName'] = 0,
+		['sEnName'] = 'Nature\'s Prophet',
 
 	},
 
 	--095
 	['npc_dota_hero_necrolyte'] = {
-		['sNormName'] = '死灵法',
+		['sNormName'] = 'Necrophos',
 		['sShortName'] = 'nec',
 		['sCnName'] = '瘟疫法师',
-		['sEnName'] = 0,
+		['sEnName'] = 'Necrophos',
 
 	},
 
 	--096
 	['npc_dota_hero_ogre_magi'] = {
-		['sNormName'] = '蓝胖',
+		['sNormName'] = 'Ogre Magi',
 		['sShortName'] = 'om',
 		['sCnName'] = '食人魔魔法师',
-		['sEnName'] = 0,
+		['sEnName'] = 'Ogre Magi',
 
 	},
 
 	--097
 	['npc_dota_hero_oracle'] = {
-		['sNormName'] = '神谕',
+		['sNormName'] = 'Oracle',
 		['sShortName'] = 'oracle',
 		['sCnName'] = '神谕者',
-		['sEnName'] = 0,
+		['sEnName'] = 'Oracle',
 
 	},
 
 	--098
 	['npc_dota_hero_obsidian_destroyer'] = {
-		['sNormName'] = '黑鸟',
+		['sNormName'] = 'Outworld Destroyer',
 		['sShortName'] = 'od',
 		['sCnName'] = '殁境神蚀者',
-		['sEnName'] = 0,
+		['sEnName'] = 'Outworld Destroyer',
 
 	},
 
 	--099
 	['npc_dota_hero_pangolier'] = {
-		['sNormName'] = '滚滚',
+		['sNormName'] = 'Pangolier',
 		['sShortName'] = 'pangolier',
 		['sCnName'] = '石鳞剑士',
-		['sEnName'] = 0,
+		['sEnName'] = 'Pangolier',
 
 	},
 
 	-- 100
 	['npc_dota_hero_puck'] = {
-		['sNormName'] = '精灵龙',
+		['sNormName'] = 'Puck',
 		['sShortName'] = 'puck',
 		['sCnName'] = '帕克',
-		['sEnName'] = 0,
+		['sEnName'] = 'Puck',
 
 	},
 
 	-- 101
 	['npc_dota_hero_pugna'] = {
-		['sNormName'] = '骨法',
+		['sNormName'] = 'Pugna',
 		['sShortName'] = 'pugna',
 		['sCnName'] = '帕格纳',
-		['sEnName'] = 0,
+		['sEnName'] = 'Pugna',
 
 	},
 
 	-- 102
 	['npc_dota_hero_queenofpain'] = {
-		['sNormName'] = '女王',
+		['sNormName'] = 'Queen of Pain',
 		['sShortName'] = 'qop',
 		['sCnName'] = '痛苦女王',
-		['sEnName'] = 0,
+		['sEnName'] = 'Queen of Pain',
 
 	},
 
 	-- 103
 	['npc_dota_hero_rubick'] = {
-		['sNormName'] = '拉比克',
+		['sNormName'] = 'Rubick',
 		['sShortName'] = 'rubick',
 		['sCnName'] = '拉比克',
-		['sEnName'] = 0,
+		['sEnName'] = 'Rubick',
 
 	},
 
 	-- 104
 	['npc_dota_hero_shadow_demon'] = {
-		['sNormName'] = '毒狗',
+		['sNormName'] = 'Shadow Demon',
 		['sShortName'] = 'sd',
 		['sCnName'] = '暗影恶魔',
-		['sEnName'] = 0,
+		['sEnName'] = 'Shadow Demon',
 
 	},
 
 	-- 105
 	['npc_dota_hero_shadow_shaman'] = {
-		['sNormName'] = '小Y',
+		['sNormName'] = 'Shadow Shaman',
 		['sShortName'] = 'ss',
 		['sCnName'] = '暗影萨满',
-		['sEnName'] = 0,
+		['sEnName'] = 'Shadow Shaman',
 
 	},
 
 	-- 106
 	['npc_dota_hero_silencer'] = {
-		['sNormName'] = '沉默',
+		['sNormName'] = 'Silencer',
 		['sShortName'] = 'sil',
 		['sCnName'] = '沉默术士',
-		['sEnName'] = 0,
+		['sEnName'] = 'Silencer',
 
 	},
 
 	-- 107
 	['npc_dota_hero_skywrath_mage'] = {
-		['sNormName'] = '天怒',
+		['sNormName'] = 'Skywrath Mage',
 		['sShortName'] = 'sm',
 		['sCnName'] = '天怒法师',
-		['sEnName'] = 0,
+		['sEnName'] = 'Skywrath Mage',
 
 	},
 
 	-- 108
 	['npc_dota_hero_storm_spirit'] = {
-		['sNormName'] = '蓝猫',
+		['sNormName'] = 'Storm Spirit',
 		['sShortName'] = 'st',
 		['sCnName'] = '风暴之灵',
-		['sEnName'] = 0,
+		['sEnName'] = 'Storm Spirit',
 
 	},
 
 	-- 109
 	['npc_dota_hero_techies'] = {
-		['sNormName'] = '炸弹人',
+		['sNormName'] = 'Techies',
 		['sShortName'] = 'techies',
 		['sCnName'] = '工程师',
-		['sEnName'] = 0,
+		['sEnName'] = 'Techies',
 
 	},
 
 	-- 110
 	['npc_dota_hero_tinker'] = {
-		['sNormName'] = 'TK',
+		['sNormName'] = 'Tinker',
 		['sShortName'] = 'tk',
 		['sCnName'] = '修补匠',
-		['sEnName'] = 0,
+		['sEnName'] = 'Tinker',
 		['sFrName'] = 0,
 		['sDeName'] = 0,
 		['sRuName'] = 0,
@@ -3585,10 +3722,10 @@ Chat['tHeroNameList'] = {
 
 	-- 111
 	['npc_dota_hero_visage'] = {
-		['sNormName'] = '死灵龙',
+		['sNormName'] = 'Visage',
 		['sShortName'] = 'vis',
 		['sCnName'] = '维萨吉',
-		['sEnName'] = 0,
+		['sEnName'] = 'Visage',
 		['sFrName'] = 0,
 		['sDeName'] = 0,
 		['sRuName'] = 0,
@@ -3598,109 +3735,109 @@ Chat['tHeroNameList'] = {
 
 	-- 112
 	['npc_dota_hero_warlock'] = {
-		['sNormName'] = '术士',
+		['sNormName'] = 'Warlock',
 		['sShortName'] = 'wlk',
 		['sCnName'] = '术士',
-		['sEnName'] = 0,
+		['sEnName'] = 'Warlock',
 
 	},
 
 	-- 113
 	['npc_dota_hero_windrunner'] = {
-		['sNormName'] = '风行',
+		['sNormName'] = 'Windranger',
 		['sShortName'] = 'wr',
 		['sCnName'] = '风行者',
-		['sEnName'] = 0,
+		['sEnName'] = 'Windranger',
 
 	},
 
 	-- 114
 	['npc_dota_hero_winter_wyvern'] = {
-		['sNormName'] = '冰龙',
+		['sNormName'] = 'Winter Wyvern',
 		['sShortName'] = 'ww',
 		['sCnName'] = '寒冬飞龙',
-		['sEnName'] = 0,
+		['sEnName'] = 'Winter Wyvern',
 
 	},
 
 	-- 115
 	['npc_dota_hero_witch_doctor'] = {
-		['sNormName'] = '巫医',
+		['sNormName'] = 'Witch Doctor',
 		['sShortName'] = 'wd',
 		['sCnName'] = '巫医',
-		['sEnName'] = 0,
+		['sEnName'] = 'Witch Doctor',
 
 	},
 
 	-- 116
 	['npc_dota_hero_mars'] = {
-		['sNormName'] = '玛尔斯',
+		['sNormName'] = 'Mars',
 		['sShortName'] = 'mars',
 		['sCnName'] = '玛尔斯',
-		['sEnName'] = 0,
+		['sEnName'] = 'Mars',
 
 	},
 
 	-- 117
 	['npc_dota_hero_zuus'] = {
-		['sNormName'] = '宙斯',
+		['sNormName'] = 'Zeus',
 		['sShortName'] = 'zeus',
 		['sCnName'] = '宙斯',
-		['sEnName'] = 0,
+		['sEnName'] = 'Zeus',
 
 	},
 
 	-- 118
 	['npc_dota_hero_snapfire'] = {
-		['sNormName'] = '老奶奶',
+		['sNormName'] = 'Snapfire',
 		['sShortName'] = 'snapfire',
 		['sCnName'] = '电炎绝手',
-		['sEnName'] = 0,
+		['sEnName'] = 'Snapfire',
 
 	},
 
 	-- 119
 	['npc_dota_hero_void_spirit'] = {
-		['sNormName'] = '紫猫',
+		['sNormName'] = 'Void Spirit',
 		['sShortName'] = 'void',
 		['sCnName'] = '虚无之灵',
-		['sEnName'] = 0,
+		['sEnName'] = 'Void Spirit',
 
 	},
 	
 	-- 120
 	['npc_dota_hero_hoodwink'] = {
-		['sNormName'] = '小松鼠',
+		['sNormName'] = 'Hoodwink',
 		['sShortName'] = 'hoodwink',
 		['sCnName'] = '森海飞霞',
-		['sEnName'] = 0,
+		['sEnName'] = 'Hoodwink',
 
 	},
 	
 	-- 121
 	['npc_dota_hero_dawnbreaker'] = {
-		['sNormName'] = '锤妹',
+		['sNormName'] = 'Dawnbreaker',
 		['sShortName'] = 'dawnbreaker',
 		['sCnName'] = '破晓辰星',
-		['sEnName'] = 0,
+		['sEnName'] = 'Dawnbreaker',
 
 	},
 	
 	-- 122
 	['npc_dota_hero_marci'] = {
-		['sNormName'] = '拳妹',
+		['sNormName'] = 'Marci',
 		['sShortName'] = 'marci',
 		['sCnName'] = '玛西',
-		['sEnName'] = 0,
+		['sEnName'] = 'Marci',
 
 	},
 
 	-- 122
 	['npc_dota_hero_primal_beast'] = {
-		['sNormName'] = '兽',
+		['sNormName'] = 'Primal Beast',
 		['sShortName'] = 'beast',
 		['sCnName'] = '獸',
-		['sEnName'] = 0,
+		['sEnName'] = 'Primal Beast',
 
 	},
 
