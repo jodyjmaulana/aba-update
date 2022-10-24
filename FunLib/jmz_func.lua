@@ -11,7 +11,7 @@
 local J = {}
 
 
-local sDota2Version= '7.29'
+local sDota2Version= '7.32c'
 local sDebugVersion= '20210424ver1.8c'
 local bDebugMode = ( 1 == 10 )
 local bDebugTeam = ( GetTeam() == TEAM_RADIANT )

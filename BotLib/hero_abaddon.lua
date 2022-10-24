@@ -349,7 +349,7 @@ function X.ConsiderQ()
 		local npcWeakestAllyHealth = 100000
 		for _, npcAlly in pairs( nAlliedHeroesInRange )
 		do
-			if J.CanCastOnNonMagicImmune( npcAlly )
+			if J.CanCastOnMagicImmune( npcAlly )
 				and npcAlly:GetHealth() <= npcWeakestAllyHealth
 				and J.GetHP( npcAlly ) <= 0.75
 				and npcAlly ~= bot
@@ -411,7 +411,7 @@ function X.ConsiderQ()
 		and nSkillLV >= 2
 		and #hEnemyList == 0
 		and #hAllyList <= 3
-		and talent8:isTrained()
+		and talent8:IsTrained()
 		and ( bot:GetHealth() - ( nDamage * abilityQ:GetSpecialValueInt( 'self_damage' ) / 100 ) > 400
 			or bot:HasModifier( 'modifier_abaddon_borrowed_time' ) )
 	then
@@ -451,7 +451,7 @@ function X.ConsiderQ()
 		and nSkillLV >= 3
 		and #hEnemyList == 0
 		and #hAllyList <= 2
-		and talent8:isTrained()
+		and talent8:IsTrained()
 		and ( bot:GetHealth() - ( nDamage * abilityQ:GetSpecialValueInt( 'self_damage' ) / 100 ) > 400
 			or bot:HasModifier( 'modifier_abaddon_borrowed_time' ) )
 	then

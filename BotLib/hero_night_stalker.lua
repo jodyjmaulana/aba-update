@@ -123,7 +123,7 @@ X['sSellList'] = {
 	"item_assault",
 	"item_bracer",
 
-	"item_point_booster",
+	"item_ultimate_scepter",
 	"item_echo_sabre",
 	
 	"item_travel_boots",
@@ -497,7 +497,7 @@ function X.ConsiderE()
 		or nMP <= 0.75
 		or ( nHP <= 0.7 and nMP <= 0.8 )
 	then
-		local nEnemyCreeps = bot:GetNearbyCreeps( nCastRange + 400, true )
+		local nEnemyCreeps = bot:GetNearbyCreeps( nCastRange + 600, true )
 		for _, creep in pairs( nEnemyCreeps )
 		do
 			if J.IsValid( creep )
@@ -506,7 +506,7 @@ function X.ConsiderE()
 			end
 		end
 
-		local nNeutralCreeps = bot:GetNearbyNeutralCreeps( nCastRange + 400 )
+		local nNeutralCreeps = bot:GetNearbyNeutralCreeps( nCastRange + 600 )
 		for _, creep in pairs( nNeutralCreeps )
 		do
 			if J.IsValid( creep )
@@ -516,7 +516,7 @@ function X.ConsiderE()
 			end
 		end
 
-		local nAlliedCreeps = bot:GetNearbyCreeps( nCastRange + 400, false )
+		local nAlliedCreeps = bot:GetNearbyCreeps( nCastRange + 600, false )
 		for _, creep in pairs( nAlliedCreeps )
 		do
 			if J.IsValid( creep )

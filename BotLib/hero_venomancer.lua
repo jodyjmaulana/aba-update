@@ -461,8 +461,8 @@ function X.ConsiderE()
 			and J.IsValid( nEnemyCreeps[1] )
 			and not nEnemyCreeps[1]:HasModifier( "modifier_fountain_glyph" )
 		then
-				nTargetLocation = J.GetCastLocation( bot, creep, nCastRange, nRadius ) + RandomVector( nRadius * 0.5 )
-				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "E-Push"
+			nTargetLocation = J.GetCastLocation( bot, nEnemyCreeps[1], nCastRange, nRadius ) + RandomVector( nRadius * 0.5 )
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "E-Push"
 		end
 
 
