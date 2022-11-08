@@ -214,9 +214,9 @@ local abilityE = bot:GetAbilityByName( sAbilityList[3] )
 local abilityD = bot:GetAbilityByName( sAbilityList[4] )
 local abilityF = bot:GetAbilityByName( sAbilityList[5] )
 local abilityR = bot:GetAbilityByName( sAbilityList[6] )
--- local abilityQEnd = bot:GetAbilityByName( sAbilityList[7] )
+local abilityQEnd = bot:GetAbilityByName( sAbilityList[7] )
 local abilityQ2 = bot:GetAbilityByName( sAbilityList[8] )
--- local abilityQ2End = bot:GetAbilityByName( sAbilityList[9] )
+local abilityQ2End = bot:GetAbilityByName( sAbilityList[9] )
 local abilityR2 = bot:GetAbilityByName( sAbilityList[10] )
 local talent6 = bot:GetAbilityByName( sTalentList[6] )
 
@@ -226,9 +226,9 @@ local castEDesire, castETarget
 local castDDesire, castDLocation
 local castFDesire, castFLocation
 local castRDesire
--- local castQEndDesire
+local castQEndDesire
 local castQ2Desire, castQ2Location
--- local castQ2EndDesire
+local castQ2EndDesire
 local castR2Desire, castR2Target
 
 local nKeepMana, nMP, nHP, nLV, botTarget, hEnemyList, hAllyList, sMotive
@@ -326,16 +326,16 @@ function X.SkillsComplement()
 		return
 	end
 	
-	-- castQEndDesire, sMotive = X.ConsiderQEnd()
-	-- if castQEndDesire > 0
-	-- then
-	-- 	J.SetReportMotive( bDebugMode, sMotive )
+	castQEndDesire, sMotive = X.ConsiderQEnd()
+	if castQEndDesire > 0
+	then
+		J.SetReportMotive( bDebugMode, sMotive )
 
-	-- 	J.SetQueuePtToINT( bot, false )
+		J.SetQueuePtToINT( bot, false )
 
-	-- 	bot:ActionQueue_UseAbility( abilityQEnd )
-	-- 	return
-	-- end
+		bot:ActionQueue_UseAbility( abilityQEnd )
+		return
+	end
 	
 	castQ2Desire, castQ2Location, sMotive = X.ConsiderQ2()
 	if castQ2Desire > 0
@@ -348,16 +348,16 @@ function X.SkillsComplement()
 		return
 	end
 	
-	-- castQ2EndDesire, sMotive = X.ConsiderQ2End()
-	-- if castQ2EndDesire > 0
-	-- then
-	-- 	J.SetReportMotive( bDebugMode, sMotive )
+	castQ2EndDesire, sMotive = X.ConsiderQ2End()
+	if castQ2EndDesire > 0
+	then
+		J.SetReportMotive( bDebugMode, sMotive )
 
-	-- 	J.SetQueuePtToINT( bot, false )
+		J.SetQueuePtToINT( bot, false )
 
-	-- 	bot:ActionQueue_UseAbility( abilityQ2End )
-	-- 	return
-	-- end
+		bot:ActionQueue_UseAbility( abilityQ2End )
+		return
+	end
 	
 	castEDesire, castETarget, sMotive = X.ConsiderE()
 	if castEDesire > 0
@@ -376,7 +376,7 @@ end
 function X.ConsiderQ()
 
 	if not abilityQ:IsFullyCastable()
-		and not abilityQ:IsHidden()
+		or abilityQ:IsHidden()
 	then
 		return BOT_ACTION_DESIRE_NONE, nil
 	end
@@ -480,10 +480,16 @@ function X.ConsiderQ()
 
 end
 
+function X.ConsiderQEnd()
+
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
 function X.ConsiderQ2()
 
 	if not abilityQ2:IsFullyCastable()
-		and not abilityQ2:IsHidden()
+		or abilityQ2:IsHidden()
 	then
 		return BOT_ACTION_DESIRE_NONE, nil
 	end
@@ -517,7 +523,7 @@ function X.ConsiderQ2()
 		if bot:WasRecentlyDamagedByAnyHero( 2.5 )
 			and #nEnemyHeroesInRange >= 1
 		then
-			nTargetLocation = J.GetEscapeLoc()
+			nTargetLocation = bot:GetXUnitsInFront(400)
 			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'Q-Retreat:'
 		end
 	end
@@ -598,6 +604,12 @@ function X.ConsiderQ2()
 
 end
 
+function X.ConsiderQ2End()
+
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
 function X.ConsiderW()
 
 	if not abilityW:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
@@ -609,10 +621,14 @@ function X.ConsiderW()
 
 	if J.IsInTeamFight( bot, 1200 )
 	then
-		local npcWeakestEnemy = J.GetVulnerableWeakestUnitWithLotusCheck( bot, true, true, nCastRange )
-		if ( npcWeakestEnemy ~= nil )
-		then
-			return BOT_ACTION_DESIRE_HIGH, npcWeakestEnemy, 'W-Battle-Weakest:'..J.Chat.GetNormName( npcWeakestEnemy )
+		for _, npcEnemy in pairs( nEnemyHeroesInRange )
+		do
+			if J.CanCastOnNonMagicImmune( npcEnemy )
+				and J.CanCastOnTargetAdvanced( npcEnemy )
+				and not npcEnemy:HasModifier( 'modifier_keeper_of_the_light_radiant_bind' )
+			then
+				return BOT_ACTION_DESIRE_HIGH, npcEnemy, 'W-Battle-Weakest:'..J.Chat.GetNormName( npcEnemy )
+			end
 		end
 	end
 
@@ -690,7 +706,7 @@ end
 function X.ConsiderD()
 	
 	if not abilityD:IsFullyCastable()
-		and not abilityD:IsHidden()
+		or abilityD:IsHidden()
 	then
 		return BOT_ACTION_DESIRE_NONE, nil
 	end
@@ -746,8 +762,8 @@ end
 function X.ConsiderF()
 	
 	if not abilityF:IsFullyCastable()
-		and not abilityF:IsHidden()
-		and not bot:HasScepter()
+		or abilityF:IsHidden()
+		or not bot:HasScepter()
 	then
 		return BOT_ACTION_DESIRE_NONE, nil
 	end
@@ -832,8 +848,8 @@ end
 function X.ConsiderR2()
 	
 	if not abilityR2:IsFullyCastable()
-		and not abilityR2:IsHidden()
-		and not abilityR2:IsTrained()
+		or abilityR2:IsHidden()
+		or not abilityR2:IsTrained()
 	then
 		return BOT_ACTION_DESIRE_NONE, nil
 	end
@@ -886,6 +902,7 @@ end
 function X.ConsiderCombo()
 	if bot:IsAlive()
 		and not bot:IsInvisible()
+		and botTarget ~= nil
 		and botTarget:HasModifier( 'modifier_keeper_of_the_light_radiant_bind' )
 	then
 		local item = J.IsItemAvailable( 'item_ethereal_blade' )
