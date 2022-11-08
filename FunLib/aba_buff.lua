@@ -186,7 +186,7 @@ Buff["dispellable_debuffs"] = {
 	"modifier_chaos_knight_reality_rift_debuff",
 	"modifier_chen_penitence",
 	"modifier_crystal_maiden_crystal_nova",
-	"modifier_dark_seer_ion_shell",
+	-- "modifier_dark_seer_ion_shell",
 	"modifier_dark_willow_cursed_crown",
 	"modifier_dark_willow_debuff_fear",
 	"modifier_dazzle_poison_touch",

@@ -414,6 +414,7 @@ function X.ConsiderW()
 			and J.CanCastOnNonMagicImmune( botTarget )
 			and J.CanCastOnTargetAdvanced( botTarget )
 			and J.IsInRange( botTarget, bot, nCastRange )
+			and not J.IsDisabled( botTarget )
 		then
 			return BOT_ACTION_DESIRE_HIGH, botTarget, 'W-Attack:'..J.Chat.GetNormName( botTarget )..' CastRange:'..nCastRange
 		end
@@ -473,9 +474,20 @@ function X.ConsiderR()
 		end
 	end
 
-	if nAoeCount >= 3
+	if nAoeCount >= 2
 	then
 		return BOT_ACTION_DESIRE_HIGH, nAoe.targetloc, 'R-Battle'
+	end
+
+
+	if J.IsInTeamFight( bot, 1200 )
+	then
+		local nAoeLoc = J.GetAoeEnemyHeroLocation( bot, nCastRange, nRadius, 3)
+		if nAoeLoc ~= nil
+		then
+			local nTargetLocation = nAoeLoc
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'R-Battle'
+		end
 	end
 
 
