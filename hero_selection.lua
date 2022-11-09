@@ -177,10 +177,10 @@ local sHasDevelopmentHeroList = {
 	"npc_dota_hero_lina",
 	"npc_dota_hero_night_stalker",
 	"npc_dota_hero_obsidian_destroyer",
+	"npc_dota_hero_silencer",
 	"npc_dota_hero_terrorblade",
 	"npc_dota_hero_venomancer",
 
-	"npc_dota_hero_silencer",
 	"npc_dota_hero_warlock",
 	"npc_dota_hero_necrolyte",
 	"npc_dota_hero_oracle",
@@ -256,7 +256,6 @@ local sFirstList = {
 local sSecondList = {
 
 	-- "npc_dota_hero_keeper_of_the_light",
-	"npc_dota_hero_silencer",
 	"npc_dota_hero_warlock",
 	"npc_dota_hero_necrolyte",
 	"npc_dota_hero_oracle",
@@ -315,6 +314,7 @@ local sFifthList = {
 
 	"npc_dota_hero_lina",
 	"npc_dota_hero_obsidian_destroyer",
+	"npc_dota_hero_silencer",
 	"npc_dota_hero_sniper",
 	"npc_dota_hero_viper",
 	"npc_dota_hero_nevermore",
@@ -332,6 +332,7 @@ local sPriestList = {
 
 	"npc_dota_hero_abaddon",
 	-- "npc_dota_hero_keeper_of_the_light",
+	"npc_dota_hero_silencer",
 	"npc_dota_hero_venomancer",
 
 	"npc_dota_hero_death_prophet",
@@ -341,7 +342,6 @@ local sPriestList = {
 	"npc_dota_hero_oracle",
 	"npc_dota_hero_pugna",
 	"npc_dota_hero_shadow_shaman",
-	"npc_dota_hero_silencer",
 	"npc_dota_hero_skywrath_mage",
 	"npc_dota_hero_warlock",
 	"npc_dota_hero_witch_doctor",
@@ -359,6 +359,7 @@ local sMageList = {
 	"npc_dota_hero_abaddon",
 	-- "npc_dota_hero_keeper_of_the_light",
 	"npc_dota_hero_lina",
+	"npc_dota_hero_silencer",
 	"npc_dota_hero_venomancer",
 
 	"npc_dota_hero_crystal_maiden",
@@ -369,7 +370,6 @@ local sMageList = {
 	"npc_dota_hero_oracle",
 	"npc_dota_hero_pugna",
 	"npc_dota_hero_shadow_shaman",
-	"npc_dota_hero_silencer",
 	"npc_dota_hero_skywrath_mage",
 	"npc_dota_hero_warlock",
 	"npc_dota_hero_witch_doctor",
@@ -387,6 +387,7 @@ local sCarryList = {
 	"npc_dota_hero_abaddon",
 	"npc_dota_hero_night_stalker",
 	"npc_dota_hero_obsidian_destroyer",
+	"npc_dota_hero_silencer",
 	"npc_dota_hero_terrorblade",
 
 	"npc_dota_hero_antimage",
@@ -444,7 +445,6 @@ local sTankList = {
 	"npc_dota_hero_bounty_hunter",
 	"npc_dota_hero_slardar",
 	"npc_dota_hero_legion_commander",
-	"npc_dota_hero_legion_commander",
 	"npc_dota_hero_omniknight",
 
 }
@@ -455,6 +455,7 @@ local sMidList = {
 	-- "npc_dota_hero_keeper_of_the_light",
 	"npc_dota_hero_lina",
 	"npc_dota_hero_obsidian_destroyer",
+	"npc_dota_hero_silencer",
 	
 	"npc_dota_hero_templar_assassin",
 	"npc_dota_hero_phantom_lancer",

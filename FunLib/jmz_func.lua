@@ -2222,6 +2222,13 @@ function J.SetQueueToInvisible( bot )
 			return
 		end
 
+		local itemTricksterCloak = J.IsItemAvailable( 'item_trickster_cloak' )
+		if itemTricksterCloak ~= nil and itemTricksterCloak:IsFullyCastable()
+		then
+			bot:ActionQueue_UseAbility( itemTricksterCloak )
+			return
+		end
+
 	end
 
 

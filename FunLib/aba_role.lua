@@ -1498,6 +1498,7 @@ X["hero_roles"] = {
 
 X["bottle"] = {
 	["npc_dota_hero_lina"] = 1,
+	["npc_dota_hero_silencer"] = 1,
 	
 	["npc_dota_hero_tinker"] = 1,
 	["npc_dota_hero_storm_spirit"] = 1,
@@ -1658,6 +1659,7 @@ X['mid'] = {
 	'npc_dota_hero_keeper_of_the_light',
 	'npc_dota_hero_lina',
 	'npc_dota_hero_obsidian_destroyer',
+	'npc_dota_hero_silencer',
 
 	'npc_dota_hero_alchemist',
 	'npc_dota_hero_arc_warden',
@@ -1696,6 +1698,7 @@ X['safe'] = {
 	'npc_dota_hero_abaddon',
 	'npc_dota_hero_night_stalker',
 	'npc_dota_hero_obsidian_destroyer',
+	'npc_dota_hero_silencer',
 	'npc_dota_hero_terrorblade',
 
 	'npc_dota_hero_antimage',
@@ -1736,6 +1739,7 @@ X['supp'] = {
 	'npc_dota_hero_keeper_of_the_light',
 	'npc_dota_hero_lina',
 	'npc_dota_hero_venomancer',
+	'npc_dota_hero_silencer',
 
 	'npc_dota_hero_ancient_apparition',
 	'npc_dota_hero_bane',
@@ -1760,7 +1764,6 @@ X['supp'] = {
 	'npc_dota_hero_rubick',
 	'npc_dota_hero_shadow_demon',
 	'npc_dota_hero_shadow_shaman',
-	'npc_dota_hero_silencer',
 	'npc_dota_hero_skywrath_mage',
 	'npc_dota_hero_techies',
 	'npc_dota_hero_treant',
@@ -2144,6 +2147,7 @@ function X.IsABAHero()
 		["npc_dota_hero_lina"] = true,
 		["npc_dota_hero_night_stalker"] = true,
 		["npc_dota_hero_obsidian_destroyer"] = true,
+		["npc_dota_hero_silencer"] = true,
 		["npc_dota_hero_terrorblade"] = true,
 		["npc_dota_hero_venomancer"] = true,
 
@@ -2178,7 +2182,6 @@ function X.IsABAHero()
 		["npc_dota_hero_riki"] = true,
 		["npc_dota_hero_sand_king"] = true,
 		["npc_dota_hero_shadow_shaman"] = true,
-		["npc_dota_hero_silencer"] = true,
 		["npc_dota_hero_skeleton_king"] = true,
 		["npc_dota_hero_skywrath_mage"] = true,
 		["npc_dota_hero_sniper"] = true,

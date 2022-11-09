@@ -3462,7 +3462,8 @@ X.ConsiderItemDesire["item_refresher"] = function( hItem )
 
 
 	if J.IsGoingOnSomeone( bot )
-		and J.CanUseRefresherShard( bot )
+		and J.CanUseRefresherOrb( bot )
+		and bot:GetUnitName() ~= "npc_dota_hero_silencer"
 	then
 		hEffectTarget = bot
 		sCastMotive = '进攻'
@@ -3476,7 +3477,23 @@ end
 --刷新碎片
 X.ConsiderItemDesire["item_refresher_shard"] = function( hItem )
 
-	return X.ConsiderItemDesire["item_refresher"]( hItem )
+	local nCastRange = 1000
+	local sCastType = 'none'
+	local hEffectTarget = nil
+	local sCastMotive = nil
+	local nInRangeEnmyList = bot:GetNearbyHeroes( nCastRange, true, BOT_MODE_NONE )
+
+
+	if J.IsGoingOnSomeone( bot )
+		and J.CanUseRefresherShard( bot )
+		and bot:GetUnitName() ~= "npc_dota_hero_silencer"
+	then
+		hEffectTarget = bot
+		sCastMotive = '进攻'
+		return BOT_ACTION_DESIRE_HIGH, hEffectTarget, sCastType, sCastMotive
+	end
+
+	return BOT_ACTION_DESIRE_NONE
 
 end
 
