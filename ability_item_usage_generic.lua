@@ -1019,55 +1019,42 @@ X.ConsiderItemDesire["item_black_king_bar"] = function( hItem )
 	local sCastType = 'none'
 	local hEffectTarget = nil
 	local sCastMotive = nil
-	local nInRangeEnmyList = bot:GetNearbyHeroes( nCastRange, true, BOT_MODE_NONE )
+	local nAlliedHeroesInRange = bot:GetNearbyHeroes( nCastRange, false, BOT_MODE_NONE )
+	local nEnemyHeroesInRange = bot:GetNearbyHeroes( nCastRange, true, BOT_MODE_NONE )
 
 
-	if #nInRangeEnmyList > 0
+	if #nEnemyHeroesInRange >= #nAlliedHeroesInRange
 		and not bot:IsMagicImmune()
 		and not bot:IsInvulnerable()
 		and not bot:HasModifier( 'modifier_item_lotus_orb_active' )
+		and not bot:HasModifier( 'modifier_item_sphere_target' )
 		and not bot:HasModifier( 'modifier_antimage_spell_shield' )
-		and ( J.IsGoingOnSomeone( bot ) or J.IsRetreating( bot ) )
 	then
-		if bot:IsRooted()
+		if J.IsInTeamFight( bot, 1200 )
 		then
-			sCastMotive = '解缠绕'
+			sCastMotive = 'BKB-Battle'
 			return BOT_ACTION_DESIRE_HIGH, bot, sCastType, sCastMotive
 		end
 
-		if bot:IsSilenced()
-			and bot:GetMana() > 100
-			and not bot:HasModifier( "modifier_item_mask_of_madness_berserk" )
-			and J.GetEnemyCount( bot, 600 ) >= 2
+		if J.IsDisabled()
 		then
-			sCastMotive = '解沉默'
+			sCastMotive = 'BKB-Dispel'
 			return BOT_ACTION_DESIRE_HIGH, bot, sCastType, sCastMotive
 		end
 
 		if J.IsNotAttackProjectileIncoming( bot, 350 )
+			or J.IsWillBeCastUnitTargetSpell( bot, nCastRange )
+			or J.IsWillBeCastPointSpell( bot, nCastRange )
 		then
-			sCastMotive = '防御弹道'
+			sCastMotive = 'BKB-Dispel'
 			return BOT_ACTION_DESIRE_HIGH, bot, sCastType, sCastMotive
 		end
 
-		if J.IsWillBeCastUnitTargetSpell( bot, nCastRange )
+		if J.IsGoingOnSomeone( bot )
 		then
-			sCastMotive = '防御指向技能'
+			sCastMotive = 'BKB-Attack'
 			return BOT_ACTION_DESIRE_HIGH, bot, sCastType, sCastMotive
 		end
-
-		if J.IsWillBeCastPointSpell( bot, nCastRange )
-		then
-			sCastMotive = '防御地点技能'
-			return BOT_ACTION_DESIRE_HIGH, bot, sCastType, sCastMotive
-		end
-
-		if J.GetEnemyCount( bot, 800 ) >= 3
-		then
-			sCastMotive = '先开BKB切入'
-			return BOT_ACTION_DESIRE_HIGH, bot, sCastType, sCastMotive
-		end
-
 	end
 
 	return BOT_ACTION_DESIRE_NONE
@@ -2032,14 +2019,12 @@ X.ConsiderItemDesire["item_glimmer_cape"] = function( hItem )
 
 	if	bot:DistanceFromFountain() > 600
 		and #hNearbyEnemyTowerList == 0
-		and not bot:HasModifier( 'modifier_item_dustofappearance' )
-		and not bot:HasModifier( 'modifier_slardar_amplify_damage' )
-		and not bot:HasModifier( 'modifier_item_glimmer_cape' )
+		and not J.HasInvisibilityBuff( bot )
 		and not bot:IsInvulnerable()
 		and not bot:IsMagicImmune()
 	then
 
-		if bot:IsSilenced() or bot:IsRooted() or J.IsStunProjectileIncoming( bot, 1000 )
+		if bot:IsSilenced() or J.IsStunProjectileIncoming( bot, 1000 )
 		then
 			hEffectTarget = bot
 			sCastMotive = '自己被缠绕或沉默了'
@@ -2069,10 +2054,8 @@ X.ConsiderItemDesire["item_glimmer_cape"] = function( hItem )
 				and not npcAlly:IsMagicImmune()
 				and not npcAlly:IsInvulnerable()
 				and not npcAlly:IsInvisible()
+				and not J.HasInvisibilityBuff( npcAlly )
 				and npcAlly:DistanceFromFountain() > 600
-				and not npcAlly:HasModifier( 'modifier_item_glimmer_cape' )
-				and not npcAlly:HasModifier( 'modifier_item_dustofappearance' )
-				and not npcAlly:HasModifier( 'modifier_slardar_amplify_damage' )
 				and not npcAlly:HasModifier( 'modifier_arc_warden_tempest_double' )
 			then
 				local nNearbyAllyEnemyTowers = npcAlly:GetNearbyTowers( 888, true )
@@ -3976,9 +3959,9 @@ X.ConsiderItemDesire["item_tango_single"] = function( hItem )
 			if nLostHealth > nUseTangoLostHealth
 				and IsLocationVisible( targetTreeLoc )
 				and IsLocationPassable( targetTreeLoc )
-				and ( #nearEnemyList == 0 or not J.IsInRange( bot, nearestEnemy, 800 ) )
-				and ( #nearEnemyList == 0 or GetUnitToLocationDistance( bot, targetTreeLoc ) * 1.6 < GetUnitToUnitDistance( bot, nearestEnemy ) )
-				and ( #nearTowerList == 0 or GetUnitToLocationDistance( nearestTower, targetTreeLoc ) > 920 )
+				and ( #nearEnemyList >= 0 or not J.IsInRange( bot, nearestEnemy, 800 ) )
+				and ( #nearEnemyList >= 0 or GetUnitToLocationDistance( bot, targetTreeLoc ) * 1.6 < GetUnitToUnitDistance( bot, nearestEnemy ) )
+				and ( #nearTowerList >= 0 or GetUnitToLocationDistance( nearestTower, targetTreeLoc ) > 920 )
 			then
 				hEffectTarget = targetTree
 				sCastMotive = '800码内的树'
@@ -4053,7 +4036,7 @@ X.ConsiderItemDesire["item_tango_single"] = function( hItem )
 			if trees[1] ~= nil
 				and IsLocationVisible( GetTreeLocation( trees[1] ) )
 				and IsLocationPassable( GetTreeLocation( trees[1] ) )
-				and #hNearbyEnemyHeroList == 0
+				and #hNearbyEnemyHeroList >= 0
 			then
 				hEffectTarget = trees[1]
 				sCastMotive = '消耗共享吃树'
@@ -4068,7 +4051,7 @@ X.ConsiderItemDesire["item_tango_single"] = function( hItem )
 				and IsLocationVisible( GetTreeLocation( trees[1] ) )
 				and IsLocationPassable( GetTreeLocation( trees[1] ) )
 				and nLostHealth > 60
-				and #hNearbyEnemyHeroList == 0
+				and #hNearbyEnemyHeroList >= 0
 			then
 				hEffectTarget = trees[1]
 				sCastMotive = '用掉共享吃树'
@@ -4936,10 +4919,12 @@ end
 function X.HasInvisibilityOrItem( npcEnemy )
 
 	if npcEnemy:HasInvisibility( false )
+		or J.HasInvisibilityBuff( npcTarget )
 		or J.HasItem( npcEnemy, "item_shadow_amulet" )
 		or J.HasItem( npcEnemy, "item_glimmer_cape" )
 		or J.HasItem( npcEnemy, "item_invis_sword" )
 		or J.HasItem( npcEnemy, "item_silver_edge" )
+		or J.HasItem( npcEnemy, "item_trickster_cloak" )
 	then
 		return true
 	end

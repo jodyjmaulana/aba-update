@@ -1061,6 +1061,21 @@ function J.ShouldDispelStrongDebuff( npcTarget )
 end
 
 
+function J.HasInvisibilityBuff( npcTarget )
+
+	for _, modifier in pairs( J.Buff["invisible_buffs"] )
+	do
+		if npcTarget:HasModifier( modifier )
+		then
+			return true
+		end
+	end
+
+	return false
+
+end
+
+
 function J.IsDisabled( npcTarget )
 
 	if npcTarget:GetTeam() ~= GetTeam()
@@ -4170,6 +4185,7 @@ J.ShouldEscape( bot )
 J.ShouldDispelBuff( npcTarget )
 J.ShouldDispelDebuff( npcTarget )
 J.ShouldDispelStrongDebuff( npcTarget )
+J.HasInvisibilityBuff( npcTarget )
 J.IsDisabled( npcTarget )
 J.IsTaunted( npcTarget )
 J.IsInRange( bot, npcTarget, nCastRange )

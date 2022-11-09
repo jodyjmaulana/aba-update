@@ -106,34 +106,34 @@ Buff["hero_is_healing"] = {
 }
 
 
-Buff["hero_not_invisible"] = {
+Buff["truesight_buffs"] = {
 
-"modifier_item_dustofappearance",
-"modifier_sniper_assassinate",
-"modifier_bounty_hunter_track",
-"modifier_slardar_amplify_damage",
-"modifier_bloodseeker_thirst_vision",
-"modifier_bane_fiends_grip",
-"modifier_bane_fiends_grip_cast_illusion",
-"modifier_oracle_fortunes_end_purge",
-"modifier_shadow_shaman_shackles",
---渔网诱捕
-"modifier_rod_of_atos_debuff",
-"modifier_gungnir_debuff",
-"modifier_meepo_earthbind",
-"modifier_naga_siren_ensnare",
-"modifier_crystal_maiden_frostbite",
-"modifier_ember_spirit_searing_chains",
-"modifier_legion_commander_duel",
-"modifier_pugna_life_drain",
-"modifier_pudge_dismember",
-"modifier_treant_natures_guise_root",
-"modifier_treant_overgrowth",
-"modifier_abyssal_underlord_pit_of_malice_ensare",
-"modifier_aghsfort_lich_sinister_gaze",
-"modifier_lone_druid_spirit_bear_entangle_effect",
-"modifier_troll_warlord_berserkers_rage_ensnare",
-"modifier_truesight",
+	"modifier_item_dustofappearance",
+	"modifier_sniper_assassinate",
+	"modifier_bounty_hunter_track",
+	"modifier_slardar_amplify_damage",
+	"modifier_bloodseeker_thirst_vision",
+	"modifier_bane_fiends_grip",
+	"modifier_bane_fiends_grip_cast_illusion",
+	"modifier_oracle_fortunes_end_purge",
+	"modifier_shadow_shaman_shackles",
+	--渔网诱捕
+	"modifier_rod_of_atos_debuff",
+	"modifier_gungnir_debuff",
+	"modifier_meepo_earthbind",
+	"modifier_naga_siren_ensnare",
+	"modifier_crystal_maiden_frostbite",
+	"modifier_ember_spirit_searing_chains",
+	"modifier_legion_commander_duel",
+	"modifier_pugna_life_drain",
+	"modifier_pudge_dismember",
+	"modifier_treant_natures_guise_root",
+	"modifier_treant_overgrowth",
+	"modifier_abyssal_underlord_pit_of_malice_ensare",
+	"modifier_aghsfort_lich_sinister_gaze",
+	"modifier_lone_druid_spirit_bear_entangle_effect",
+	"modifier_troll_warlord_berserkers_rage_ensnare",
+	"modifier_truesight",
 
 }
 
@@ -313,6 +313,31 @@ Buff["dispellable_buffs"] = {
 	"modifier_rune_haste",
 	"modifier_rune_regen",
 	
+}
+
+
+Buff["invisible_buffs"] = {
+
+	"modifier_invisible",
+	"modifier_bounty_hunter_wind_walk",
+	"modifier_clinkz_wind_walk",
+	"modifier_item_glimmer_cape_fade",
+	"modifier_item_trickster_cloak_invis",
+	-- Hoodwink Decoy buff
+	"modifier_rune_invis",
+	"modifier_invoker_ghost_walk_self",
+	"modifier_mirana_moonlight_shadow",
+	"modifier_nyx_assassin_vendetta",
+	"modifier_nyx_assassin_burrow",
+	"modifier_oracle_false_promise_invis",
+	"modifier_sandking_sand_storm",
+	"modifier_item_shadow_amulet_fade",
+	"modifier_item_invisibility_edge_windwalk",
+	"modifier_item_silver_edge_windwalk",
+	"modifier_templar_assassin_meld",
+	"modifier_weaver_shukuchi",
+	"modifier_windrunner_windrun_invis",
+
 }
 
 
