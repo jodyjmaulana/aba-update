@@ -441,20 +441,20 @@ function X.ConsiderE()
 		do
 			if J.IsValidHero( npcEnemy )
 				and not botTarget:IsAttackImmune()
-				and J.IsAllowedToSpam( bot, nManaCost )
-				and nMP >= 0.5
-			then
-				nTargetLocation = J.GetCastLocation( bot, botTarget, nCastRange, nRadius ) + RandomVector( nRadius * 0.5 )
-				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "E-SpamHarass:"..J.Chat.GetNormName( npcEnemy )
-			end
-
-			if J.IsValidHero( npcEnemy )
-				and not botTarget:IsAttackImmune()
 				and J.IsInRange( npcEnemy, bot, nCastRange + nRadius )
 				and J.IsHealing( npcEnemy )
 			then
 				nTargetLocation = J.GetCastLocation( bot, botTarget, nCastRange, nRadius ) + RandomVector( nRadius * 0.5 )
 				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "E-DispelHeal:"..J.Chat.GetNormName( npcEnemy )
+			end
+
+			if J.IsValidHero( npcEnemy )
+				and not botTarget:IsAttackImmune()
+				and J.IsAllowedToSpam( bot, nManaCost )
+				and nMP >= 0.5
+			then
+				nTargetLocation = J.GetCastLocation( bot, botTarget, nCastRange, nRadius ) + RandomVector( nRadius * 0.5 )
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "E-SpamHarass:"..J.Chat.GetNormName( npcEnemy )
 			end
 		end
 	end

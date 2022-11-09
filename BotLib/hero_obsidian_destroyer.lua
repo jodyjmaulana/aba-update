@@ -343,6 +343,7 @@ function X.ConsiderW()
 			and not npcAlly:HasModifier( 'modifier_obsidian_destroyer_astral_imprisonment_prison' )
 			and (
 				npcAlly:HasModifier( 'modifier_winter_wyvern_winters_curse' )
+				or npcAlly:HasModifier( 'modifier_necrolyte_reapers_scythe' )
 				or ( npcAlly:HasModifier( 'modifier_legion_commander_duel' ) and npcAlly:GetUnitName() ~= "npc_dota_hero_legion_commander" )
 				or ( npcAlly:HasModifier( 'modifier_sniper_assassinate' ) and J.IsWillBeCastUnitTargetSpell( npcAlly, 1400 ) )
 			)
@@ -380,6 +381,7 @@ function X.ConsiderW()
 			and J.CanCastOnNonMagicImmune( npcEnemy )
 			and J.CanCastOnTargetAdvanced( npcEnemy )
 			and ( npcEnemy:IsChanneling() or npcEnemy:IsCastingAbility() )
+			and not J.IsDisabled( botTarget )
 		then
 			return BOT_ACTION_DESIRE_HIGH, npcEnemy, 'W-Interrupt:'..J.Chat.GetNormName( npcEnemy )
 		end
@@ -388,6 +390,7 @@ function X.ConsiderW()
 			and J.CanCastOnNonMagicImmune( npcEnemy )
 			and J.CanCastOnTargetAdvanced( npcEnemy )
 			and J.WillMagicKillTarget( bot, npcEnemy, nDamage, nCastPoint )
+			and not J.IsDisabled( botTarget )
 		then
 			return BOT_ACTION_DESIRE_HIGH, npcEnemy, 'W-Kill:'..J.Chat.GetNormName( npcEnemy )
 		end
@@ -395,6 +398,7 @@ function X.ConsiderW()
 		if J.IsValidHero( npcEnemy )
 			and J.CanCastOnNonMagicImmune( npcEnemy )
 			and J.CanCastOnTargetAdvanced( npcEnemy )
+			and not J.IsDisabled( botTarget )
 			and npcEnemy:GetMaxMana() > nMostMana
 		then
 			nMostManaEnemy = npcEnemy

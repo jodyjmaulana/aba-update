@@ -181,7 +181,7 @@ nAbilityBuildList, nTalentBuildList, X['sBuyList'], X['sSellList'] = J.SetUserHe
 X['sSkillList'] = J.Skill.GetSkillList( sAbilityList, nAbilityBuildList, sTalentList, nTalentBuildList )
 
 X['bDeafaultAbility'] = false
-X['bDeafaultItem'] = true
+X['bDeafaultItem'] = false
 
 
 function X.MinionThink( hMinionUnit )
@@ -327,6 +327,15 @@ function X.ConsiderQ()
 			nTargetLocation = botTarget:GetExtrapolatedLocation( nCastPoint )
 			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'Q-Kill:'..J.Chat.GetNormName( npcEnemy )
 		end
+		
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.IsInRange( npcEnemy, bot, nCastRange + nRadius )
+			and J.IsHealing( npcEnemy )
+		then
+			nTargetLocation = botTarget:GetExtrapolatedLocation( nCastPoint )
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'Q-DispelHeal:'..J.Chat.GetNormName( npcEnemy )
+		end
 	end
 	
 	
@@ -383,19 +392,32 @@ function X.ConsiderQ()
 	if J.IsLaning( bot )
 	then
 		nAoeLoc = J.GetAoeEnemyHeroLocation( bot, nCastRange, nRadius, 2 )
-		if nAoeLoc ~= nil and nMP > 0.58
+		if nAoeLoc ~= nil
+			and nMP > 0.58
 		then
 			nTargetLocation = nAoeLoc
 			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'Q-Harass'
 		end
 
+		if #hAllyList == 1
+			and #nEnemyHeroesInRange == 1
+			and nMP > 0.48
+		then
+			nAoeLoc = J.GetAoeEnemyHeroLocation( bot, nCastRange, nRadius, 1 )
+			if nAoeLoc ~= nil
+			then
+				nTargetLocation = nAoeLoc
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Q-Harass"
+			end
+		end
+
 		if #hAllyList == 1 and nMP > 0.38
 		then
-			local locationAoEKill = bot:FindAoELocation( true, false, bot:GetLocation(), nCastRange, nRadius, 0, nDamage )
+			local locationAoEKill = bot:FindAoELocation( true, false, bot:GetLocation(), nCastRange, nRadius, 0, 0 )
 			if locationAoEKill.count >= 3
 			then
 				nTargetLocation = locationAoEKill.targetloc
-				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Q-ClearWave"..locationAoEKill.count
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Q-ClearWave:"..locationAoEKill.count
 			end
 		end
 	end
@@ -410,18 +432,18 @@ function X.ConsiderQ()
 			and J.IsValid( nEnemyCreeps[1] )
 			and not nEnemyCreeps[1]:HasModifier( "modifier_fountain_glyph" )
 		then
-			local locationAoEKill = bot:FindAoELocation( true, false, bot:GetLocation(), nCastRange, nRadius, 0, nDamage )
+			local locationAoEKill = bot:FindAoELocation( true, false, bot:GetLocation(), nCastRange, nRadius, 0, 0 )
 			if locationAoEKill.count >= 2
 			then
 				nTargetLocation = locationAoEKill.targetloc
-				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Q-ClearWave"..locationAoEKill.count
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Q-ClearWave:"..locationAoEKill.count
 			end
 			
-			local locationAoEHurt = bot:FindAoELocation( true, false, bot:GetLocation(), nCastRange, nRadius, 0, 0 )
+			local locationAoEHurt = bot:FindAoELocation( true, false, bot:GetLocation(), nCastRange, nRadius, 0, nDamage )
 			if ( locationAoEHurt.count >= 3 and #nEnemyCreeps >= 4 )
 			then
 				nTargetLocation = locationAoEHurt.targetloc
-				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Q-Push"..locationAoEHurt.count
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Q-Push:"..locationAoEHurt.count
 			end
 		end
 	end
@@ -445,6 +467,17 @@ function X.ConsiderQ()
 				nTargetLocation = targetCreep:GetExtrapolatedLocation( nCastPoint )
 				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Q-Farm:"..( #nNeutralCreeps )
 			end
+		end
+	end
+
+	
+	if J.IsDefending( bot )
+	then
+		nAoeLoc = J.GetAoeEnemyHeroLocation( bot, nCastRange, nRadius, 1 )
+		if nAoeLoc ~= nil
+		then
+			nTargetLocation = nAoeLoc
+			return BOT_ACTION_DESIRE_VERYHIGH, nTargetLocation, 'Q-Defend'
 		end
 	end
 
@@ -503,8 +536,40 @@ function X.ConsiderW()
 			nTargetLocation = J.GetDelayCastLocation( bot, npcEnemy, nCastRange, nRadius, nCastPoint + nCastDelay )
 			if nTargetLocation ~= nil
 			then
-				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "W-Interrupt:"..J.Chat.GetNormName( npcEnemy )
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "W-Kill:"..J.Chat.GetNormName( npcEnemy )
 			end
+		end
+
+		if J.IsValidHero( npcEnemy )
+			and J.IsInRange( botTarget, bot, nCastRange + nRadius )
+			and ( ( botTarget:HasModifier( 'modifier_obsidian_destroyer_astral_imprisonment_prison' )
+					and J.GetModifierTime( botTarget, 'modifier_obsidian_destroyer_astral_imprisonment_prison' ) < nCastPoint + nCastDelay
+					and J.GetModifierTime( botTarget, 'modifier_obsidian_destroyer_astral_imprisonment_prison' ) >= ( nCastPoint + nCastDelay - 0.5 )
+				)
+				or (
+					botTarget:HasModifier( 'modifier_shadow_demon_disruption' )
+					and J.GetModifierTime( botTarget, 'modifier_shadow_demon_disruption' ) < nCastPoint + nCastDelay
+					and J.GetModifierTime( botTarget, 'modifier_shadow_demon_disruption' ) >= ( nCastPoint + nCastDelay - 0.5 )
+				)
+				or (
+					botTarget:HasModifier( 'modifier_wind_waker' )
+					and J.GetModifierTime( botTarget, 'modifier_wind_waker' ) < nCastPoint + nCastDelay
+					and J.GetModifierTime( botTarget, 'modifier_wind_waker' ) >= ( nCastPoint + nCastDelay - 0.5 )
+				)
+				or (
+					botTarget:HasModifier( 'modifier_eul_cyclone' )
+					and J.GetModifierTime( botTarget, 'modifier_eul_cyclone' ) < nCastPoint + nCastDelay
+					and J.GetModifierTime( botTarget, 'modifier_eul_cyclone' ) >= ( nCastPoint + nCastDelay - 0.5 )
+				)
+				or (
+					botTarget:HasModifier( 'modifier_invoker_tornado' )
+					and J.GetModifierTime( botTarget, 'modifier_invoker_tornado' ) < nCastPoint + nCastDelay
+					and J.GetModifierTime( botTarget, 'modifier_invoker_tornado' ) >= ( nCastPoint + nCastDelay - 0.5 )
+				)
+			)
+		then
+			nTargetLocation = J.GetCastLocation( bot, botTarget, nCastRange, nRadius )
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "W-ChainStun:"..J.Chat.GetNormName( npcEnemy )
 		end
 	end
 	
@@ -577,11 +642,11 @@ function X.ConsiderW()
 
 		if #hAllyList == 1 and nMP > 0.38
 		then
-			local locationAoEKill = bot:FindAoELocation( true, false, bot:GetLocation(), nCastRange, nRadius, 0, nDamage )
+			local locationAoEKill = bot:FindAoELocation( true, false, bot:GetLocation(), nCastRange, nRadius, 0, 0 )
 			if locationAoEKill.count >= 3
 			then
 				nTargetLocation = locationAoEKill.targetloc
-				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "W-ClearWave"..locationAoEKill.count
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "W-ClearWave:"..locationAoEKill.count
 			end
 		end
 	end
@@ -596,18 +661,18 @@ function X.ConsiderW()
 			and J.IsValid( nEnemyCreeps[1] )
 			and not nEnemyCreeps[1]:HasModifier( "modifier_fountain_glyph" )
 		then
-			local locationAoEKill = bot:FindAoELocation( true, false, bot:GetLocation(), nCastRange, nRadius, 0, nDamage )
+			local locationAoEKill = bot:FindAoELocation( true, false, bot:GetLocation(), nCastRange, nRadius, 0, 0 )
 			if locationAoEKill.count >= 2
 			then
 				nTargetLocation = locationAoEKill.targetloc
-				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "W-ClearWave"..locationAoEKill.count
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "W-ClearWave:"..locationAoEKill.count
 			end
 			
-			local locationAoEHurt = bot:FindAoELocation( true, false, bot:GetLocation(), nCastRange, nRadius, 0, 0 )
+			local locationAoEHurt = bot:FindAoELocation( true, false, bot:GetLocation(), nCastRange, nRadius, 0, nDamage )
 			if ( locationAoEHurt.count >= 3 and #nEnemyCreeps >= 4 )
 			then
 				nTargetLocation = locationAoEHurt.targetloc
-				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "W-Push"..locationAoEHurt.count
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "W-Push:"..locationAoEHurt.count
 			end
 		end
 	end
@@ -631,6 +696,17 @@ function X.ConsiderW()
 				nTargetLocation = targetCreep:GetExtrapolatedLocation( nCastPoint )
 				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "W-Farm:"..( #nNeutralCreeps )
 			end
+		end
+	end
+
+	
+	if J.IsDefending( bot )
+	then
+		nAoeLoc = J.GetAoeEnemyHeroLocation( bot, nCastRange, nRadius, 1 )
+		if nAoeLoc ~= nil
+		then
+			nTargetLocation = nAoeLoc
+			return BOT_ACTION_DESIRE_VERYHIGH, nTargetLocation, 'W-Defend'
 		end
 	end
 
@@ -712,6 +788,18 @@ function X.ConsiderR()
 		end
 	end
 	
+	
+	if J.IsGoingOnSomeone( bot )
+	then
+		if J.IsValidHero( botTarget )
+			and X.CanCastAbilityROnTarget( botTarget )
+			and J.IsInRange( botTarget, bot, nCastRange )
+			and J.WillMagicKillTarget( bot, botTarget, nDamage * 1.88, nCastPoint + 0.25 )
+		then
+			return BOT_ACTION_DESIRE_HIGH, botTarget, "R-Attack"..J.Chat.GetNormName( botTarget )
+		end
+	end
+	
 
 	if J.IsInTeamFight( bot, 1200 )
 		or ( nHP < 0.3 and nSkillLV >= 2 )
@@ -732,18 +820,6 @@ function X.ConsiderR()
 		if ( npcWeakestEnemy ~= nil )
 		then
 			return BOT_ACTION_DESIRE_HIGH, npcWeakestEnemy, 'R-Battle'..J.Chat.GetNormName( npcWeakestEnemy )
-		end
-	end
-	
-	
-	if J.IsGoingOnSomeone( bot )
-	then
-		if J.IsValidHero( botTarget )
-			and X.CanCastAbilityROnTarget( botTarget )
-			and J.IsInRange( botTarget, bot, nCastRange )
-			and J.WillMagicKillTarget( bot, botTarget, nDamage * 1.88, nCastPoint + 0.25 )
-		then
-			return BOT_ACTION_DESIRE_HIGH, botTarget, "R-Attack"..J.Chat.GetNormName( botTarget )
 		end
 	end
 
