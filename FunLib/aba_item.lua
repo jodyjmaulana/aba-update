@@ -827,6 +827,7 @@ local tDefineItemRealName = {
 
 
 ['item_mid_outfit'] = "item_power_treads",
+['item_mid_lina_outfit'] = "item_phase_boots",
 ['item_templar_assassin_outfit'] = "item_power_treads",
 ['item_obsidian_destroyer_outfit'] = "item_power_treads",
 
@@ -841,11 +842,13 @@ local tDefineItemRealName = {
 
 
 ['item_tank_outfit'] = "item_power_treads",
+['item_tank_lina_outfit'] = "item_phase_boots",
 ['item_dragon_knight_outfit'] = "item_power_treads",
 ['item_ogre_magi_outfit'] = "item_power_treads",
 
 
 ['item_mage_outfit'] = "item_tranquil_boots",
+['item_mage_lina_outfit'] = "item_arcane_boots",
 ['item_crystal_maiden_outfit'] = "item_power_treads",
 ['item_abaddon_outfit'] = "item_tranquil_boots",
 ['item_venomancer_outfit'] = "item_tranquil_boots",
@@ -899,6 +902,8 @@ Item['item_broken_soul_ring']		= { 'item_ring_of_protection', 'item_recipe_soul_
 
 Item['item_mid_outfit']					= { 'item_tango', 'item_faerie_fire', 'item_double_branches', 'item_wraith_band', 'item_flask', 'item_magic_stick', 'item_recipe_magic_wand', 'item_flask', 'item_power_treads_agi' }
 
+Item['item_mid_lina_outfit']			= { 'item_tango', 'item_faerie_fire', 'item_double_branches', 'item_flask', 'item_magic_stick', 'item_recipe_magic_wand', 'item_falcon_blade', 'item_phase_boots' }
+
 Item['item_templar_assassin_outfit']	= { 'item_tango', 'item_faerie_fire', 'item_double_branches', 'item_wraith_band', 'item_flask', 'item_magic_stick', 'item_recipe_magic_wand', 'item_flask', 'item_power_treads_agi', 'item_blight_stone' }
 
 Item['item_obsidian_destroyer_outfit']	= { 'item_tango', 'item_crown', 'item_ring_of_health', 'item_void_stone', 'item_recipe_meteor_hammer', 'item_power_treads_int' }
@@ -926,6 +931,8 @@ Item['item_bristleback_outfit']			= { 'item_tango', 'item_flask', 'item_quelling
 
 Item['item_tank_outfit']				= { 'item_tango', 'item_flask', 'item_quelling_blade', 'item_double_branches', 'item_circlet', 'item_magic_stick', 'item_gauntlets', 'item_recipe_bracer', 'item_flask', 'item_recipe_magic_wand', 'item_power_treads_str' }
 
+Item['item_tank_lina_outfit']			= { 'item_tango', 'item_double_branches', 'item_circlet', 'item_mantle', 'item_magic_stick', 'item_recipe_null_talisman', 'item_flask', 'item_phase_boots', 'item_recipe_magic_wand' }
+
 Item['item_dragon_knight_outfit']		= { 'item_tango', 'item_flask', 'item_quelling_blade', 'item_double_branches', 'item_gauntlets', 'item_magic_stick', 'item_flask', 'item_recipe_magic_wand', 'item_gauntlets', 'item_power_treads_str', 'item_broken_soul_ring' }
 
 Item['item_ogre_magi_outfit']			= { 'item_tango', 'item_flask', 'item_quelling_blade', 'item_double_branches', 'item_circlet', 'item_magic_stick', 'item_mantle', 'item_recipe_null_talisman', 'item_flask', 'item_recipe_magic_wand', 'item_power_treads', 'item_hand_of_midas' }
@@ -941,6 +948,8 @@ Item['item_priest_2_outfit']			= { 'item_tango', 'item_tango', 'item_branches', 
 
 
 Item['item_mage_outfit']				= { 'item_tango', 'item_double_branches', 'item_circlet', 'item_mantle', 'item_magic_stick', 'item_recipe_null_talisman', 'item_flask', 'item_tranquil_boots', 'item_recipe_magic_wand' }
+
+Item['item_mage_lina_outfit']			= { 'item_tango', 'item_double_clarity', 'item_ring_of_basilius', 'item_arcane_boots' }
 
 Item['item_crystal_maiden_outfit']		= { 'item_tango', 'item_double_branches', 'item_circlet', 'item_mantle', 'item_magic_stick', 'item_recipe_null_talisman', 'item_flask', 'item_power_treads_int', 'item_recipe_magic_wand' }
 

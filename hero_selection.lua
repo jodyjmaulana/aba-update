@@ -174,6 +174,7 @@ local sHasDevelopmentHeroList = {
 
 	"npc_dota_hero_abaddon",
 	-- "npc_dota_hero_keeper_of_the_light",
+	"npc_dota_hero_lina",
 	"npc_dota_hero_night_stalker",
 	"npc_dota_hero_obsidian_destroyer",
 	"npc_dota_hero_terrorblade",
@@ -193,7 +194,6 @@ local sHasDevelopmentHeroList = {
 	"npc_dota_hero_zuus",
 	"npc_dota_hero_jakiro",
 	"npc_dota_hero_skywrath_mage",
-	"npc_dota_hero_lina",
 	"npc_dota_hero_queenofpain",
 	"npc_dota_hero_pugna",
 	"npc_dota_hero_shadow_shaman",
@@ -245,7 +245,6 @@ local sFirstList = {
 	"npc_dota_hero_zuus",
 	"npc_dota_hero_jakiro",
 	"npc_dota_hero_skywrath_mage",
-	"npc_dota_hero_lina",
 	"npc_dota_hero_queenofpain",
 	"npc_dota_hero_pugna",
 	"npc_dota_hero_shadow_shaman",
@@ -314,14 +313,15 @@ local sFourthList = {
 
 local sFifthList = {
 
+	"npc_dota_hero_lina",
+	"npc_dota_hero_obsidian_destroyer",
 	"npc_dota_hero_sniper",
 	"npc_dota_hero_viper",
 	"npc_dota_hero_nevermore",
-	"npc_dota_hero_medusa", 
+	"npc_dota_hero_medusa",
 	"npc_dota_hero_templar_assassin",
 	"npc_dota_hero_razor",
 	"npc_dota_hero_mirana",
-	"npc_dota_hero_obsidian_destroyer",
 	
 }
 
@@ -337,7 +337,6 @@ local sPriestList = {
 	"npc_dota_hero_death_prophet",
 	"npc_dota_hero_jakiro",
 	"npc_dota_hero_lich",
-	"npc_dota_hero_lina",
 	"npc_dota_hero_necrolyte",
 	"npc_dota_hero_oracle",
 	"npc_dota_hero_pugna",
@@ -359,13 +358,13 @@ local sMageList = {
 
 	"npc_dota_hero_abaddon",
 	-- "npc_dota_hero_keeper_of_the_light",
+	"npc_dota_hero_lina",
 	"npc_dota_hero_venomancer",
 
 	"npc_dota_hero_crystal_maiden",
 	"npc_dota_hero_death_prophet",
 	"npc_dota_hero_jakiro",
 	"npc_dota_hero_lich",
-	"npc_dota_hero_lina",
 	"npc_dota_hero_necrolyte",
 	"npc_dota_hero_oracle",
 	"npc_dota_hero_pugna",
@@ -431,6 +430,7 @@ local sCarryList = {
 local sTankList = {
 
 	"npc_dota_hero_abaddon",
+	"npc_dota_hero_lina",
 	"npc_dota_hero_night_stalker",
 	"npc_dota_hero_obsidian_destroyer",
 
@@ -453,6 +453,7 @@ local sTankList = {
 local sMidList = {
 
 	-- "npc_dota_hero_keeper_of_the_light",
+	"npc_dota_hero_lina",
 	"npc_dota_hero_obsidian_destroyer",
 	
 	"npc_dota_hero_templar_assassin",

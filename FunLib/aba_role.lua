@@ -1497,11 +1497,12 @@ X["hero_roles"] = {
 }
 
 X["bottle"] = {
+	["npc_dota_hero_lina"] = 1,
+	
 	["npc_dota_hero_tinker"] = 1,
 	["npc_dota_hero_storm_spirit"] = 1,
 	["npc_dota_hero_pudge"] = 1,
 	["npc_dota_hero_ember_spirit"] = 1,
-	["npc_dota_hero_lina"] = 1,
 	["npc_dota_hero_zuus"] = 1,
 	["npc_dota_hero_queenofpain"] = 1,
 	["npc_dota_hero_templar_assassin"] = 1,
@@ -1520,6 +1521,7 @@ X["bottle"] = {
 
 X["phase_boots"] = {
 		["npc_dota_hero_abaddon"] = 1,
+		["npc_dota_hero_lina"] = 1,
 		["npc_dota_hero_night_stalker"] = 1,
 
 		["npc_dota_hero_alchemist"] = 1,
@@ -1547,7 +1549,6 @@ X["phase_boots"] = {
 		["npc_dota_hero_broodmother"] = 1,
 		["npc_dota_hero_mirana"] = 1,
 		["npc_dota_hero_invoker"] = 1,
-		["npc_dota_hero_lina"] = 1,
 		["npc_dota_hero_furion"] = 1,
 		["npc_dota_hero_windrunner"] = 1
 	}
@@ -1655,6 +1656,7 @@ X['off'] = {
 
 X['mid'] = {
 	'npc_dota_hero_keeper_of_the_light',
+	'npc_dota_hero_lina',
 	'npc_dota_hero_obsidian_destroyer',
 
 	'npc_dota_hero_alchemist',
@@ -1669,7 +1671,6 @@ X['mid'] = {
 	'npc_dota_hero_invoker',
 	'npc_dota_hero_kunkka',
 	'npc_dota_hero_leshrac',
-	'npc_dota_hero_lina',
 	'npc_dota_hero_lone_druid',
 	'npc_dota_hero_medusa',
 	'npc_dota_hero_meepo',
@@ -1733,6 +1734,7 @@ X['safe'] = {
 X['supp'] = {
 	'npc_dota_hero_abaddon',
 	'npc_dota_hero_keeper_of_the_light',
+	'npc_dota_hero_lina',
 	'npc_dota_hero_venomancer',
 
 	'npc_dota_hero_ancient_apparition',
@@ -1750,7 +1752,6 @@ X['supp'] = {
 	'npc_dota_hero_grimstroke',
 	'npc_dota_hero_jakiro',
 	'npc_dota_hero_lich',
-	'npc_dota_hero_lina',
 	'npc_dota_hero_lion',
 	'npc_dota_hero_nyx_assassin',
 	'npc_dota_hero_oracle',
@@ -2139,6 +2140,8 @@ function X.IsABAHero()
 	local sABAHeroIndex = {
 	
 		["npc_dota_hero_abaddon"] = true,
+		-- ["npc_dota_hero_keeper_of_the_light"] = true,
+		["npc_dota_hero_lina"] = true,
 		["npc_dota_hero_night_stalker"] = true,
 		["npc_dota_hero_obsidian_destroyer"] = true,
 		["npc_dota_hero_terrorblade"] = true,
@@ -2161,7 +2164,6 @@ function X.IsABAHero()
 		["npc_dota_hero_jakiro"] = true,
 		["npc_dota_hero_kunkka"] = true,
 		["npc_dota_hero_lich"] = true,
-		["npc_dota_hero_lina"] = true,
 		["npc_dota_hero_lion"] = true,
 		["npc_dota_hero_luna"] = true,
 		["npc_dota_hero_medusa"] = true,
