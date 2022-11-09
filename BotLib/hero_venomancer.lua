@@ -347,7 +347,7 @@ function X.ConsiderQ()
 	then
 		for _, npcEnemy in pairs( nEnemyHeroesInRange )
 		do
-			if J.IsValid( npcEnemy )
+			if J.IsValidHero( npcEnemy )
 				and bot:WasRecentlyDamagedByHero( npcEnemy, 5.0 )
 				and J.CanCastOnNonMagicImmune( npcEnemy )
 				and bot:IsFacingLocation( npcEnemy:GetExtrapolatedLocation( nCastPoint ), 20 )
@@ -370,11 +370,11 @@ function X.ConsiderQ()
 
 		if #hAllyList == 1 and nMP > 0.38
 		then
-			local locationAoEKill = bot:FindAoELocation( true, false, bot:GetLocation(), nCastRange, nRadius, 0, nDamage )
-			if locationAoEKill.count >= 3
+			local locationAoEHurt = bot:FindAoELocation( true, false, bot:GetLocation(), nCastRange, nRadius, 0, 0 )
+			if locationAoEHurt.count >= 3
 			then
-				nTargetLocation = locationAoEKill.targetloc
-				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Q-ClearWave"..locationAoEKill.count
+				nTargetLocation = locationAoEHurt.targetloc
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Q-Push"..locationAoEHurt.count
 			end
 		end
 	end
@@ -447,6 +447,15 @@ function X.ConsiderE()
 				nTargetLocation = J.GetCastLocation( bot, botTarget, nCastRange, nRadius ) + RandomVector( nRadius * 0.5 )
 				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "E-SpamHarass:"..J.Chat.GetNormName( npcEnemy )
 			end
+
+			if J.IsValidHero( npcEnemy )
+				and not botTarget:IsAttackImmune()
+				and J.IsInRange( npcEnemy, bot, nCastRange + nRadius )
+				and J.IsHealing( npcEnemy )
+			then
+				nTargetLocation = J.GetCastLocation( bot, botTarget, nCastRange, nRadius ) + RandomVector( nRadius * 0.5 )
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "E-DispelHeal:"..J.Chat.GetNormName( npcEnemy )
+			end
 		end
 	end
 
@@ -455,7 +464,6 @@ function X.ConsiderE()
 		and J.IsAllowedToSpam( bot, nManaCost * 0.32 )
 		and nSkillLV >= 2 and DotaTime() > 8 * 60
 	then
-
 		local nEnemyCreeps = bot:GetNearbyLaneCreeps( nCastRange + nRadius, true )
 		if #nEnemyCreeps >= 3
 			and J.IsValid( nEnemyCreeps[1] )
@@ -464,8 +472,6 @@ function X.ConsiderE()
 			nTargetLocation = J.GetCastLocation( bot, nEnemyCreeps[1], nCastRange, nRadius ) + RandomVector( nRadius * 0.5 )
 			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "E-Push"
 		end
-
-
 	end
 
 	
@@ -482,7 +488,6 @@ function X.ConsiderE()
 			local targetCreep = nNeutralCreeps[1]
 			if J.IsValid( targetCreep )
 				and targetCreep:GetHealth() >= 500
-				and targetCreep:GetMagicResist() < 0.3
 				and J.GetAroundTargetEnemyUnitCount( targetCreep, 300 ) >= 1
 			then
 				nTargetLocation = J.GetCastLocation( bot, targetCreep, nCastRange, nRadius ) + RandomVector( nRadius * 0.5 )

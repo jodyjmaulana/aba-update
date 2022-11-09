@@ -447,7 +447,7 @@ function X.ConsiderR()
 	if talent6:IsTrained() then nDamageMultiplier = nDamageMultiplier + 0.15 end
 
 
-	local nMinDamageThreshold = nBaseDamage * 2
+	local nMinDamageThreshold = nBaseDamage * 1.35
 	local nAoeCount = 0
 	local nAoe = bot:FindAoELocation( true, true, bot:GetLocation(), nCastRange, nRadius, 0, 0 )
 
@@ -466,7 +466,7 @@ function X.ConsiderR()
 			end
 
 
-			if J.GetHP( npcEnemy ) >= 0.3
+			if J.GetHP( npcEnemy ) >= 0.15
 				and nRealMagicalDamge >= npcEnemy:GetHealth()
 			then
 				return BOT_ACTION_DESIRE_HIGH, nAoe.targetloc, 'R-Kill'
