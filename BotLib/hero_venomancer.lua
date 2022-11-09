@@ -593,7 +593,7 @@ function X.ConsiderD()
 	if J.IsInTeamFight( bot, 1200 )
 	then
 		local npcWeakestEnemy = J.GetVulnerableWeakestUnitWithLotusCheck( bot, true, true, nCastRange )
-		if ( npcWeakestEnemy ~= nil )
+		if npcWeakestEnemy ~= nil
 		then
 			return BOT_ACTION_DESIRE_HIGH, npcWeakestEnemy, 'D-Battle-Weakest:'..J.Chat.GetNormName( npcWeakestEnemy )
 		end
@@ -641,48 +641,39 @@ function X.ConsiderR()
 	local nRadius = abilityR:GetSpecialValueInt( 'start_radius' ) + abilityR:GetSpecialValueInt( 'radius' )
 	local nCastPoint = abilityR:GetCastPoint()
 	local nManaCost = abilityR:GetManaCost()
+	local nAlliedHeroesInRange = bot:GetNearbyHeroes( nRadius, false, BOT_MODE_NONE )
 	local nEnemyHeroesInRange = bot:GetNearbyHeroes( nRadius - 150, true, BOT_MODE_NONE )
 	local nTargetLocation = nil
 
 
 	if J.IsInTeamFight( bot, 1200 )
 	then
-		local nAoeCount = 0
-		for _, npcEnemy in pairs( nEnemyHeroesInRange )
-		do 
-			if J.IsValidHero( npcEnemy )
-				and J.CanCastOnNonMagicImmune( npcEnemy )
-			then
-				nAoeCount = nAoeCount + 1
-			end
-		end
-
-		if nAoeCount >= 3
+		if #nEnemyHeroesInRange >= 3
 		then
 			return BOT_ACTION_DESIRE_HIGH, 'R-Battle'
 		end
 	end
 
+
+	if J.IsGoingOnSomeone( bot )
+	then
+		if J.IsValidHero( botTarget )
+			and J.CanCastOnMagicImmune( botTarget )
+			and J.IsInRange( botTarget, bot, nRadius - 150 )
+			and #nEnemyHeroesInRange >= 2
+			and #nEnemyHeroesInRange >= #nAlliedHeroesInRange
+		then
+			return BOT_ACTION_DESIRE_HIGH, 'R-Chase:'..J.Chat.GetNormName( botTarget )
+		end
+	end
+
 	
 	if J.IsRetreating( bot )
+		and bot:WasRecentlyDamagedByHero( npcEnemy, 3.0 )
 		and #nEnemyHeroesInRange >= 2
 		and #nEnemyHeroesInRange >= #hAllyList
 	then
-		local nAoeCount = 0
-		for _, npcEnemy in pairs( nEnemyHeroesInRange )
-		do 
-			if J.IsValidHero( npcEnemy )
-				and J.CanCastOnNonMagicImmune( npcEnemy )
-				and bot:WasRecentlyDamagedByHero( npcEnemy, 3.0 )
-			then
-				nAoeCount = nAoeCount + 1
-			end
-		end
-
-		if nAoeCount >= 1
-		then
-			return BOT_ACTION_DESIRE_HIGH, 'R-Retreat'
-		end
+		return BOT_ACTION_DESIRE_HIGH, 'R-Retreat'
 	end
 
 
