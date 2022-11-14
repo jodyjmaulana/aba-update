@@ -416,27 +416,31 @@ function X.ConsiderQ()
 	if J.IsLaning( bot )
 	then
 		nAoeLoc = J.GetAoeEnemyHeroLocation( bot, nCastRange, nRadius, 2 )
-		if nAoeLoc ~= nil and nMP > 0.58
+		if nAoeLoc ~= nil and nMP > 0.38
 		then
 			nTargetLocation = nAoeLoc
 			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'Q-Harass'
 		end
 
-		if #hAllyList == 1 and nMP > 0.38
+		if #hAllyList == 1
+			and #nEnemyHeroesInRange == 1
+			and nMP > 0.38
 		then
-			local locationAoEKill = bot:FindAoELocation( true, false, bot:GetLocation(), nCastRange, nRadius, 0, 0 )
-			if locationAoEKill.count >= 3
+			nAoeLoc = J.GetAoeEnemyHeroLocation( bot, nCastRange, nRadius, 1 )
+			if nAoeLoc ~= nil and nMP > 0.38
 			then
-				nTargetLocation = locationAoEKill.targetloc
-				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Q-ClearWave:"..locationAoEKill.count
+				nTargetLocation = nAoeLoc
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'Q-Harass'
 			end
 		end
 	end
 
 	
 	if ( J.IsPushing( bot ) or J.IsDefending( bot ) or J.IsFarming( bot ) )
-		and J.IsAllowedToSpam( bot, nManaCost * 0.32 )
+		and J.IsAllowedToSpam( bot, nManaCost * 0.72 )
 		and nSkillLV >= 2 and DotaTime() > 8 * 60
+		and nLV >= 15
+		and not bot:HasScepter()
 	then
 		local nEnemyCreeps = bot:GetNearbyLaneCreeps( nCastRange + nRadius, true )
 		if #nEnemyCreeps >= 3
@@ -458,14 +462,15 @@ function X.ConsiderQ()
 			end
 		end
 	end
-
 	
+
 	if J.IsFarming( bot )
 		and not ( J.IsPushing( bot ) or J.IsDefending( bot ) )
 		and J.IsAllowedToSpam( bot, nManaCost * 0.25 )
 		and nSkillLV >= 3
 		and #hEnemyList == 0
 		and #hAllyList <= 2
+		and nMP >= 0.55
 	then
 		local nNeutralCreeps = bot:GetNearbyNeutralCreeps( nCastRange + nRadius )
 		if #nNeutralCreeps >= 3 or nMP >= 0.7
@@ -539,6 +544,7 @@ function X.ConsiderW()
 
 	if J.IsValidHero( botTarget )
 		and J.CanCastOnNonMagicImmune( botTarget )
+		and J.IsInRange( bot, botTarget, nAttackRange )
 		and not botTarget:IsAttackImmune()
 		and not abilityW:GetAutoCastState()
 	then
@@ -558,7 +564,7 @@ function X.ConsiderW()
 				and not creep:HasModifier( "modifier_fountain_glyph" )
 				and J.WillMixedDamageKillTarget( creep, nAttackDamage, 0, nAbilityDamage, nAttackProDelayTime )
 			then
-				return BOT_ACTION_DESIRE_HIGH, creep, "Q-KillCreep"
+				return BOT_ACTION_DESIRE_HIGH, creep, "W-KillCreep"
 			end
 		end
 	end
@@ -723,6 +729,7 @@ function X.ConsiderE()
 		and nSkillLV >= 3
 		and #hEnemyList == 0
 		and #hAllyList <= 2
+		and nMP >= 0.45
 		and bot:HasScepter()
 	then
 		local nNeutralCreeps = bot:GetNearbyNeutralCreeps( nCastRange + nRadius )

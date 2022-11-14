@@ -875,6 +875,7 @@ function X.ShouldRun(bot)
 	
 	--防止美杜莎石化
 	if bot:HasModifier('modifier_medusa_stone_gaze_facing')
+		or bot:HasModifier( 'modifier_razor_link_vision' )
 	then
 		return 3.33
 	end

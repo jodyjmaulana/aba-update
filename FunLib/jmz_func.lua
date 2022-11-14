@@ -363,7 +363,7 @@ function J.GetAoeEnemyHeroLocation( bot, nCastRange, nRadius, nCount )
 
 		if nTrueCount >= nCount
 		then
-			return nAoe.targetLoc
+			return nAoe.targetloc
 		end
 	end
 
