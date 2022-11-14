@@ -303,7 +303,7 @@ function J.GetVulnerableWeakestUnitWithLotusCheck( bot, bHero, bEnemy, nRadius )
 	do
 		if u:GetHealth() < weakestHP
 			and J.CanCastOnNonMagicImmune( u )
-			and J.CanCastOnTargetAdvanced( npcEnemy )
+			and J.CanCastOnTargetAdvanced( u )
 		then
 			weakest = u
 			weakestHP = u:GetHealth()
@@ -1094,7 +1094,7 @@ function J.IsDisabled( npcTarget )
 
 		if npcTarget:IsSilenced()
 			and not npcTarget:HasModifier( "modifier_item_mask_of_madness_berserk" )
-			and J.IsWithoutTarget( npcTarget )
+			-- and J.IsWithoutTarget( npcTarget )
 		then
 			return true
 		end
