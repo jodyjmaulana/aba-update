@@ -910,6 +910,8 @@ Item['item_mid_lina_outfit']			= { 'item_tango', 'item_faerie_fire', 'item_doubl
 
 Item['item_mid_silencer_outfit']		= { 'item_tango', 'item_double_branches', 'item_circlet', 'item_mantle', 'item_magic_stick', 'item_recipe_null_talisman', 'item_flask', 'item_power_treads_int', 'item_recipe_magic_wand' }
 
+Item['item_mid_skywrath_mage_outfit']	= { 'item_tango', 'item_double_branches', 'item_circlet', 'item_mantle', 'item_magic_stick', 'item_recipe_null_talisman', 'item_flask', 'item_arcane_boots', 'item_recipe_magic_wand' }
+
 Item['item_templar_assassin_outfit']	= { 'item_tango', 'item_faerie_fire', 'item_double_branches', 'item_wraith_band', 'item_flask', 'item_magic_stick', 'item_recipe_magic_wand', 'item_flask', 'item_power_treads_agi', 'item_blight_stone' }
 
 Item['item_obsidian_destroyer_outfit']	= { 'item_tango', 'item_crown', 'item_ring_of_health', 'item_void_stone', 'item_recipe_meteor_hammer', 'item_power_treads_int' }

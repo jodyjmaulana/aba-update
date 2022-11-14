@@ -178,6 +178,7 @@ local sHasDevelopmentHeroList = {
 	"npc_dota_hero_night_stalker",
 	"npc_dota_hero_obsidian_destroyer",
 	"npc_dota_hero_silencer",
+	"npc_dota_hero_skywrath_mage",
 	"npc_dota_hero_terrorblade",
 	"npc_dota_hero_venomancer",
 
@@ -193,7 +194,6 @@ local sHasDevelopmentHeroList = {
 	"npc_dota_hero_crystal_maiden",
 	"npc_dota_hero_zuus",
 	"npc_dota_hero_jakiro",
-	"npc_dota_hero_skywrath_mage",
 	"npc_dota_hero_queenofpain",
 	"npc_dota_hero_pugna",
 	"npc_dota_hero_shadow_shaman",
@@ -264,7 +264,7 @@ local sSecondList = {
 	"npc_dota_hero_death_prophet",
 	"npc_dota_hero_lion",
 	"npc_dota_hero_dazzle",
---	"npc_dota_hero_windrunner",
+	-- "npc_dota_hero_windrunner",
 
 	
 }
@@ -342,7 +342,6 @@ local sPriestList = {
 	"npc_dota_hero_oracle",
 	"npc_dota_hero_pugna",
 	"npc_dota_hero_shadow_shaman",
-	"npc_dota_hero_skywrath_mage",
 	"npc_dota_hero_warlock",
 	"npc_dota_hero_witch_doctor",
 	"npc_dota_hero_zuus",
@@ -360,6 +359,7 @@ local sMageList = {
 	-- "npc_dota_hero_keeper_of_the_light",
 	"npc_dota_hero_lina",
 	"npc_dota_hero_silencer",
+	"npc_dota_hero_skywrath_mage",
 	"npc_dota_hero_venomancer",
 
 	"npc_dota_hero_crystal_maiden",
@@ -370,7 +370,6 @@ local sMageList = {
 	"npc_dota_hero_oracle",
 	"npc_dota_hero_pugna",
 	"npc_dota_hero_shadow_shaman",
-	"npc_dota_hero_skywrath_mage",
 	"npc_dota_hero_warlock",
 	"npc_dota_hero_witch_doctor",
 	"npc_dota_hero_zuus",
@@ -434,6 +433,7 @@ local sTankList = {
 	"npc_dota_hero_lina",
 	"npc_dota_hero_night_stalker",
 	"npc_dota_hero_obsidian_destroyer",
+	"npc_dota_hero_skywrath_mage",
 
 	"npc_dota_hero_bristleback",
 	"npc_dota_hero_chaos_knight",
@@ -456,6 +456,7 @@ local sMidList = {
 	"npc_dota_hero_lina",
 	"npc_dota_hero_obsidian_destroyer",
 	"npc_dota_hero_silencer",
+	"npc_dota_hero_skywrath_mage",
 	
 	"npc_dota_hero_templar_assassin",
 	"npc_dota_hero_phantom_lancer",
