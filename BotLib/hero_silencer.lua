@@ -194,7 +194,7 @@ end
 
 --[[
 
-npc_dota_hero_abaddon
+npc_dota_hero_silencer
 
 "Ability1"		"silencer_curse_of_the_silent"
 "Ability2"		"silencer_glaives_of_wisdom"
@@ -473,7 +473,7 @@ function X.ConsiderQ()
 		and nMP >= 0.55
 	then
 		local nNeutralCreeps = bot:GetNearbyNeutralCreeps( nCastRange + nRadius )
-		if #nNeutralCreeps >= 3 or nMP >= 0.7
+		if #nNeutralCreeps >= 3
 		then
 			local targetCreep = nNeutralCreeps[1]
 			if J.IsValid( targetCreep )
