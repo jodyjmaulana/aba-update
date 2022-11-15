@@ -636,7 +636,7 @@ function X.ConsiderE()
 				and J.CanCastOnTargetAdvanced( npcEnemy )
 				and bot:WasRecentlyDamagedByHero( npcEnemy, 3.1 )
 				and bot:IsFacingLocation( npcEnemy:GetExtrapolatedLocation( nCastPoint ), 20 )
-				and not J.IsDisabled( botTarget )
+				and not J.IsDisabled( npcEnemy )
 			then
 				return BOT_ACTION_DESIRE_HIGH, npcEnemy, 'E-Retreat:'..J.Chat.GetNormName( npcEnemy )
 			end
