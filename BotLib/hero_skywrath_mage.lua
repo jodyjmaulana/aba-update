@@ -9,7 +9,7 @@
 --- mid, tank, mage
 ----------------------------------------------------------------------------------------------------
 local X = {}
-local bDebugMode = ( 10 == 10 )
+local bDebugMode = ( 1 == 10 )
 local bot = GetBot()
 
 local J = require( GetScriptDirectory()..'/FunLib/jmz_func' )
