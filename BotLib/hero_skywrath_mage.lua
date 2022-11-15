@@ -291,6 +291,21 @@ function X.SkillsComplement()
 
 		J.SetQueuePtToINT( bot, true )
 
+		if itemHex ~= nil and itemHex:IsFullyCastable() and bot:GetMana() == itemHex:GetManaCost() + abilityR:GetManaCost()
+		then
+			bot:ActionQueue_UseAbilityOnEntity( itemHex, castComboTarget )
+		end
+
+		if itemAtos ~= nil and itemAtos:IsFullyCastable() and bot:GetMana() == itemAtos:GetManaCost() + abilityR:GetManaCost()
+		then
+			bot:ActionQueue_UseAbilityOnEntity( itemAtos, castComboTarget )
+		end
+
+		if itemGleipnir ~= nil and itemGleipnir:IsFullyCastable() and bot:GetMana() == itemGleipnir:GetManaCost() + abilityR:GetManaCost()
+		then
+			bot:ActionQueue_UseAbilityOnLocation( itemGleipnir, castComboTarget:GetLocation() )
+		end
+
 		bot:ActionQueue_UseAbilityOnLocation( abilityR, castRLocation )
 		return
 
@@ -561,6 +576,14 @@ function X.ConsiderE()
 		then
 			return BOT_ACTION_DESIRE_HIGH, npcEnemy, "E-Interrupt:"..J.Chat.GetNormName( npcEnemy )
 		end
+		
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.CanCastOnTargetAdvanced( npcEnemy )
+			and npcEnemy:HasModifier( 'modifier_skywrath_mystic_flare_aura_effect' )
+		then
+			return BOT_ACTION_DESIRE_HIGH, npcEnemy, "E-Ult:"..J.Chat.GetNormName( npcEnemy )
+		end
 
 		local incProj = npcEnemy:GetIncomingTrackingProjectiles()
 		for _, proj in pairs( incProj )
@@ -647,12 +670,13 @@ function X.ConsiderR()
 			and J.CanCastOnNonMagicImmune( npcEnemy )
 			and J.IsInRange( bot, npcEnemy, nCastRange + 200 )
 			and J.GetAroundTargetEnemyHeroCount( npcEnemy, nRadius ) <= 1
-			and npcEnemy:HasModifier( 'modifier_skywrath_mage_ancient_seal' )
 		then
 			if ( not J.IsRunning( npcEnemy ) and not J.IsMoving( npcEnemy ) )
 				or J.IsDisabled( npcEnemy )
 				or npcEnemy:GetCurrentMovementSpeed() < 180
 				or npcEnemy:HasModifier( 'modifier_skywrath_mage_concussive_shot_slow' )
+				or npcEnemy:IsChanneling()
+				or npcEnemy:HasModifier( 'modifier_skywrath_mage_ancient_seal' )
 			then
 				-- return BOT_ACTION_DESIRE_HIGH, J.GetFaceTowardDistanceLocation( npcEnemy, nRadius - 30 ), 'R-Attack-'..J.Chat.GetNormName( npcEnemy )
 				return BOT_ACTION_DESIRE_HIGH, npcEnemy:GetLocation(), 'R-Attack-'..J.Chat.GetNormName( npcEnemy )
@@ -692,6 +716,7 @@ function X.ConsiderCombo()
 				or J.IsDisabled( npcEnemy )
 				or npcEnemy:GetCurrentMovementSpeed() < 180
 				or npcEnemy:HasModifier( 'modifier_skywrath_mage_concussive_shot_slow' )
+				or npcEnemy:IsChanneling()
 			then
 				return BOT_ACTION_DESIRE_HIGH, npcEnemy, 'ER-Combo-'..J.Chat.GetNormName( npcEnemy )
 			end
