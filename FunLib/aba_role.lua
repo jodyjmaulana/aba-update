@@ -1497,6 +1497,7 @@ X["hero_roles"] = {
 }
 
 X["bottle"] = {
+	["npc_dota_hero_grimstroke"] = 1,
 	["npc_dota_hero_lina"] = 1,
 	["npc_dota_hero_silencer"] = 1,
 	["npc_dota_hero_skywrath_mage"] = 1,
@@ -1657,6 +1658,7 @@ X['off'] = {
 }
 
 X['mid'] = {
+	'npc_dota_hero_grimstroke',
 	'npc_dota_hero_keeper_of_the_light',
 	'npc_dota_hero_lina',
 	'npc_dota_hero_obsidian_destroyer',
@@ -1738,6 +1740,7 @@ X['safe'] = {
 
 X['supp'] = {
 	'npc_dota_hero_abaddon',
+	'npc_dota_hero_grimstroke',
 	'npc_dota_hero_keeper_of_the_light',
 	'npc_dota_hero_lina',
 	'npc_dota_hero_venomancer',
@@ -2145,6 +2148,7 @@ function X.IsABAHero()
 	local sABAHeroIndex = {
 	
 		["npc_dota_hero_abaddon"] = true,
+		["npc_dota_hero_grimstroke"] = true,
 		-- ["npc_dota_hero_keeper_of_the_light"] = true,
 		["npc_dota_hero_lina"] = true,
 		["npc_dota_hero_night_stalker"] = true,

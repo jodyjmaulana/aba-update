@@ -1625,10 +1625,11 @@ function X.IsSpecialSupport(bot)
 	local botName = bot:GetUnitName();
 	
 	local tSpecialSupportList = {
-		["npc_dota_hero_bane"] = true, 
+		["npc_dota_hero_bane"] = true,
 		["npc_dota_hero_crystal_maiden"] = true,
 		["npc_dota_hero_dazzle"] = true,
-		["npc_dota_hero_death_prophet"] = true, 		
+		["npc_dota_hero_death_prophet"] = true,
+		["npc_dota_hero_grimstroke"] = true,
 		["npc_dota_hero_jakiro"] = true,
 		["npc_dota_hero_keeper_of_the_light"] = true,
 		["npc_dota_hero_lich"] = true,
@@ -1642,10 +1643,10 @@ function X.IsSpecialSupport(bot)
 		["npc_dota_hero_silencer"] = true,
 		["npc_dota_hero_skywrath_mage"] = true,
 		["npc_dota_hero_venomancer"] = true,
-		["npc_dota_hero_warlock"] = true,		  
-		["npc_dota_hero_windrunner"] = true,		  
-		["npc_dota_hero_witch_doctor"] = true,		  
-		["npc_dota_hero_zuus"] = true, 		
+		["npc_dota_hero_warlock"] = true,
+		["npc_dota_hero_windrunner"] = true,
+		["npc_dota_hero_witch_doctor"] = true,
+		["npc_dota_hero_zuus"] = true,
 	}
 	
 	return tSpecialSupportList[botName] == true

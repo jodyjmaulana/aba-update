@@ -1043,6 +1043,12 @@ function J.ShouldDispelDebuff( npcTarget )
 		end
 	end
 
+	-- if J.Skill.IsHeroInEnemyTeam( "npc_dota_hero_dark_seer" )
+	-- 	and npcTarget:HasModifier( 'modifier_dark_seer_ion_shell' )
+	-- then
+	-- 	return true
+	-- end
+
 	return false
 
 end
@@ -3423,6 +3429,41 @@ function J.IsHealing( bot )
 end
 
 
+function J.ShouldInterrupt( bot )
+
+	if bot:IsChanneling()
+		or bot:IsCastingAbility()
+		or bot:HasModifier( 'modifier_crystal_maiden_freezing_field' )
+	then
+		return true
+	end
+
+	return false
+
+end
+
+
+function J.GetMeleeAlly( bot )
+
+	local nMelee = nil
+	local nMeleeAttackRange = 1000
+	local nAlliedHeroesInRange = bot:GetNearbyHeroes( 1400, false, BOT_MODE_NONE )
+	
+	for _, npcAlly in pairs( nAlliedHeroesInRange )
+	do
+		npcAttackRange = npcAlly:GetAttackRange()
+		if nMeleeAttackRange < npcAttackRange
+		then
+			nMeleeAttackRange = npcAttackRange
+			nMelee = npcAlly
+		end
+	end
+
+	return nMelee
+
+end
+
+
 return J
 
 --[[
@@ -4321,6 +4362,8 @@ J.CanBreakTeleport( bot, unit, nPointTime, nProjectSpeed )
 J.GetMagicToPhysicalDamage( bot, nUnit, nMagicDamage )
 J.GetBonusCastRange( bot )
 J.IsHealing( bot )
+J.ShouldInterrupt( bot )
+J.GetMeleeAlly( bot )
 --]]
 
 
