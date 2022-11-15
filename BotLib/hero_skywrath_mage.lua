@@ -9,7 +9,7 @@
 --- mid, tank, mage
 ----------------------------------------------------------------------------------------------------
 local X = {}
-local bDebugMode = ( 1 == 10 )
+local bDebugMode = ( 10 == 10 )
 local bot = GetBot()
 
 local J = require( GetScriptDirectory()..'/FunLib/jmz_func' )
@@ -135,7 +135,7 @@ X['sBuyList'] = tOutFitList[sOutfitType]
 
 X['sSellList'] = {
 	"item_sheepstick",
-	"item_magic_wand",
+	"item_bottle",
 
 	"item_kaya",
 	"item_null_talisman",
@@ -247,7 +247,7 @@ function X.SkillsComplement()
 	end
 
 	castComboDesire, castComboTarget, sMotive = X.ConsiderCombo()
-	if ( castEDesire > 0 )
+	if ( castComboDesire > 0 )
 	then
 		J.SetReportMotive( bDebugMode, sMotive )
 
@@ -319,9 +319,7 @@ function X.ConsiderQ()
 	local nCastPoint = abilityQ:GetCastPoint()
 	local nManaCost = abilityQ:GetManaCost()
 	local nDamage = abilityQ:GetSpecialValueInt( "bolt_damage" ) + bot:GetAttributeValue( ATTRIBUTE_INTELLECT ) * 1.5
-	local nDamageType = DAMAGE_TYPE_MAGICAL
-	local nAlliedHeroesInRange = bot:GetNearbyHeroes( nCastRange, false, BOT_MODE_NONE )
-	local nEnemyHeroesInRange = bot:GetNearbyHeroes( nCastRange, true, BOT_MODE_NONE )
+	local nEnemyHeroesInRange = bot:GetNearbyHeroes( 1200, true, BOT_MODE_NONE )
 
 
 	local npcWeakestEnemy = nil
@@ -329,30 +327,31 @@ function X.ConsiderQ()
 	for _, npcEnemy in pairs( nEnemyHeroesInRange )
 	do
 		if J.IsValidHero( npcEnemy )
-			and J.CanCastAbilityQOnTarget( npcEnemy )
+			and X.CanCastAbilityQOnTarget( npcEnemy )
 			and nSkillLV >= 2
-			and J.GetHP( npcEnemy ) < 0.75
+			and J.GetHP( npcEnemy ) < 0.55
 		then
-			return BOT_ACTION_DESIRE_HIGH, npcEnemy, 'Q-Attack-:'..J.Chat.GetNormName( npcEnemy )
+			return BOT_ACTION_DESIRE_HIGH, npcEnemy, 'Q-Attack:'..J.Chat.GetNormName( npcEnemy )
 		end
 
 		if J.IsValidHero( npcEnemy )
-			and J.CanCastAbilityQOnTarget( npcEnemy )
+			and X.CanCastAbilityQOnTarget( npcEnemy )
 			and J.WillMagicKillTarget( bot, npcEnemy, nDamage, nCastPoint )
 		then
-			return BOT_ACTION_DESIRE_HIGH, npcEnemy, 'Q-Kill-:'..J.Chat.GetNormName( npcEnemy )
+			return BOT_ACTION_DESIRE_HIGH, npcEnemy, 'Q-Kill:'..J.Chat.GetNormName( npcEnemy )
 		end
 
 		if J.IsValidHero( npcEnemy )
-			and J.CanCastAbilityQOnTarget( npcEnemy )
+			and X.CanCastAbilityQOnTarget( npcEnemy )
 			and J.IsHealing( npcEnemy )
 		then
-			return BOT_ACTION_DESIRE_HIGH, npcEnemy, 'Q-DispelHeal-:'..J.Chat.GetNormName( npcEnemy )
+			return BOT_ACTION_DESIRE_HIGH, npcEnemy, 'Q-DispelHeal:'..J.Chat.GetNormName( npcEnemy )
 		end
 
 		if J.IsValidHero( npcEnemy )
-			and J.CanCastAbilityQOnTarget( npcEnemy )
+			and X.CanCastAbilityQOnTarget( npcEnemy )
 			and npcEnemy:GetHealth() < npcWeakestEnemyHealth
+			and not npcEnemy:HasModifier( 'modifier_templar_assassin_refraction_absorb' )
 		then
 			npcWeakestEnemy = npcEnemy
 			npcWeakestEnemyHealth = npcEnemy:GetHealth()
@@ -371,7 +370,7 @@ function X.ConsiderQ()
 	if J.IsGoingOnSomeone( bot )
 	then
 		if J.IsValidHero( botTarget )
-			and J.CanCastAbilityQOnTarget( botTarget )
+			and X.CanCastAbilityQOnTarget( botTarget )
 			and J.IsInRange( botTarget, bot, nCastRange )
 		then
 			return BOT_ACTION_DESIRE_HIGH, botTarget, 'Q-Attack:'..J.Chat.GetNormName( botTarget )
@@ -384,7 +383,7 @@ function X.ConsiderQ()
 		for _, npcEnemy in pairs( nEnemyHeroesInRange )
 		do
 			if J.IsValidHero( npcEnemy )
-				and J.CanCastAbilityQOnTarget( npcEnemy )
+				and X.CanCastAbilityQOnTarget( npcEnemy )
 				and bot:WasRecentlyDamagedByHero( npcEnemy, 5.0 )
 				and bot:IsFacingLocation( npcEnemy:GetExtrapolatedLocation( nCastPoint ), 20 )
 			then
@@ -418,11 +417,11 @@ function X.ConsiderQ()
 		and nMP >= 0.55
 	then
 		local nNeutralCreeps = bot:GetNearbyNeutralCreeps( nCastRange )
-		if #nNeutralCreeps >= 3
+		if #nNeutralCreeps >= 1
 		then
 			local targetCreep = nNeutralCreeps[1]
 			if J.IsValid( targetCreep )
-				and targetCreep:GetHealth() >= 500
+				and targetCreep:GetHealth() >= 200
 				and J.GetAroundTargetEnemyUnitCount( targetCreep, 300 ) >= 1
 			then
 				return BOT_ACTION_DESIRE_HIGH, targetCreep, "Q-Farm"
@@ -448,10 +447,7 @@ function X.ConsiderW()
 
 	local nSkillLV = abilityW:GetLevel()
 	local nCastRange = abilityW:GetCastRange() + bonusRange
-	local nCastPoint = abilityW:GetCastPoint()
 	local nManaCost = abilityW:GetManaCost()
-	local nDamage = abilityW:GetSpecialValueInt( 'damage' )
-	local nDamageType = DAMAGE_TYPE_MAGICAL
 	local nEnemyHeroesInRange = bot:GetNearbyHeroes( nCastRange, true, BOT_MODE_NONE )
 
 	
@@ -465,7 +461,7 @@ function X.ConsiderW()
 	then
 		if J.IsValidHero( nEnemyHeroesInRange[1] )
 			and J.CanCastOnNonMagicImmune( nEnemyHeroesInRange[1] )
-			and J.GetHP( nEnemyHeroesInRange[1] ) < 0.75
+			and J.GetHP( nEnemyHeroesInRange[1] ) < 0.55
 		then
 			return BOT_ACTION_DESIRE_HIGH, 'W-Attack'
 		end
@@ -474,6 +470,7 @@ function X.ConsiderW()
 			and J.CanCastOnNonMagicImmune( nEnemyHeroesInRange[1] )
 			and J.IsAllowedToSpam( bot, nManaCost * 0.72 )
 			and nMP > 0.42
+			and not nEnemyHeroesInRange[1]:HasModifier( 'modifier_templar_assassin_refraction_absorb' )
 		then
 			return BOT_ACTION_DESIRE_HIGH, 'W-Harass'
 		end
@@ -516,11 +513,11 @@ function X.ConsiderW()
 		and nMP >= 0.55
 	then
 		local nNeutralCreeps = bot:GetNearbyNeutralCreeps( nCastRange )
-		if #nNeutralCreeps >= 3
+		if #nNeutralCreeps >= 1
 		then
 			local targetCreep = nNeutralCreeps[1]
 			if J.IsValid( targetCreep )
-				and targetCreep:GetHealth() >= 500
+				and targetCreep:GetHealth() >= 200
 				and J.GetAroundTargetEnemyUnitCount( targetCreep, 300 ) >= 1
 			then
 				return BOT_ACTION_DESIRE_HIGH, "W-Farm"
@@ -548,11 +545,9 @@ function X.ConsiderE()
 
 	if not abilityE:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
 
-	local nSkillLV = abilityE:GetLevel()
 	local nCastRange = abilityE:GetCastRange() + bonusRange
 	local nCastPoint = abilityE:GetCastPoint()
-	local nManaCost = abilityE:GetManaCost()
-	local nEnemyHeroesInRange = bot:GetNearbyHeroes( nCastRange, true, BOT_MODE_NONE )
+	local nEnemyHeroesInRange = bot:GetNearbyHeroes( 1200, true, BOT_MODE_NONE )
 
 	
 	local npcMostDangerousEnemy = nil
@@ -566,13 +561,16 @@ function X.ConsiderE()
 		then
 			return BOT_ACTION_DESIRE_HIGH, npcEnemy, "E-Interrupt:"..J.Chat.GetNormName( npcEnemy )
 		end
-		
-		if J.IsValidHero( npcEnemy )
-			and J.CanCastOnNonMagicImmune( npcEnemy )
-			and J.CanCastOnTargetAdvanced( npcEnemy )
-			and npcEnemy:HasModifier( 'modifier_skywrath_mage_concussive_shot_slow' )
-		then
-			return BOT_ACTION_DESIRE_HIGH, npcEnemy, "E-Silence:"..J.Chat.GetNormName( npcEnemy )
+
+		local incProj = npcEnemy:GetIncomingTrackingProjectiles()
+		for _, proj in pairs( incProj )
+		do
+			if GetUnitToLocationDistance( npcEnemy, proj.location ) < nCastRange
+				and proj.ability ~= nil
+				and proj.ability:GetName() == "skywrath_mage_concussive_shot"
+			then
+				return BOT_ACTION_DESIRE_HIGH, npcEnemy, "E-Silence:"..J.Chat.GetNormName( npcEnemy )
+			end
 		end
 
 		local npcEnemyDamage = npcEnemy:GetEstimatedDamageToTarget( false, bot, 3.0, DAMAGE_TYPE_MAGICAL )
@@ -581,6 +579,7 @@ function X.ConsiderE()
 			and J.CanCastOnTargetAdvanced( npcEnemy )
 			and not J.IsDisabled( npcEnemy )
 			and npcEnemyDamage > npcMostDangerousDamage
+			and #nEnemyHeroesInRange >= 2
 		then
 			npcMostDangerousDamage = npcEnemyDamage
 			npcMostDangerousEnemy = npcEnemy
@@ -637,14 +636,8 @@ function X.ConsiderR()
 	
 	if not abilityR:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
 
-	local nSkillLV = abilityR:GetLevel()
 	local nCastRange = abilityR:GetCastRange() + bonusRange
 	local nRadius = abilityR:GetSpecialValueInt( 'radius' )
-	local nDuration = abilityR:GetSpecialValueInt( 'duration' )
-	local nCastPoint = abilityR:GetCastPoint()
-	local nManaCost = abilityR:GetManaCost()
-	local nDamage = abilityR:GetSpecialValueInt( 'damage' )
-	local nDamageType = DAMAGE_TYPE_MAGICAL
 	local nEnemyHeroesInRange = bot:GetNearbyHeroes( nCastRange + nRadius, true, BOT_MODE_NONE )
 
 
@@ -654,14 +647,15 @@ function X.ConsiderR()
 			and J.CanCastOnNonMagicImmune( npcEnemy )
 			and J.IsInRange( bot, npcEnemy, nCastRange + 200 )
 			and J.GetAroundTargetEnemyHeroCount( npcEnemy, nRadius ) <= 1
+			and npcEnemy:HasModifier( 'modifier_skywrath_mage_ancient_seal' )
 		then
 			if ( not J.IsRunning( npcEnemy ) and not J.IsMoving( npcEnemy ) )
 				or J.IsDisabled( npcEnemy )
-				or botTarget:GetCurrentMovementSpeed() < 180
-				or botTarget:HasModifier( 'modifier_skywrath_mage_concussive_shot_slow' )
-				or botTarget:HasModifier( 'modifier_skywrath_mage_ancient_seal' )
+				or npcEnemy:GetCurrentMovementSpeed() < 180
+				or npcEnemy:HasModifier( 'modifier_skywrath_mage_concussive_shot_slow' )
 			then
-				return BOT_ACTION_DESIRE_HIGH, J.GetFaceTowardDistanceLocation( npcEnemy, nRadius - 30 ), 'R-Attack-'..J.Chat.GetNormName( npcEnemy )
+				-- return BOT_ACTION_DESIRE_HIGH, J.GetFaceTowardDistanceLocation( npcEnemy, nRadius - 30 ), 'R-Attack-'..J.Chat.GetNormName( npcEnemy )
+				return BOT_ACTION_DESIRE_HIGH, npcEnemy:GetLocation(), 'R-Attack-'..J.Chat.GetNormName( npcEnemy )
 			end
 		end
 	end
@@ -682,7 +676,7 @@ function X.ConsiderCombo()
 	local nCastRange = abilityE:GetCastRange() + bonusRange
 	local nRadius = abilityR:GetSpecialValueInt( 'radius' )
 	local nManaCost = abilityE:GetManaCost() + abilityR:GetManaCost() + 450
-	local nEnemyHeroesInRange = bot:GetNearbyHeroes( nCastRange + nRadius, true, BOT_MODE_NONE )
+	local nEnemyHeroesInRange = bot:GetNearbyHeroes( 1200, true, BOT_MODE_NONE )
 
 
 	if bot:GetMana() < nManaCost then return BOT_ACTION_DESIRE_NONE, nil end
@@ -692,15 +686,14 @@ function X.ConsiderCombo()
 	do
 		if J.IsValidHero( npcEnemy )
 			and J.CanCastOnNonMagicImmune( npcEnemy )
-			and J.IsInRange( bot, npcEnemy, nCastRange + 200 )
 			and J.GetAroundTargetEnemyHeroCount( npcEnemy, nRadius ) <= 1
 		then
 			if ( not J.IsRunning( npcEnemy ) and not J.IsMoving( npcEnemy ) )
 				or J.IsDisabled( npcEnemy )
-				or botTarget:GetCurrentMovementSpeed() < 180
-				or botTarget:HasModifier( 'modifier_skywrath_mage_concussive_shot_slow' )
+				or npcEnemy:GetCurrentMovementSpeed() < 180
+				or npcEnemy:HasModifier( 'modifier_skywrath_mage_concussive_shot_slow' )
 			then
-				return BOT_ACTION_DESIRE_HIGH, J.GetFaceTowardDistanceLocation( npcEnemy, nRadius - 30 ), 'ER-Combo-'..J.Chat.GetNormName( npcEnemy )
+				return BOT_ACTION_DESIRE_HIGH, npcEnemy, 'ER-Combo-'..J.Chat.GetNormName( npcEnemy )
 			end
 		end
 	end
