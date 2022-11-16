@@ -76,6 +76,7 @@ Buff["hero_is_taunted"] = {
 "modifier_legion_commander_duel",
 "modifier_winter_wyvern_winters_curse",
 "modifier_winter_wyvern_winters_curse_aura",
+"modifier_huskar_life_break_taunt",
 
 }
 

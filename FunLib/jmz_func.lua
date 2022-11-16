@@ -1093,7 +1093,7 @@ function J.IsDisabled( npcTarget )
 				or J.IsTaunted( npcTarget )
 	else
 
-		if npcTarget:IsStunned() and J.GetRemainStunTime( npcTarget ) > 0.8
+		if npcTarget:IsStunned() and J.GetRemainStunTime( npcTarget ) > 0.3
 		then
 			return true
 		end
@@ -1117,10 +1117,15 @@ end
 
 function J.IsTaunted( npcTarget )
 
-	return npcTarget:HasModifier( "modifier_axe_berserkers_call" )
-		or npcTarget:HasModifier( "modifier_legion_commander_duel" )
-		or npcTarget:HasModifier( "modifier_winter_wyvern_winters_curse" )
-		or npcTarget:HasModifier( "modifier_winter_wyvern_winters_curse_aura" )
+	for _, modifier in pairs( J.Buff["hero_is_taunted"] )
+	do
+		if npcTarget:HasModifier( modifier )
+		then
+			return true
+		end
+	end
+
+	return false
 
 end
 
