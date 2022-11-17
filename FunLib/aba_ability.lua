@@ -6,7 +6,7 @@
 local X = {}
 local ability = nil
 local bonusRange, nMP, nHP, nLV, botTarget, nEnemyHeroesInRange, nAlliedHeroesInRange
--- local BOT_ACTION_DESIRE_NONE, BOT_ACTION_DESIRE_HIGH, BOT_MODE_ROSHAN, DAMAGE_TYPE_MAGICAL, DAMAGE_TYPE_PHYSICAL, BOT_MODE_NONE, ATTRIBUTE_INTELLECT
+-- local BOT_ACTION_DESIRE_NONE, BOT_ACTION_DESIRE_HIGH, BOT_MODE_ROSHAN, DAMAGE_TYPE_MAGICAL, DAMAGE_TYPE_PHYSICAL, DAMAGE_TYPE_PURE, BOT_MODE_NONE, ATTRIBUTE_INTELLECT
 
 local J = require( GetScriptDirectory()..'/FunLib/jmz_func')
 
@@ -83,6 +83,7 @@ function X.ConsiderGrimstrokeStrokeOfFate( bot )
 	do
 		if J.IsValidHero( npcEnemy )
 			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.IsInRange( npcEnemy, bot, nCastRange + nRadius )
 			and J.GetHP( npcEnemy ) < 0.55
 		then
 			nTargetLocation = npcEnemy:GetExtrapolatedLocation( nCastPoint )
@@ -99,6 +100,7 @@ function X.ConsiderGrimstrokeStrokeOfFate( bot )
 
 		if J.IsValidHero( npcEnemy )
 			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.IsInRange( npcEnemy, bot, nCastRange + nRadius )
 			and J.IsHealing( npcEnemy )
 			and not npcEnemy:HasModifier( 'modifier_templar_assassin_refraction_absorb' )
 		then
@@ -170,7 +172,7 @@ function X.ConsiderGrimstrokeStrokeOfFate( bot )
 			and not nEnemyCreeps[1]:HasModifier( "modifier_fountain_glyph" )
 		then
 			nAoeLoc = bot:FindAoELocation( true, false, bot:GetLocation(), nCastRange, nRadius, 0, 0 )
-			if ( nAoeLoc.count >= 3 )
+			if nAoeLoc.count >= 3
 			then
 				nTargetLocation = nAoeLoc.targetloc
 				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "StrokeOfFate-Push:"..nAoeLoc.count
@@ -250,6 +252,15 @@ function X.ConsiderGrimstrokePhantomsEmbrace( bot )
 		then
 			return BOT_ACTION_DESIRE_HIGH, npcEnemy, "PhantomsEmbrace-Ult:"..J.Chat.GetNormName( npcEnemy )
 		end
+		
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.IsInRange( npcEnemy, bot, nCastRange )
+			and J.GetHP( npcEnemy ) < 0.55
+			and ( not J.IsDisabled( npcEnemy ) or not npcEnemy:IsSilenced() )
+		then
+			return BOT_ACTION_DESIRE_HIGH, npcEnemy, "PhantomsEmbrace-Attack:"..J.Chat.GetNormName( npcEnemy )
+		end
 
 		local nEnemyDamage = npcEnemy:GetEstimatedDamageToTarget( false, bot, 3.0, DAMAGE_TYPE_MAGICAL )
 		if J.IsValidHero( npcEnemy )
@@ -293,7 +304,7 @@ function X.ConsiderGrimstrokePhantomsEmbrace( bot )
 				and J.CanCastOnTargetAdvanced( npcEnemy )
 				and bot:WasRecentlyDamagedByHero( npcEnemy, 5.0 )
 				and bot:IsFacingLocation( npcEnemy:GetExtrapolatedLocation( nCastPoint ), 20 )
-				and ( not J.IsDisabled( botTarget ) or not botTarget:IsSilenced() )
+				and ( not J.IsDisabled( npcEnemy ) or not npcEnemy:IsSilenced() )
 			then
 				return BOT_ACTION_DESIRE_HIGH, npcEnemy, "PhantomsEmbrace-Retreat:"..J.Chat.GetNormName( npcEnemy )
 			end
@@ -507,6 +518,492 @@ end
 -- npc_dota_hero_lich
 -- npc_dota_hero_life_stealer
 -- npc_dota_hero_lina
+function X.ConsiderLinaDragonSlave( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'lina_dragon_slave' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nSkillLV = ability:GetLevel()
+	local nCastRange = ability:GetCastRange() + bonusRange
+	local nRadius = ability:GetSpecialValueInt( "dragon_slave_width_end" )
+	local nCastPoint = ability:GetCastPoint()
+	local nManaCost = ability:GetManaCost()
+	local nDamage = ability:GetSpecialValueInt( "AbilityDamage" )
+	local nTargetLocation
+
+	
+	for _, npcEnemy in pairs( nEnemyHeroesInRange )
+	do
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.IsInRange( npcEnemy, bot, nCastRange + nRadius )
+			and J.GetHP( npcEnemy ) < 0.55
+		then
+			nTargetLocation = botTarget:GetExtrapolatedLocation( nCastPoint )
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'DragonSlave-Attack:'..J.Chat.GetNormName( npcEnemy )
+		end
+
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.WillMagicKillTarget( bot, npcEnemy, nDamage, nCastPoint )
+		then
+			nTargetLocation = botTarget:GetExtrapolatedLocation( nCastPoint )
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'DragonSlave-Kill:'..J.Chat.GetNormName( npcEnemy )
+		end
+		
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.IsInRange( npcEnemy, bot, nCastRange + nRadius )
+			and J.IsHealing( npcEnemy )
+			and not npcEnemy:HasModifier( 'modifier_templar_assassin_refraction_absorb' )
+		then
+			nTargetLocation = botTarget:GetExtrapolatedLocation( nCastPoint )
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'DragonSlave-DispelHeal:'..J.Chat.GetNormName( npcEnemy )
+		end
+	end
+	
+	
+	local nAoeLoc = J.GetAoeEnemyHeroLocation( bot, nCastRange, nRadius, 2 )
+	if nAoeLoc ~= nil
+		and J.IsAllowedToSpam( bot, nManaCost * 0.72 )
+		and nMP > 0.38
+	then
+		nTargetLocation = nAoeLoc
+		return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'DragonSlave-Harass'
+	end
+
+	if #nAlliedHeroesInRange == 1
+		and #nEnemyHeroesInRange == 1
+	then
+		nAoeLoc = J.GetAoeEnemyHeroLocation( bot, nCastRange, nRadius, 1 )
+		if nAoeLoc ~= nil
+			and J.IsAllowedToSpam( bot, nManaCost * 0.72 )
+			and nMP > 0.38
+			and not nEnemyHeroesInRange[1]:HasModifier( 'modifier_templar_assassin_refraction_absorb' )
+			and nSkillLV >= 2
+		then
+			nTargetLocation = nAoeLoc
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "DragonSlave-Harass"
+		end
+	end
+
+
+	if J.IsGoingOnSomeone( bot )
+	then
+		if J.IsValidHero( botTarget )
+			and J.CanCastOnNonMagicImmune( botTarget )
+			and J.IsInRange( botTarget, bot, nCastRange )
+		then
+			nTargetLocation = botTarget:GetExtrapolatedLocation( nCastPoint )
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'DragonSlave-Attack:'..J.Chat.GetNormName( botTarget )
+		end
+	end
+
+
+	if J.IsRetreating( bot )
+	then
+		for _, npcEnemy in pairs( nEnemyHeroesInRange )
+		do
+			if J.IsValidHero( npcEnemy )
+				and bot:WasRecentlyDamagedByHero( npcEnemy, 5.0 )
+				and J.CanCastOnNonMagicImmune( npcEnemy )
+				and bot:IsFacingLocation( npcEnemy:GetExtrapolatedLocation( nCastPoint ), 20 )
+			then
+				nTargetLocation = npcEnemy:GetExtrapolatedLocation( nCastPoint )
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'DragonSlave-Retreat:'..J.Chat.GetNormName( npcEnemy )
+			end
+		end
+	end
+
+	
+	if ( J.IsPushing( bot ) or J.IsDefending( bot ) or J.IsFarming( bot ) )
+		and J.IsAllowedToSpam( bot, nManaCost * 0.72 )
+		and nSkillLV >= 2 and DotaTime() > 8 * 60
+	then
+		local nEnemyCreeps = bot:GetNearbyLaneCreeps( nCastRange + nRadius, true )
+		if #nEnemyCreeps >= 3
+			and J.IsValid( nEnemyCreeps[1] )
+			and not nEnemyCreeps[1]:HasModifier( "modifier_fountain_glyph" )
+		then
+			nAoeLoc = bot:FindAoELocation( true, false, bot:GetLocation(), nCastRange, nRadius, 0, 0 )
+			if nAoeLoc.count >= 3
+			then
+				nTargetLocation = nAoeLoc.targetloc
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "DragonSlave-Push:"..nAoeLoc.count
+			end
+		end
+	end
+
+	
+	if J.IsFarming( bot )
+		and not ( J.IsPushing( bot ) or J.IsDefending( bot ) )
+		and J.IsAllowedToSpam( bot, nManaCost * 0.25 )
+		and nSkillLV >= 3
+		and #nEnemyHeroesInRange == 0
+		and #nAlliedHeroesInRange <= 2
+		and nMP >= 0.55
+	then
+		local nNeutralCreeps = bot:GetNearbyNeutralCreeps( nCastRange + nRadius )
+		if #nNeutralCreeps >= 3 or nMP >= 0.7
+		then
+			local targetCreep = nNeutralCreeps[1]
+			if J.IsValid( targetCreep )
+				and targetCreep:GetHealth() >= 300
+				and J.GetAroundTargetEnemyUnitCount( targetCreep, 300 ) >= 1
+			then
+				nTargetLocation = targetCreep:GetExtrapolatedLocation( nCastPoint )
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "DragonSlave-Farm:"..( #nNeutralCreeps )
+			end
+		end
+	end
+
+	
+	if bot:GetActiveMode() == BOT_MODE_ROSHAN
+		and bot:GetMana() >= 400
+	then
+		if J.IsRoshan( botTarget ) and J.GetHP( botTarget ) > 0.15
+			and J.IsInRange( botTarget, bot, nCastRange )
+		then
+			nTargetLocation = botTarget:GetLocation()
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'DragonSlave-Roshan'
+		end
+	end
+
+	
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderLinaLightStrikeArray( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'lina_light_strike_array' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nSkillLV = ability:GetLevel()
+	local nCastRange = ability:GetCastRange() + bonusRange
+	local nRadius = ability:GetSpecialValueInt( "light_strike_array_aoe" )
+	local nCastPoint = ability:GetCastPoint()
+	local nCastDelay = 0.5
+	local nManaCost = ability:GetManaCost()
+	local nDamage = ability:GetSpecialValueInt( 'light_strike_array_damage' )
+	local nTargetLocation
+
+
+	for _, npcEnemy in pairs( nEnemyHeroesInRange )
+	do
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.ShouldInterrupt( npcEnemy )
+			and ( nLV >= 6 or nMP > 0.55 )
+		then
+			nTargetLocation = J.GetDelayCastLocation( bot, npcEnemy, nCastRange, nRadius, nCastPoint + nCastDelay )
+			if nTargetLocation ~= nil
+			then
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "LightStrikeArray-Interrupt:"..J.Chat.GetNormName( npcEnemy )
+			end
+		end
+
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.WillMagicKillTarget( bot, npcEnemy, nDamage, nCastPoint + nCastDelay )
+		then
+			nTargetLocation = J.GetDelayCastLocation( bot, npcEnemy, nCastRange, nRadius, nCastPoint + nCastDelay )
+			if nTargetLocation ~= nil
+			then
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "LightStrikeArray-Kill:"..J.Chat.GetNormName( npcEnemy )
+			end
+		end
+
+		if J.IsValidHero( npcEnemy )
+			and J.IsInRange( botTarget, bot, nCastRange + nRadius )
+			and ( ( botTarget:HasModifier( 'modifier_obsidian_destroyer_astral_imprisonment_prison' )
+					and J.GetModifierTime( botTarget, 'modifier_obsidian_destroyer_astral_imprisonment_prison' ) < nCastPoint + nCastDelay
+					and J.GetModifierTime( botTarget, 'modifier_obsidian_destroyer_astral_imprisonment_prison' ) >= ( nCastPoint + nCastDelay - 0.5 )
+				)
+				or (
+					botTarget:HasModifier( 'modifier_shadow_demon_disruption' )
+					and J.GetModifierTime( botTarget, 'modifier_shadow_demon_disruption' ) < nCastPoint + nCastDelay
+					and J.GetModifierTime( botTarget, 'modifier_shadow_demon_disruption' ) >= ( nCastPoint + nCastDelay - 0.5 )
+				)
+				or (
+					botTarget:HasModifier( 'modifier_wind_waker' )
+					and J.GetModifierTime( botTarget, 'modifier_wind_waker' ) < nCastPoint + nCastDelay
+					and J.GetModifierTime( botTarget, 'modifier_wind_waker' ) >= ( nCastPoint + nCastDelay - 0.5 )
+				)
+				or (
+					botTarget:HasModifier( 'modifier_eul_cyclone' )
+					and J.GetModifierTime( botTarget, 'modifier_eul_cyclone' ) < nCastPoint + nCastDelay
+					and J.GetModifierTime( botTarget, 'modifier_eul_cyclone' ) >= ( nCastPoint + nCastDelay - 0.5 )
+				)
+				or (
+					botTarget:HasModifier( 'modifier_invoker_tornado' )
+					and J.GetModifierTime( botTarget, 'modifier_invoker_tornado' ) < nCastPoint + nCastDelay
+					and J.GetModifierTime( botTarget, 'modifier_invoker_tornado' ) >= ( nCastPoint + nCastDelay - 0.5 )
+				)
+			)
+		then
+			nTargetLocation = J.GetCastLocation( bot, botTarget, nCastRange, nRadius )
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "LightStrikeArray-ChainStun:"..J.Chat.GetNormName( npcEnemy )
+		end
+		
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.IsInRange( npcEnemy, bot, nCastRange + nRadius )
+			and J.GetHP( npcEnemy ) < 0.55
+			and not J.IsDisabled( npcEnemy )
+		then
+			nTargetLocation = J.GetDelayCastLocation( bot, npcEnemy, nCastRange, nRadius, nCastPoint + nCastDelay )
+			if nTargetLocation ~= nil
+			then
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "LightStrikeArray-Attack:"..J.Chat.GetNormName( npcEnemy )
+			end
+		end
+	end
+	
+	
+	local nAoeLoc = J.GetAoeEnemyHeroLocation( bot, nCastRange, nRadius, 1 )
+	if nAoeLoc ~= nil
+	then
+		nTargetLocation = nAoeLoc
+		return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'LightStrikeArray-Harass'
+	end
+
+
+	if J.IsGoingOnSomeone( bot )
+	then
+		if J.IsValidHero( botTarget )
+			and J.CanCastOnNonMagicImmune( botTarget )
+			and J.IsInRange( botTarget, bot, nCastRange )
+			and not J.IsDisabled( botTarget )
+		then
+			nTargetLocation = J.GetDelayCastLocation( bot, botTarget, nCastRange, nRadius, nCastPoint + nCastDelay )
+			if nTargetLocation ~= nil
+			then
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'LightStrikeArray-Attack:'..J.Chat.GetNormName( botTarget )
+			end
+		end
+	end
+
+
+	if J.IsRetreating( bot )
+	then
+		nAoeLoc = J.GetAoeEnemyHeroLocation( bot, nCastRange, nRadius, 2 )
+		if nAoeLoc ~= nil
+		then
+			nTargetLocation = nAoeLoc
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'LightStrikeArray-Retreat'
+		end
+
+		for _, npcEnemy in pairs( nEnemyHeroesInRange )
+		do
+			if J.IsValidHero( npcEnemy )
+				and bot:WasRecentlyDamagedByHero( npcEnemy, 5.0 )
+				and J.CanCastOnNonMagicImmune( npcEnemy )
+				and bot:IsFacingLocation( npcEnemy:GetExtrapolatedLocation( nCastPoint ), 20 )
+				and not J.IsDisabled( npcEnemy )
+			then
+				nTargetLocation = J.GetDelayCastLocation( bot, npcEnemy, nCastRange, nRadius, nCastPoint + nCastDelay )
+				if nTargetLocation ~= nil
+				then
+					return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'LightStrikeArray-Retreat:'..J.Chat.GetNormName( npcEnemy )
+				end
+			end
+		end
+	end
+
+	
+	if ( J.IsPushing( bot ) or J.IsDefending( bot ) or J.IsFarming( bot ) )
+		and J.IsAllowedToSpam( bot, nManaCost * 0.72 )
+		and nSkillLV >= 2 and DotaTime() > 8 * 60
+	then
+		local nEnemyCreeps = bot:GetNearbyLaneCreeps( nCastRange + nRadius, true )
+		if #nEnemyCreeps >= 3
+			and J.IsValid( nEnemyCreeps[1] )
+			and not nEnemyCreeps[1]:HasModifier( "modifier_fountain_glyph" )
+		then
+			nAoeLoc = bot:FindAoELocation( true, false, bot:GetLocation(), nCastRange, nRadius, 0, 0 )
+			if nAoeLoc.count >= 3
+			then
+				nTargetLocation = nAoeLoc.targetloc
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "LightStrikeArray-ClearWave:"..nAoeLoc.count
+			end
+		end
+	end
+
+	
+	if J.IsFarming( bot )
+		and not ( J.IsPushing( bot ) or J.IsDefending( bot ) )
+		and J.IsAllowedToSpam( bot, nManaCost * 0.25 )
+		and nSkillLV >= 3
+		and #nEnemyHeroesInRange == 0
+		and #nAlliedHeroesInRange <= 2
+		and nMP >= 0.55
+	then
+		local nNeutralCreeps = bot:GetNearbyNeutralCreeps( nCastRange + nRadius )
+		if #nNeutralCreeps >= 2
+		then
+			local targetCreep = nNeutralCreeps[1]
+			if J.IsValid( targetCreep )
+				and targetCreep:GetHealth() >= 200
+				and J.GetAroundTargetEnemyUnitCount( targetCreep, 300 ) >= 1
+			then
+				nTargetLocation = targetCreep:GetExtrapolatedLocation( nCastPoint )
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "LightStrikeArray-Farm:"..( #nNeutralCreeps )
+			end
+		end
+	end
+
+	
+	if bot:GetActiveMode() == BOT_MODE_ROSHAN
+		and nMP >= 0.78
+	then
+		if J.IsRoshan( botTarget )
+			and J.GetHP( botTarget ) > 0.15
+		then
+			nTargetLocation = botTarget:GetLocation()
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'LightStrikeArray-Roshan'
+		end
+	end
+
+	
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderLinaFlameCloak( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'lina_flame_cloak' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable()
+		or not bot:HasScepter()
+	then
+		return BOT_ACTION_DESIRE_NONE, nil
+	end
+
+
+	if J.IsInTeamFight( bot, 1400 )
+	then
+		if #nEnemyHeroesInRange >= #nAlliedHeroesInRange
+		then
+			return BOT_ACTION_DESIRE_HIGH, "FlameCloak-Battle"
+		end
+	end
+
+
+	if J.IsGoingOnSomeone( bot )
+	then
+		if J.IsValidHero( botTarget )
+			and J.IsInRange( botTarget, bot, 700 )
+			and J.CanCastOnNonMagicImmune( botTarget )
+		then
+			return BOT_ACTION_DESIRE_HIGH, "FlameCloak-Chase:"..J.Chat.GetNormName( botTarget )
+		end
+	end
+
+
+	if J.IsRetreating( bot )
+	then
+		if #nEnemyHeroesInRange >= 1
+			and J.IsValidHero( nEnemyHeroesInRange[1] )
+			and J.WasRecentlyDamagedByAnyHero( bot, 5.0 )
+		then
+			return BOT_ACTION_DESIRE_HIGH, "FlameCloak-Retreat"
+		end
+	end
+
+	
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderLinaLagunaBlade( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'lina_laguna_blade' )
+	local talent = bot:GetAbilityByName( 'special_bonus_unique_lina_7' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nCastRange = ability:GetCastRange() + bonusRange
+	local nCastPoint = ability:GetCastPoint()
+	local nDamage = ability:GetSpecialValueInt( "damage" )
+	local nDamageType = talent:IsTrained() and DAMAGE_TYPE_PURE or DAMAGE_TYPE_MAGICAL
+
+	
+	local nWeakestEnemy = nil
+	local nWeakestEnemyHealth = 100000
+	for _, npcEnemy in pairs( nEnemyHeroesInRange )
+	do
+		if J.IsValidHero( npcEnemy )
+			and X.CanCastAbilityLinaLagunaBlade( npcEnemy, talent )
+		then
+			if ( nDamageType == DAMAGE_TYPE_MAGICAL
+					and J.WillMagicKillTarget( bot, npcEnemy, nDamage, nCastPoint ) )
+				or J.WillKillTarget( npcEnemy, nDamage, nDamageType, nCastPoint )
+			then
+				return BOT_ACTION_DESIRE_HIGH, npcEnemy, "LagunaBlade-Kill:"..J.Chat.GetNormName( npcEnemy )
+			end
+		end
+
+		if J.IsValidHero( npcEnemy )
+			and X.CanCastAbilityLinaLagunaBlade( botTarget, talent )
+			and J.GetHP( npcEnemy ) < 0.45
+			and npcEnemy:GetHealth() < nWeakestEnemyHealth
+		then
+			nWeakestEnemyHealth = npcEnemy:GetHealth()
+			nWeakestEnemy = npcEnemy
+		end
+	end
+
+	if nWeakestEnemy ~= nil
+		and J.IsInRange( nWeakestEnemy, bot, nCastRange )
+	then
+		return BOT_ACTION_DESIRE_HIGH, nWeakestEnemy, "LagunaBlade-Battle:"..J.Chat.GetNormName( nWeakestEnemy )
+	end
+	
+	
+	if J.IsGoingOnSomeone( bot )
+	then
+		if J.IsValidHero( botTarget )
+			and X.CanCastAbilityLinaLagunaBlade( botTarget, talent )
+			and J.IsInRange( botTarget, bot, nCastRange )
+			and J.WillMagicKillTarget( bot, botTarget, nDamage * 1.88, nCastPoint )
+		then
+			return BOT_ACTION_DESIRE_HIGH, botTarget, "LagunaBlade-Attack:"..J.Chat.GetNormName( botTarget )
+		end
+	end
+
+	
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.CanCastAbilityLinaLagunaBlade( nTarget, talent )
+
+	if J.CanCastOnTargetAdvanced( nTarget )
+		and not nTarget:HasModifier( "modifier_arc_warden_tempest_double" )
+	then
+		if talent:IsTrained()
+		then
+			return J.CanCastOnMagicImmune( nTarget )
+		else
+			return J.CanCastOnNonMagicImmune( nTarget )
+		end
+	end
+
+	return false
+
+end
+
 -- npc_dota_hero_lion
 -- npc_dota_hero_lone_druid
 -- npc_dota_hero_luna
@@ -698,6 +1195,7 @@ function X.ConsiderNeutralSlam( bot )
 	then
 		if J.IsRoshan( botTarget )
 			and J.GetHP( botTarget ) > 0.15
+			and J.IsInRange( botTarget, bot, nRadius )
 			and not J.IsDisabled( botTarget )
 		then
 			return BOT_ACTION_DESIRE_HIGH, "Slam-Roshan"
@@ -1212,6 +1710,7 @@ function X.ConsiderNeutralHurlBoulder( bot )
 	then
 		if J.IsRoshan( botTarget )
 			and J.GetHP( botTarget ) > 0.15
+			and not J.IsDisabled( botTarget )
 		then
 			return BOT_ACTION_DESIRE_HIGH, botTarget, "HurlBoulder-Roshan"
 		end
