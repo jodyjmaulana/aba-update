@@ -5,7 +5,8 @@
 
 local X = {}
 local ability = nil
-local bonusRange, nMP, nHP, nLV, botTarget, hEnemyList, hAllyList
+local bonusRange, nMP, nHP, nLV, botTarget, nEnemyHeroesInRange, nAlliedHeroesInRange
+-- local BOT_ACTION_DESIRE_NONE, BOT_ACTION_DESIRE_HIGH, BOT_MODE_ROSHAN, DAMAGE_TYPE_MAGICAL, DAMAGE_TYPE_PHYSICAL, BOT_MODE_NONE, ATTRIBUTE_INTELLECT
 
 local J = require( GetScriptDirectory()..'/FunLib/jmz_func')
 
@@ -16,8 +17,8 @@ function X.Init( bot )
 	nMP = bot:GetMana() / bot:GetMaxMana()
 	nHP = bot:GetHealth() / bot:GetMaxHealth()
 	botTarget = J.GetProperTarget( bot )
-	hEnemyList = bot:GetNearbyHeroes( 1400, true, BOT_MODE_NONE )
-	hAllyList = J.GetAlliesNearLoc( bot:GetLocation(), 1400 )
+	nEnemyHeroesInRange = bot:GetNearbyHeroes( 1400, true, BOT_MODE_NONE )
+	nAlliedHeroesInRange = J.GetAlliesNearLoc( bot:GetLocation(), 1400 )
 	bonusRange = J.GetBonusCastRange( bot )
 
 end
@@ -75,8 +76,7 @@ function X.ConsiderGrimstrokeStrokeOfFate( bot )
 	local nCastPoint = ability:GetCastPoint()
 	local nManaCost = ability:GetManaCost()
 	local nDamage = ability:GetSpecialValueInt( 'damage' )
-	local nEnemyHeroesInRange = bot:GetNearbyHeroes( 1400, true, BOT_MODE_NONE )
-	local nTargetLocation = nil
+	local nTargetLocation
 
 	
 	for _, npcEnemy in pairs( nEnemyHeroesInRange )
@@ -86,7 +86,7 @@ function X.ConsiderGrimstrokeStrokeOfFate( bot )
 			and J.GetHP( npcEnemy ) < 0.55
 		then
 			nTargetLocation = npcEnemy:GetExtrapolatedLocation( nCastPoint )
-			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Q-Attack:"..J.Chat.GetNormName( npcEnemy )
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "StrokeOfFate-Attack:"..J.Chat.GetNormName( npcEnemy )
 		end
 
 		if J.IsValidHero( npcEnemy )
@@ -94,7 +94,7 @@ function X.ConsiderGrimstrokeStrokeOfFate( bot )
 			and J.WillMagicKillTarget( bot, npcEnemy, nDamage, nCastPoint )
 		then
 			nTargetLocation = npcEnemy:GetExtrapolatedLocation( nCastPoint )
-			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Q-Kill:"..J.Chat.GetNormName( npcEnemy )
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "StrokeOfFate-Kill:"..J.Chat.GetNormName( npcEnemy )
 		end
 
 		if J.IsValidHero( npcEnemy )
@@ -103,7 +103,7 @@ function X.ConsiderGrimstrokeStrokeOfFate( bot )
 			and not npcEnemy:HasModifier( 'modifier_templar_assassin_refraction_absorb' )
 		then
             nTargetLocation = npcEnemy:GetExtrapolatedLocation( nCastPoint )
-			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Q-DispelHeal:"..J.Chat.GetNormName( npcEnemy )
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "StrokeOfFate-DispelHeal:"..J.Chat.GetNormName( npcEnemy )
 		end
 	end
 	
@@ -114,10 +114,10 @@ function X.ConsiderGrimstrokeStrokeOfFate( bot )
 		and nMP > 0.38
 	then
 		nTargetLocation = nAoeLoc
-		return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Q-Harass"
+		return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "StrokeOfFate-Harass"
 	end
 
-	if #hAllyList == 1
+	if #nAlliedHeroesInRange == 1
 		and #nEnemyHeroesInRange == 1
 	then
 		nAoeLoc = J.GetAoeEnemyHeroLocation( bot, nCastRange, nRadius, 1 )
@@ -127,7 +127,7 @@ function X.ConsiderGrimstrokeStrokeOfFate( bot )
 			and not nEnemyHeroesInRange[1]:HasModifier( 'modifier_templar_assassin_refraction_absorb' )
 		then
 			nTargetLocation = nAoeLoc
-			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Q-Harass"
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "StrokeOfFate-Harass"
 		end
 	end
 
@@ -139,7 +139,7 @@ function X.ConsiderGrimstrokeStrokeOfFate( bot )
 			and J.IsInRange( botTarget, bot, nCastRange )
 		then
 			nTargetLocation = botTarget:GetExtrapolatedLocation( nCastPoint )
-			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Q-Attack:"..J.Chat.GetNormName( botTarget )
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "StrokeOfFate-Attack:"..J.Chat.GetNormName( botTarget )
 		end
 	end
 
@@ -154,7 +154,7 @@ function X.ConsiderGrimstrokeStrokeOfFate( bot )
 				and bot:IsFacingLocation( npcEnemy:GetExtrapolatedLocation( nCastPoint ), 20 )
 			then
 				nTargetLocation = npcEnemy:GetExtrapolatedLocation( nCastPoint )
-				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Q-Retreat:"..J.Chat.GetNormName( npcEnemy )
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "StrokeOfFate-Retreat:"..J.Chat.GetNormName( npcEnemy )
 			end
 		end
 	end
@@ -163,7 +163,6 @@ function X.ConsiderGrimstrokeStrokeOfFate( bot )
 	if ( J.IsPushing( bot ) or J.IsDefending( bot ) or J.IsFarming( bot ) )
 		and J.IsAllowedToSpam( bot, nManaCost * 0.72 )
 		and nSkillLV >= 2 and DotaTime() > 8 * 60
-		and nLV >= 15
 	then
 		local nEnemyCreeps = bot:GetNearbyLaneCreeps( nCastRange + nRadius, true )
 		if #nEnemyCreeps >= 3
@@ -174,7 +173,7 @@ function X.ConsiderGrimstrokeStrokeOfFate( bot )
 			if ( nAoeLoc.count >= 3 )
 			then
 				nTargetLocation = nAoeLoc.targetloc
-				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Q-Push:"..nAoeLoc.count
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "StrokeOfFate-Push:"..nAoeLoc.count
 			end
 		end
 	end
@@ -184,8 +183,8 @@ function X.ConsiderGrimstrokeStrokeOfFate( bot )
 		and not ( J.IsPushing( bot ) or J.IsDefending( bot ) )
 		and J.IsAllowedToSpam( bot, nManaCost * 0.25 )
 		and nSkillLV >= 3
-		and #hEnemyList == 0
-		and #hAllyList <= 2
+		and #nEnemyHeroesInRange == 0
+		and #nAlliedHeroesInRange <= 2
 		and nMP >= 0.55
 	then
 		local nNeutralCreeps = bot:GetNearbyNeutralCreeps( nCastRange + nRadius )
@@ -197,7 +196,7 @@ function X.ConsiderGrimstrokeStrokeOfFate( bot )
 				and J.GetAroundTargetEnemyUnitCount( targetCreep, 300 ) >= 1
 			then
 				nTargetLocation = targetCreep:GetExtrapolatedLocation( nCastPoint )
-				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Q-Farm:"..( #nNeutralCreeps )
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "StrokeOfFate-Farm:"..( #nNeutralCreeps )
 			end
 		end
 	end
@@ -210,7 +209,7 @@ function X.ConsiderGrimstrokeStrokeOfFate( bot )
 			and J.GetHP( botTarget ) > 0.15
 		then
 			nTargetLocation = botTarget:GetLocation()
-			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Q-Roshan"
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "StrokeOfFate-Roshan"
 		end
 	end
 
@@ -229,11 +228,10 @@ function X.ConsiderGrimstrokePhantomsEmbrace( bot )
 
 	local nCastRange = ability:GetCastRange() + bonusRange
 	local nCastPoint = ability:GetCastPoint()
-	local nEnemyHeroesInRange = bot:GetNearbyHeroes( 1400, true, BOT_MODE_NONE )
 
 	
-	local npcMostDangerousEnemy = nil
-	local npcMostDangerousDamage = 0
+	local nMostDangerousEnemy = nil
+	local nMostDangerousDamage = 0
 	for _, npcEnemy in pairs( nEnemyHeroesInRange )
 	do
 		if J.IsValidHero( npcEnemy )
@@ -242,7 +240,7 @@ function X.ConsiderGrimstrokePhantomsEmbrace( bot )
 			and J.ShouldInterrupt( npcEnemy )
 			and ( nLV >= 6 or nMP > 0.55 )
 		then
-			return BOT_ACTION_DESIRE_HIGH, npcEnemy, "W-Interrupt:"..J.Chat.GetNormName( npcEnemy )
+			return BOT_ACTION_DESIRE_HIGH, npcEnemy, "PhantomsEmbrace-Interrupt:"..J.Chat.GetNormName( npcEnemy )
 		end
 
 		if J.IsValidHero( npcEnemy )
@@ -250,25 +248,26 @@ function X.ConsiderGrimstrokePhantomsEmbrace( bot )
 			and J.CanCastOnTargetAdvanced( npcEnemy )
 			and npcEnemy:HasModifier( 'modifier_grimstroke_soul_chain' )
 		then
-			return BOT_ACTION_DESIRE_HIGH, npcEnemy, "W-Ult:"..J.Chat.GetNormName( npcEnemy )
+			return BOT_ACTION_DESIRE_HIGH, npcEnemy, "PhantomsEmbrace-Ult:"..J.Chat.GetNormName( npcEnemy )
 		end
 
-		local npcEnemyDamage = npcEnemy:GetEstimatedDamageToTarget( false, bot, 3.0, DAMAGE_TYPE_MAGICAL )
+		local nEnemyDamage = npcEnemy:GetEstimatedDamageToTarget( false, bot, 3.0, DAMAGE_TYPE_MAGICAL )
 		if J.IsValidHero( npcEnemy )
 			and J.CanCastOnNonMagicImmune( npcEnemy )
 			and J.CanCastOnTargetAdvanced( npcEnemy )
-			and not J.IsDisabled( npcEnemy )
-			and npcEnemyDamage > npcMostDangerousDamage
+			and ( not J.IsDisabled( npcEnemy ) or not npcEnemy:IsSilenced() )
+			and nEnemyDamage > nMostDangerousDamage
 			and ( nLV >= 6 or J.GetHP( npcEnemy ) < 0.65 )
 		then
-			npcMostDangerousDamage = npcEnemyDamage
-			npcMostDangerousEnemy = npcEnemy
+			nMostDangerousDamage = nEnemyDamage
+			nMostDangerousEnemy = npcEnemy
 		end
 	end
 
-	if npcMostDangerousEnemy ~= nil
+	if nMostDangerousEnemy ~= nil
+		and J.IsInRange( nMostDangerousEnemy, bot, nCastRange )
 	then
-		return BOT_ACTION_DESIRE_HIGH, npcMostDangerousEnemy, "W-Battle:"..J.Chat.GetNormName( npcMostDangerousEnemy )
+		return BOT_ACTION_DESIRE_HIGH, nMostDangerousEnemy, "PhantomsEmbrace-Battle:"..J.Chat.GetNormName( nMostDangerousEnemy )
 	end
 
 
@@ -278,9 +277,9 @@ function X.ConsiderGrimstrokePhantomsEmbrace( bot )
 			and J.CanCastOnNonMagicImmune( botTarget )
 			and J.CanCastOnTargetAdvanced( botTarget )
 			and J.IsInRange( botTarget, bot, nCastRange )
-			and not J.IsDisabled( botTarget )
+			and ( not J.IsDisabled( botTarget ) or not botTarget:IsSilenced() )
 		then
-			return BOT_ACTION_DESIRE_HIGH, botTarget, "W-Chase:"..J.Chat.GetNormName( botTarget )
+			return BOT_ACTION_DESIRE_HIGH, botTarget, "PhantomsEmbrace-Chase:"..J.Chat.GetNormName( botTarget )
 		end
 	end
 
@@ -294,9 +293,9 @@ function X.ConsiderGrimstrokePhantomsEmbrace( bot )
 				and J.CanCastOnTargetAdvanced( npcEnemy )
 				and bot:WasRecentlyDamagedByHero( npcEnemy, 5.0 )
 				and bot:IsFacingLocation( npcEnemy:GetExtrapolatedLocation( nCastPoint ), 20 )
-				and not J.IsDisabled( npcEnemy )
+				and ( not J.IsDisabled( botTarget ) or not botTarget:IsSilenced() )
 			then
-				return BOT_ACTION_DESIRE_HIGH, npcEnemy, "W-Retreat:"..J.Chat.GetNormName( npcEnemy )
+				return BOT_ACTION_DESIRE_HIGH, npcEnemy, "PhantomsEmbrace-Retreat:"..J.Chat.GetNormName( npcEnemy )
 			end
 		end
 	end
@@ -308,8 +307,7 @@ function X.ConsiderGrimstrokePhantomsEmbrace( bot )
 		if J.IsRoshan( botTarget )
 			and J.GetHP( botTarget ) > 0.15
 		then
-			nTargetLocation = botTarget:GetLocation()
-			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "W-Roshan"
+			return BOT_ACTION_DESIRE_HIGH, botTarget, "PhantomsEmbrace-Roshan"
 		end
 	end
 
@@ -327,29 +325,32 @@ function X.ConsiderGrimstrokeInkSwell( bot )
 	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
 
 	local nRadius = ability:GetSpecialValueInt( 'radius' )
-	local nAlliedHeroesInRange = bot:GetNearbyHeroes( 1400, false, BOT_MODE_NONE )
 
 
 	for _, npcAlly in pairs( nAlliedHeroesInRange )
 	do
 		if J.IsValidHero( npcAlly )
+			and J.CanCastOnMagicImmune( npcAlly )
 			and ( J.IsDisabled( npcAlly ) or J.ShouldDispelStrongDebuff( npcAlly ) )
 		then
-			return BOT_ACTION_DESIRE_HIGH, npcAlly, "E-Protect:"..J.Chat.GetNormName( npcAlly )
+			return BOT_ACTION_DESIRE_HIGH, npcAlly, "InkSwell-Protect:"..J.Chat.GetNormName( npcAlly )
 		end
 
 		if J.IsValidHero( npcAlly )
+			and J.CanCastOnMagicImmune( npcAlly )
 			and not npcAlly:HasModifier( 'modifier_fountain_aura' )
 			and J.GetHP( npcAlly ) < 0.85
 			and npcAlly:WasRecentlyDamagedByAnyHero( 1.0 )
+			and #nEnemyHeroesInRange >= 1
 		then
-			return BOT_ACTION_DESIRE_HIGH, npcAlly, "E-Protect:"..J.Chat.GetNormName( npcAlly )
+			return BOT_ACTION_DESIRE_HIGH, npcAlly, "InkSwell-Protect:"..J.Chat.GetNormName( npcAlly )
 		end
 
 		if J.IsValidHero( npcAlly )
+			and J.CanCastOnMagicImmune( npcAlly )
 			and J.GetAroundTargetEnemyHeroCount( npcAlly, nRadius ) >= 1
 		then
-			return BOT_ACTION_DESIRE_HIGH, npcAlly, "E-Buff:"..J.Chat.GetNormName( npcAlly )
+			return BOT_ACTION_DESIRE_HIGH, npcAlly, "InkSwell-Buff:"..J.Chat.GetNormName( npcAlly )
 		end
 	end
 
@@ -358,8 +359,9 @@ function X.ConsiderGrimstrokeInkSwell( bot )
 	then
 		local npcAlly = J.GetMeleeAlly( bot )
 		if J.IsValidHero( npcAlly )
+			and J.CanCastOnMagicImmune( npcAlly )
 		then
-			return BOT_ACTION_DESIRE_HIGH, npcAlly, "E-Chase:"..J.Chat.GetNormName( botTarget )
+			return BOT_ACTION_DESIRE_HIGH, npcAlly, "InkSwell-Chase:"..J.Chat.GetNormName( botTarget )
 		end
 	end
 
@@ -372,8 +374,9 @@ function X.ConsiderGrimstrokeInkSwell( bot )
 		then
 			local npcAlly = J.GetMeleeAlly( bot )
 			if J.IsValidHero( npcAlly )
+				and J.CanCastOnMagicImmune( npcAlly )
 			then
-				return BOT_ACTION_DESIRE_HIGH, npcAlly, "E-Roshan"
+				return BOT_ACTION_DESIRE_HIGH, npcAlly, "InkSwell-Roshan"
 			end
 		end
 	end
@@ -392,11 +395,10 @@ function X.ConsiderGrimstrokeDarkPortrait( bot )
 	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
 
 	local nCastRange = ability:GetCastRange() + bonusRange
-	local nEnemyHeroesInRange = bot:GetNearbyHeroes( 1400, true, BOT_MODE_NONE )
 
 
-	local npcMostDangerousEnemy = nil
-	local npcMostDangerousDamage = 0
+	local nMostDangerousEnemy = nil
+	local nMostDangerousDamage = 0
 	for _, npcEnemy in pairs( nEnemyHeroesInRange )
 	do
 		if J.IsValidHero( npcEnemy )
@@ -404,23 +406,24 @@ function X.ConsiderGrimstrokeDarkPortrait( bot )
 			and J.CanCastOnTargetAdvanced( npcEnemy )
 			and npcEnemy:HasModifier( 'modifier_grimstroke_soul_chain' )
 		then
-			return BOT_ACTION_DESIRE_HIGH, npcEnemy, "D-Ult:"..J.Chat.GetNormName( npcEnemy )
+			return BOT_ACTION_DESIRE_HIGH, npcEnemy, "DarkPortrait-Ult:"..J.Chat.GetNormName( npcEnemy )
 		end
 
-		local npcEnemyDamage = npcEnemy:GetEstimatedDamageToTarget( false, bot, 3.0, DAMAGE_TYPE_PHYSICAL )
+		local nEnemyDamage = npcEnemy:GetEstimatedDamageToTarget( false, bot, 3.0, DAMAGE_TYPE_PHYSICAL )
 		if J.IsValidHero( npcEnemy )
 			and J.CanCastOnNonMagicImmune( npcEnemy )
 			and J.CanCastOnTargetAdvanced( npcEnemy )
-			and npcEnemyDamage > npcMostDangerousDamage
+			and nEnemyDamage > nMostDangerousDamage
 		then
-			npcMostDangerousDamage = npcEnemyDamage
-			npcMostDangerousEnemy = npcEnemy
+			nMostDangerousDamage = nEnemyDamage
+			nMostDangerousEnemy = npcEnemy
 		end
 	end
 
-	if npcMostDangerousEnemy ~= nil
+	if nMostDangerousEnemy ~= nil
+		and J.IsInRange( nMostDangerousEnemy, bot, nCastRange )
 	then
-		return BOT_ACTION_DESIRE_HIGH, npcMostDangerousEnemy, "D-Battle:"..J.Chat.GetNormName( npcMostDangerousEnemy )
+		return BOT_ACTION_DESIRE_HIGH, nMostDangerousEnemy, "DarkPortrait-Battle:"..J.Chat.GetNormName( nMostDangerousEnemy )
 	end
 
 
@@ -431,7 +434,7 @@ function X.ConsiderGrimstrokeDarkPortrait( bot )
 			and J.CanCastOnTargetAdvanced( botTarget )
 			and J.IsInRange( botTarget, bot, nCastRange )
 		then
-			return BOT_ACTION_DESIRE_HIGH, botTarget, "D-Chase:"..J.Chat.GetNormName( botTarget )
+			return BOT_ACTION_DESIRE_HIGH, botTarget, "DarkPortrait-Chase:"..J.Chat.GetNormName( botTarget )
 		end
 	end
 
@@ -446,36 +449,31 @@ function X.ConsiderGrimstrokeSoulbind( bot )
 	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
 	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
 
-	local nSkillLV = ability:GetLevel()
 	local nCastRange = ability:GetCastRange() + bonusRange
 	local nRadius = ability:GetSpecialValueInt( 'chain_latch_radius' )
-	local nCastPoint = ability:GetCastPoint()
-	local nManaCost = ability:GetManaCost()
-	local nEnemyHeroesInRange = bot:GetNearbyHeroes( 1400, true, BOT_MODE_NONE )
 
 	if #nEnemyHeroesInRange < 2 then return BOT_ACTION_DESIRE_NONE, nil end
 
 	
-	local npcMostDangerousEnemy = nil
-	local npcMostDangerousDamage = 0
+	local nMostDangerousEnemy = nil
+	local nMostDangerousDamage = 0
 	for _, npcEnemy in pairs( nEnemyHeroesInRange )
 	do
-		local npcEnemyDamage = npcEnemy:GetEstimatedDamageToTarget( false, bot, 3.0, DAMAGE_TYPE_PHYSICAL )
+		local nEnemyDamage = npcEnemy:GetEstimatedDamageToTarget( false, bot, 3.0, DAMAGE_TYPE_PHYSICAL )
 		if J.IsValidHero( npcEnemy )
 			and J.CanCastOnMagicImmune( npcEnemy )
 			and J.CanCastOnTargetAdvanced( npcEnemy )
-			and not J.IsDisabled( npcEnemy )
-			and npcEnemyDamage > npcMostDangerousDamage
-			and J.GetAroundTargetEnemyHeroCount( npcEnemy, nRadius ) >= 1
+			and nEnemyDamage > nMostDangerousDamage
+			and J.GetAroundTargetEnemyHeroCount( npcEnemy, nRadius + 250 ) >= 1
 		then
-			npcMostDangerousDamage = npcEnemyDamage
-			npcMostDangerousEnemy = npcEnemy
+			nMostDangerousDamage = nEnemyDamage
+			nMostDangerousEnemy = npcEnemy
 		end
 	end
 
-	if npcMostDangerousEnemy ~= nil
+	if nMostDangerousEnemy ~= nil
 	then
-		return BOT_ACTION_DESIRE_HIGH, npcMostDangerousEnemy, "R-Battle:"..J.Chat.GetNormName( npcMostDangerousEnemy )
+		return BOT_ACTION_DESIRE_HIGH, nMostDangerousEnemy, "SoulBind-Battle:"..J.Chat.GetNormName( nMostDangerousEnemy )
 	end
 
 
@@ -485,9 +483,9 @@ function X.ConsiderGrimstrokeSoulbind( bot )
 			and J.CanCastOnMagicImmune( botTarget )
 			and J.CanCastOnTargetAdvanced( botTarget )
 			and J.IsInRange( botTarget, bot, nCastRange )
-			and J.GetAroundTargetEnemyHeroCount( npcEnemy, nRadius ) >= 1
+			and J.GetAroundTargetEnemyHeroCount( botTarget, nRadius + 250 ) >= 1
 		then
-			return BOT_ACTION_DESIRE_HIGH, botTarget, "R-Chase:"..J.Chat.GetNormName( botTarget )
+			return BOT_ACTION_DESIRE_HIGH, botTarget, "SoulBind-Chase:"..J.Chat.GetNormName( botTarget )
 		end
 	end
 
@@ -582,5 +580,1001 @@ end
 -- npc_dota_hero_witch_doctor
 -- npc_dota_hero_zuus
 -- neutral
+function X.ConsiderNecronomiconPurge( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'necronomicon_archer_purge' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nCastRange = ability:GetCastRange() + bonusRange
+
+	
+	for _, npcEnemy in pairs( nEnemyHeroesInRange )
+	do
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.CanCastOnTargetAdvanced( npcEnemy )
+			and J.IsInRange( npcEnemy, bot, nCastRange )
+			and J.ShouldDispelBuff( npcEnemy )
+		then
+			return BOT_ACTION_DESIRE_HIGH, npcEnemy, "Purge-Dispel:"..J.Chat.GetNormName( npcEnemy )
+		end
+	end
+
+
+	if J.IsGoingOnSomeone( bot )
+	then
+		if J.IsValidHero( botTarget )
+			and J.CanCastOnNonMagicImmune( botTarget )
+			and J.CanCastOnTargetAdvanced( botTarget )
+			and J.IsInRange( botTarget, bot, nCastRange )
+		then
+			return BOT_ACTION_DESIRE_HIGH, botTarget, "Purge-Chase:"..J.Chat.GetNormName( botTarget )
+		end
+	end
+
+	
+	for _, npcAlly in pairs( nAlliedHeroesInRange )
+	do
+		if J.IsValidHero( npcAlly )
+			and J.IsRetreating( npcAlly )
+			and bot:WasRecentlyDamagedByAnyHero( 5.0 )
+			and not J.IsDisabled( nEnemyHeroesInRange[1] )
+		then
+			return BOT_ACTION_DESIRE_HIGH, nEnemyHeroesInRange[1], "Purge-Retreat:"..J.Chat.GetNormName( nEnemyHeroesInRange[1] )
+		end
+	end
+
+
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderNeutralFrenzy( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'big_thunder_lizard_frenzy' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nCastRange = ability:GetCastRange() + bonusRange
+
+	
+	local nStrongestAlly = nil
+	local nStrongestDamage = 0
+	for _, npcAlly in pairs( nAlliedHeroesInRange )
+	do
+		local npcAllyDamage = npcAlly:GetEstimatedDamageToTarget( false, bot, 3.0, DAMAGE_TYPE_PHYSICAL )
+		if J.IsValidHero( npcAlly )
+			and J.CanCastOnMagicImmune( npcAlly )
+			and ( not J.IsDisabled( npcAlly ) or not npcAlly:IsDisarmed() )
+			and npcAllyDamage > nStrongestDamage
+			and #nEnemyHeroesInRange >= 1
+		then
+			nStrongestDamage = npcAllyDamage
+			nStrongestAlly = npcAlly
+		end
+	end
+
+	if nStrongestAlly ~= nil
+		and J.IsInRange( nStrongestAlly, bot, nCastRange )
+	then
+		return BOT_ACTION_DESIRE_HIGH, nStrongestAlly, "Frenzy-Buff:"..J.Chat.GetNormName( nStrongestAlly )
+	end
+
+
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderNeutralSlam( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'big_thunder_lizard_slam' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nRadius = ability:GetSpecialValueInt( 'radius' )
+
+	
+	for _, npcEnemy in pairs( nEnemyHeroesInRange )
+	do
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.IsInRange( npcEnemy, bot, nRadius )
+			and not J.IsDisabled( npcEnemy )
+		then
+			return BOT_ACTION_DESIRE_HIGH, "Slam-Slow:"..J.Chat.GetNormName( npcEnemy )
+		end
+	end
+
+	
+	if bot:GetActiveMode() == BOT_MODE_ROSHAN
+		and nMP >= 0.78
+	then
+		if J.IsRoshan( botTarget )
+			and J.GetHP( botTarget ) > 0.15
+			and not J.IsDisabled( botTarget )
+		then
+			return BOT_ACTION_DESIRE_HIGH, "Slam-Roshan"
+		end
+	end
+
+
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderNeutralFireball( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'black_dragon_fireball' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nCastRange = ability:GetCastRange() + bonusRange
+	local nRadius = ability:GetSpecialValueInt( 'radius' )
+	local nTargetLocation
+
+
+	if #nEnemyHeroesInRange >= 1
+	then
+		local nAoeLoc = J.GetAoeEnemyHeroLocation( bot, nCastRange, nRadius, 1 )
+		if nAoeLoc ~= nil
+		then
+			nTargetLocation = nAoeLoc
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Fireball-Battle"
+		end
+	end
+
+	
+	if J.IsGoingOnSomeone( bot )
+	then
+		if J.IsValidHero( botTarget )
+			and J.CanCastOnNonMagicImmune( botTarget )
+			and J.IsInRange( botTarget, bot, nCastRange )
+		then
+			nTargetLocation = J.GetCastLocation( bot, botTarget, nCastRange, nRadius )
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Fireball-Attack:"..J.Chat.GetNormName( botTarget )
+		end
+	end
+
+	
+	if J.IsRetreating( bot )
+	then
+		for _, npcEnemy in pairs( nEnemyHeroesInRange )
+		do
+			if J.IsValidHero( npcEnemy )
+				and bot:WasRecentlyDamagedByHero( npcEnemy, 5.0 )
+				and J.CanCastOnNonMagicImmune( npcEnemy )
+				and bot:IsFacingLocation( npcEnemy:GetExtrapolatedLocation( 0.3 ), 20 )
+			then
+				nTargetLocation = J.GetCastLocation( bot, npcEnemy, nCastRange, nRadius )
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'Fireball-Retreat:'..J.Chat.GetNormName( npcEnemy )
+			end
+		end
+	end
+
+	
+	if bot:GetActiveMode() == BOT_MODE_ROSHAN
+		and nMP >= 0.78
+	then
+		if J.IsRoshan( botTarget )
+			and J.GetHP( botTarget ) > 0.15
+		then
+			nTargetLocation = botTarget:GetLocation()
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Fireball-Roshan"
+		end
+	end
+
+
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderNeutralWarStomp( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'centaur_khan_war_stomp' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nRadius = ability:GetSpecialValueInt( 'radius' )
+
+	
+	for _, npcEnemy in pairs( nEnemyHeroesInRange )
+	do
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.IsInRange( npcEnemy, bot, nRadius )
+			and J.ShouldInterrupt( npcEnemy )
+		then
+			return BOT_ACTION_DESIRE_HIGH, "WarStomp-Interrupt:"..J.Chat.GetNormName( npcEnemy )
+		end
+
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.IsInRange( npcEnemy, bot, nRadius )
+			and not J.IsDisabled( npcEnemy )
+		then
+			return BOT_ACTION_DESIRE_HIGH, "WarStomp-Stun:"..J.Chat.GetNormName( npcEnemy )
+		end
+	end
+
+	
+	if bot:GetActiveMode() == BOT_MODE_ROSHAN
+		and nMP >= 0.78
+	then
+		if J.IsRoshan( botTarget )
+			and J.GetHP( botTarget ) > 0.15
+			and J.IsInRange( botTarget, bot, nRadius )
+			and not J.IsDisabled( botTarget )
+		then
+			return BOT_ACTION_DESIRE_HIGH, "WarStomp-Roshan"
+		end
+	end
+
+
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderNeutralEnsnare( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'dark_troll_warlord_ensnare' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+	
+	local nCastRange = ability:GetCastRange() + bonusRange
+
+
+	for _, npcEnemy in pairs( nEnemyHeroesInRange )
+	do
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.CanCastOnTargetAdvanced( npcEnemy )
+			and npcEnemy:IsChanneling()
+			and npcEnemy:HasModifier( 'modifier_teleporting' )
+		then
+			return BOT_ACTION_DESIRE_HIGH, npcEnemy, "Ensnare-Root"
+		end
+	end
+
+	
+	if J.IsGoingOnSomeone( bot )
+	then
+		if J.IsValidHero( botTarget )
+			and J.CanCastOnNonMagicImmune( botTarget )
+			and J.CanCastOnTargetAdvanced( botTarget )
+			and not J.IsDisabled( botTarget )
+			and J.IsInRange( botTarget, bot, nCastRange )
+		then
+			return BOT_ACTION_DESIRE_HIGH, botTarget, "Ensnare-Chase:"..J.Chat.GetNormName( botTarget )
+		end
+	end
+
+
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderNeutralRaiseDead( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'dark_troll_warlord_raise_dead' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	return BOT_ACTION_DESIRE_HIGH, "RaiseDead"
+	
+end
+
+function X.ConsiderNeutralHurricane( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'enraged_wildkin_hurricane' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nCastRange = ability:GetCastRange() + bonusRange
+	local nTargetLocation
+
+
+	for _, npcEnemy in pairs( nEnemyHeroesInRange )
+	do
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.CanCastOnTargetAdvanced( npcEnemy )
+			and J.IsInRange( npcEnemy, bot, nCastRange )
+		then
+			nTargetLocation = J.GetFaceTowardDistanceLocation( botTarget, nCastRange )
+			return BOT_ACTION_DESIRE_HIGH, botTarget, nTargetLocation, "Hurricane-Battle:"..J.Chat.GetNormName( npcEnemy )
+		end
+	end
+
+	
+	if J.IsGoingOnSomeone( bot )
+	then
+		if J.IsValidHero( botTarget )
+			and J.CanCastOnNonMagicImmune( botTarget )
+			and J.CanCastOnTargetAdvanced( botTarget )
+			and J.IsInRange( botTarget, bot, nCastRange )
+		then
+			nTargetLocation = J.GetFaceTowardDistanceLocation( botTarget, nCastRange * -1 )
+			return BOT_ACTION_DESIRE_HIGH, botTarget, nTargetLocation, "Hurricane-Chase:"..J.Chat.GetNormName( botTarget )
+		end
+	end
+
+	
+	if J.IsRetreating( bot )
+	then
+		for _, npcAlly in pairs( nAlliedHeroesInRange )
+		do
+			if #nEnemyHeroesInRange >= 1
+				and J.IsValidHero( npcAlly )
+				and npcAlly:WasRecentlyDamagedByAnyHero( 5.0 )
+				and J.CanCastOnNonMagicImmune( nEnemyHeroesInRange[1] )
+				and J.CanCastOnTargetAdvanced( nEnemyHeroesInRange[1] )
+			then
+				nTargetLocation = J.GetFaceTowardDistanceLocation( botTarget, nCastRange * -1 )
+				return BOT_ACTION_DESIRE_HIGH, botTarget, nTargetLocation, "Hurricane-Retreat:"..J.Chat.GetNormName( botTarget )
+			end
+		end
+	end
+
+	
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderNeutralTornado( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'enraged_wildkin_tornado' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nCastRange = ability:GetCastRange() + bonusRange
+	local nRadius = 150
+	local nTargetLocation
+
+
+	if #nEnemyHeroesInRange >= 1
+		and J.IsValidHero( nEnemyHeroesInRange[1] )
+		and J.CanCastOnNonMagicImmune( nEnemyHeroesInRange[1] )
+		and J.IsInRange( nEnemyHeroesInRange[1], bot, nCastRange + 200 )
+	then
+		nTargetLocation = J.GetCastLocation( bot, nEnemyHeroesInRange[1], nCastRange, nRadius )
+		return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Tornado-Battle:"..J.Chat.GetNormName( nEnemyHeroesInRange[1] )
+	end
+
+	
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderNeutralVex( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'fel_beast_haunt' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nCastRange = ability:GetCastRange() + bonusRange
+
+	
+	for _, npcEnemy in pairs( nEnemyHeroesInRange )
+	do
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.CanCastOnTargetAdvanced( npcEnemy )
+			and J.IsInRange( npcEnemy, bot, nCastRange )
+			and J.ShouldInterrupt( npcEnemy )
+		then
+			return BOT_ACTION_DESIRE_HIGH, npcEnemy, "Vex-Interrupt:"..J.Chat.GetNormName( npcEnemy )
+		end
+
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.CanCastOnTargetAdvanced( npcEnemy )
+			and J.IsInRange( npcEnemy, bot, nCastRange )
+			and ( not J.IsDisabled( npcEnemy ) or not npcEnemy:IsSilenced() )
+		then
+			return BOT_ACTION_DESIRE_HIGH, npcEnemy, "Vex-Silence:"..J.Chat.GetNormName( npcEnemy )
+		end
+	end
+
+	
+	if bot:GetActiveMode() == BOT_MODE_ROSHAN
+		and nMP >= 0.78
+	then
+		if J.IsRoshan( botTarget )
+			and J.GetHP( botTarget ) > 0.15
+			and ( not J.IsDisabled( botTarget ) or not botTarget:IsSilenced() )
+		then
+			return BOT_ACTION_DESIRE_HIGH, botTarget, "Vex-Roshan"
+		end
+	end
+
+
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderNeutralHeal( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'forest_troll_high_priest_heal' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nCastRange = ability:GetCastRange() + bonusRange
+	local nHealAmount = ability:GetSpecialValueInt( 'health' )
+
+
+	local nLowestHealthAlly = nil
+	local nLowestHealthPct = 100
+	for _, npcAlly in pairs( nAlliedHeroesInRange )
+	do
+		if J.IsValidHero( npcAlly )
+			and J.CanCastOnMagicImmune( npcAlly )
+			and J.GetHealth( npcAlly ) < nHealAmount * 1.12
+			and J.GetHP( npcAlly ) < nLowestHealthPct
+		then
+			nLowestHealthPct = J.GetHP( npcAlly )
+			nLowestHealthAlly = npcAlly
+		end
+	end
+
+	if nLowestHealthAlly ~= nil
+		and J.IsInRange( nLowestHealthAlly, bot, nCastRange )
+	then
+		return BOT_ACTION_DESIRE_HIGH, nLowestHealthAlly, "Heal-Heal:"..J.Chat.GetNormName( nLowestHealthAlly )
+	end
+
+	
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderNeutralTakeOff( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'harpy_scout_take_off' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+
+	--------
+	--TODO--
+	--------
+
+	
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderNeutralChainLightning( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'harpy_storm_chain_lightning' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nCastRange = ability:GetCastRange() + bonusRange
+
+
+	for _, npcEnemy in pairs( nEnemyHeroesInRange )
+	do
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.CanCastOnTargetAdvanced( npcEnemy )
+			and J.IsInRange( npcEnemy, bot, nCastRange )
+		then
+			return BOT_ACTION_DESIRE_HIGH, nil, "ChainLightning-Battle:"..J.Chat.GetNormName( npcEnemy )
+		end
+	end
+
+	
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderNeutralIcefireBomb( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'ice_shaman_incendiary_bomb' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nCastRange = ability:GetCastRange() + bonusRange
+
+
+	for _, npcEnemy in pairs( nEnemyHeroesInRange )
+	do
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.CanCastOnTargetAdvanced( npcEnemy )
+			and J.IsInRange( npcEnemy, bot, nCastRange )
+		then
+			return BOT_ACTION_DESIRE_HIGH, nil, "IcefireBomb-Battle:"..J.Chat.GetNormName( npcEnemy )
+		end
+	end
+
+
+	local nTowerList = bot:GetNearbyTowers( 1000, true )
+	local nBarrackList = bot:GetNearbyBarracks( 1000, true )
+	local nEnemyAncient = GetAncient( GetOpposingTeam() )
+	local nBuildingList = {
+		botTarget,
+		nTowerList[1],
+		nBarrackList[1],
+		nEnemyAncient,
+	}
+
+	for _, building in pairs( nBuildingList )
+	do
+		if J.IsValidBuilding( building )
+			and J.IsInRange( bot, building, nCastRange )
+			and not building:HasModifier( 'modifier_fountain_glyph' )
+			and not building:HasModifier( 'modifier_invulnerable' )
+			and not building:HasModifier( 'modifier_backdoor_protection' )
+			and not J.IsKeyWordUnit( "DOTA_Outpost", building )
+		then
+			return BOT_ACTION_DESIRE_HIGH, building, "IcefireBomb-Tower"
+		end
+	end
+
+	
+	if bot:GetActiveMode() == BOT_MODE_ROSHAN
+		and nMP >= 0.78
+	then
+		if J.IsRoshan( botTarget )
+			and J.GetHP( botTarget ) > 0.15
+		then
+			return BOT_ACTION_DESIRE_HIGH, botTarget, "IcefireBomb-Roshan"
+		end
+	end
+
+	
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderNeutralHurlBoulder( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'mud_golem_hurl_boulder' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nCastRange = ability:GetCastRange() + bonusRange
+
+
+	for _, npcEnemy in pairs( nEnemyHeroesInRange )
+	do
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.CanCastOnTargetAdvanced( npcEnemy )
+			and J.ShouldInterrupt( npcEnemy )
+		then
+			return BOT_ACTION_DESIRE_HIGH, npcEnemy, "HurlBoulder-Interrupt:"..J.Chat.GetNormName( npcEnemy )
+		end
+	end
+
+
+	if J.IsValidHero( botTarget )
+		and J.CanCastOnNonMagicImmune( botTarget )
+		and J.CanCastOnTargetAdvanced( botTarget )
+		and J.IsInRange( botTarget, bot, nCastRange )
+		and not J.IsDisabled( botTarget )
+	then
+		return BOT_ACTION_DESIRE_HIGH, botTarget, "HurlBoulder-Chase:"..J.Chat.GetNormName( botTarget )
+	end
+
+
+	if J.IsRetreating( bot )
+	then
+		for _, npcEnemy in pairs( nEnemyHeroesInRange )
+		do
+			if J.IsValidHero( npcEnemy )
+				and J.CanCastOnNonMagicImmune( npcEnemy )
+				and J.CanCastOnTargetAdvanced( npcEnemy )
+				and bot:WasRecentlyDamagedByHero( npcEnemy, 5.0 )
+				and bot:IsFacingLocation( npcEnemy:GetExtrapolatedLocation( 0.3 ), 20 )
+				and not J.IsDisabled( npcEnemy )
+			then
+				return BOT_ACTION_DESIRE_HIGH, npcEnemy, "HurlBoulder-Retreat:"..J.Chat.GetNormName( npcEnemy )
+			end
+		end
+	end
+
+	
+	if bot:GetActiveMode() == BOT_MODE_ROSHAN
+		and nMP >= 0.78
+	then
+		if J.IsRoshan( botTarget )
+			and J.GetHP( botTarget ) > 0.15
+		then
+			return BOT_ACTION_DESIRE_HIGH, botTarget, "HurlBoulder-Roshan"
+		end
+	end
+
+	
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderNeutralIceArmor( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'ogre_magi_frost_armor' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+
+	for _, npcAlly in pairs( nAlliedHeroesInRange )
+	do
+		if J.IsValidHero( npcAlly )
+			and J.CanCastOnMagicImmune( npcAlly )
+			and not npcAlly:HasModifier( 'modifier_ogre_magi_frost_armor' )
+		then
+			return BOT_ACTION_DESIRE_HIGH, npcAlly, "IceArmor-Protect:"..J.Chat.GetNormName( npcAlly )
+		end
+	end
+
+
+	
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderNeutralOgreSmash( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'ogre_bruiser_ogre_smash' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nRadius = ability:GetSpecialValueInt( 'radius' )
+	local nCastPoint = ability:GetCastPoint()
+
+
+	for _, npcEnemy in pairs( nEnemyHeroesInRange )
+	do
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.ShouldInterrupt( npcEnemy )
+			and bot:IsFacingLocation( npcEnemy:GetExtrapolatedLocation( nCastPoint ), 20 )
+			and J.IsInRange( npcEnemy, bot, nRadius * 2 )
+		then
+			return BOT_ACTION_DESIRE_HIGH, npcEnemy, "OgreSmash-Interrupt:"..J.Chat.GetNormName( npcEnemy )
+		end
+	end
+
+	
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderNeutralThunderClap( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'polar_furbolg_ursa_warrior_thunder_clap' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nRadius = ability:GetSpecialValueInt( 'radius' )
+
+
+	for _, npcEnemy in pairs( nEnemyHeroesInRange )
+	do
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.IsInRange( npcEnemy, bot, nRadius )
+			and not J.IsDisabled( npcEnemy )
+		then
+			return BOT_ACTION_DESIRE_HIGH, "ThunderClap-Slow"
+		end
+	end
+	
+	
+	if bot:GetActiveMode() == BOT_MODE_ROSHAN
+		and nMP >= 0.78
+	then
+		if J.IsRoshan( botTarget )
+			and J.GetHP( botTarget ) > 0.15
+			and J.IsInRange( botTarget, bot, nRadius )
+		then
+			return BOT_ACTION_DESIRE_HIGH, botTarget, "ThunderClap-Roshan"
+		end
+	end
+
+	
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderNeutralShockwave( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'satyr_hellcaller_shockwave' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nCastRange = ability:GetCastRange() + bonusRange
+	local nRadius = ability:GetSpecialValueInt( 'radius_end' )
+	local nCastPoint = ability:GetCastPoint()
+	local nDamage = ability:GetAbilityDamage()
+	local nTargetLocation
+
+	
+	for _, npcEnemy in pairs( nEnemyHeroesInRange )
+	do
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.GetHP( npcEnemy ) < 0.55
+		then
+			nTargetLocation = npcEnemy:GetExtrapolatedLocation( nCastPoint )
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Shockwave-Attack:"..J.Chat.GetNormName( npcEnemy )
+		end
+
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.WillMagicKillTarget( bot, npcEnemy, nDamage, nCastPoint )
+		then
+			nTargetLocation = npcEnemy:GetExtrapolatedLocation( nCastPoint )
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Shockwave-Kill:"..J.Chat.GetNormName( npcEnemy )
+		end
+	end
+
+	
+	local nAoeLoc = J.GetAoeEnemyHeroLocation( bot, nCastRange, nRadius, 1 )
+	if nAoeLoc ~= nil
+	then
+		nTargetLocation = nAoeLoc
+		return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Shockwave-Harass"
+	end
+
+
+	if J.IsGoingOnSomeone( bot )
+	then
+		if J.IsValidHero( botTarget )
+			and J.CanCastOnNonMagicImmune( botTarget )
+			and J.IsInRange( botTarget, bot, nCastRange )
+		then
+			nTargetLocation = botTarget:GetExtrapolatedLocation( nCastPoint )
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Shockwave-Attack:"..J.Chat.GetNormName( botTarget )
+		end
+	end
+	
+
+	local nEnemyCreeps = bot:GetNearbyLaneCreeps( nCastRange + nRadius, true )
+	if #nEnemyCreeps >= 3
+		and J.IsValid( nEnemyCreeps[1] )
+		and not nEnemyCreeps[1]:HasModifier( "modifier_fountain_glyph" )
+	then
+		nAoeLoc = bot:FindAoELocation( true, false, bot:GetLocation(), nCastRange, nRadius, 0, 0 )
+		if ( nAoeLoc.count >= 3 )
+		then
+			nTargetLocation = nAoeLoc.targetloc
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Shockwave-Push:"..nAoeLoc.count
+		end
+	end
+	
+
+	local nNeutralCreeps = bot:GetNearbyNeutralCreeps( nCastRange + nRadius )
+	if #nNeutralCreeps >= 2
+	then
+		local targetCreep = nNeutralCreeps[1]
+		if J.IsValid( targetCreep )
+			and targetCreep:GetHealth() >= 200
+			and J.GetAroundTargetEnemyUnitCount( targetCreep, 300 ) >= 1
+		then
+			nTargetLocation = targetCreep:GetExtrapolatedLocation( nCastPoint )
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "Shockwave-Farm:"..( #nNeutralCreeps )
+		end
+	end
+
+	
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderNeutralManaBurn( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'satyr_soulstealer_mana_burn' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nCastRange = ability:GetCastRange() + bonusRange
+
+
+	local nHighestIntEnemy = nil
+	local nHighestInt = 0
+	for _, npcEnemy in pairs( nEnemyHeroesInRange )
+	do
+		local npcEnemyInt = npcEnemy:GetAttributeValue( ATTRIBUTE_INTELLECT )
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.CanCastOnTargetAdvanced( npcEnemy )
+			and npcEnemyInt > nHighestInt
+		then
+			nHighestInt = npcEnemyInt
+			nHighestIntEnemy = npcEnemy
+		end
+	end
+
+	if nHighestIntEnemy ~= nil
+		and J.IsInRange( nHighestIntEnemy, bot, nCastRange )
+	then
+		return BOT_ACTION_DESIRE_HIGH, nHighestIntEnemy, "ManaBurn-Attack:"..J.Chat.GetNormName( nHighestIntEnemy )
+	end
+
+	
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderNeutralPurge( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'satyr_trickster_purge' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nCastRange = ability:GetCastRange() + bonusRange
+
+	
+	for _, npcEnemy in pairs( nEnemyHeroesInRange )
+	do
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.CanCastOnTargetAdvanced( npcEnemy )
+			and J.IsInRange( npcEnemy, bot, nCastRange )
+			and J.ShouldDispelBuff( npcEnemy )
+		then
+			return BOT_ACTION_DESIRE_HIGH, npcEnemy, "Purge-Dispel:"..J.Chat.GetNormName( npcEnemy )
+		end
+	end
+
+	
+	for _, npcAlly in pairs( nAlliedHeroesInRange )
+	do
+		if J.IsValidHero( npcAlly )
+			and J.CanCastOnMagicImmune( npcAlly )
+			and J.IsInRange( npcAlly, bot, nCastRange )
+			and J.ShouldDispelDebuff( npcAlly )
+		then
+			return BOT_ACTION_DESIRE_HIGH, npcAlly, "Purge-Dispel:"..J.Chat.GetNormName( npcAlly )
+		end
+	end
+
+
+	if J.IsGoingOnSomeone( bot )
+	then
+		if J.IsValidHero( botTarget )
+			and J.CanCastOnNonMagicImmune( botTarget )
+			and J.CanCastOnTargetAdvanced( botTarget )
+			and J.IsInRange( botTarget, bot, nCastRange )
+		then
+			return BOT_ACTION_DESIRE_HIGH, botTarget, "Purge-Chase:"..J.Chat.GetNormName( botTarget )
+		end
+	end
+
+	
+	for _, npcAlly in pairs( nAlliedHeroesInRange )
+	do
+		if J.IsValidHero( npcAlly )
+			and J.IsRetreating( npcAlly )
+			and bot:WasRecentlyDamagedByAnyHero( 5.0 )
+			and not J.IsDisabled( nEnemyHeroesInRange[1] )
+		then
+			return BOT_ACTION_DESIRE_HIGH, nEnemyHeroesInRange[1], "Purge-Retreat:"..J.Chat.GetNormName( nEnemyHeroesInRange[1] )
+		end
+	end
+
+	
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderNeutralSeedShot( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'warpine_raider_seed_shot' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nCastRange = ability:GetCastRange() + bonusRange
+	local nRadius = ability:GetSpecialValueInt( 'bounce_range' )
+
+
+	for _, npcEnemy in pairs( nEnemyHeroesInRange )
+	do
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.CanCastOnTargetAdvanced( npcEnemy )
+			and not J.IsDisabled( npcEnemy )
+			and J.GetAroundTargetEnemyUnitCount( npcEnemy, nRadius ) >= 2
+		then
+			return BOT_ACTION_DESIRE_HIGH, npcEnemy, "SeedShot-Battle:"..J.Chat.GetNormName( npcEnemy )
+		end
+	end
+
+
+	if J.IsValidHero( botTarget )
+		and J.CanCastOnNonMagicImmune( botTarget )
+		and J.CanCastOnTargetAdvanced( botTarget )
+		and J.IsInRange( botTarget, bot, nCastRange )
+		and not J.IsDisabled( botTarget )
+		and J.GetAroundTargetEnemyUnitCount( botTarget, nRadius ) >= 2
+	then
+		return BOT_ACTION_DESIRE_HIGH, botTarget, "SeedShot-Chase:"..J.Chat.GetNormName( botTarget )
+	end
+
+
+	if J.IsRetreating( bot )
+	then
+		for _, npcEnemy in pairs( nEnemyHeroesInRange )
+		do
+			if J.IsValidHero( npcEnemy )
+				and J.CanCastOnNonMagicImmune( npcEnemy )
+				and J.CanCastOnTargetAdvanced( npcEnemy )
+				and bot:WasRecentlyDamagedByHero( npcEnemy, 5.0 )
+				and bot:IsFacingLocation( npcEnemy:GetExtrapolatedLocation( 0.3 ), 20 )
+				and not J.IsDisabled( npcEnemy )
+			then
+				return BOT_ACTION_DESIRE_HIGH, npcEnemy, "HurlBoulder-Retreat:"..J.Chat.GetNormName( npcEnemy )
+			end
+		end
+	end
+
+	
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+--[[
+function X.ConsiderNeutral( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( '' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nCastRange = ability:GetCastRange() + bonusRange
+
+	
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+]]
 
 return X

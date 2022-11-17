@@ -183,10 +183,7 @@ X['bDeafaultItem'] = false
 
 function X.MinionThink( hMinionUnit )
 
-	if Minion.IsValidUnit( hMinionUnit )
-	then
-		Minion.IllusionThink( hMinionUnit )
-	end
+	Minion.MinionThink( hMinionUnit )
 
 end
 
@@ -233,33 +230,19 @@ local castEDesire, castETarget
 local castDDesire, castDTarget
 local castRDesire, castRTarget
 
-local nKeepMana, nMP, nHP, nLV, botTarget, hEnemyList, hAllyList, sMotive
-local bonusRange = 0
+local sMotive
 
 
 function X.SkillsComplement()
 
 	if J.CanNotUseAbility( bot ) or bot:IsInvisible() then return end
 
-	nKeepMana = 400
-	bonusRange = 0
-	nLV = bot:GetLevel()
-	nMP = bot:GetMana()/bot:GetMaxMana()
-	nHP = bot:GetHealth()/bot:GetMaxHealth()
-	botTarget = J.GetProperTarget( bot )
-	hEnemyList = bot:GetNearbyHeroes( 1600, true, BOT_MODE_NONE )
-	hAllyList = J.GetAlliesNearLoc( bot:GetLocation(), 1600 )
-	
-	bonusRange = J.GetBonusCastRange( bot )
-
 	
 	castRDesire, castRTarget, sMotive = A.ConsiderGrimstrokeSoulbind( bot )
 	if castRDesire > 0
 	then
 		J.SetReportMotive( bDebugMode, sMotive )
-
 		J.SetQueuePtToINT( bot, true )
-
 		bot:ActionQueue_UseAbilityOnEntity( abilityR, castRTarget )
 		return
 	end
@@ -268,9 +251,7 @@ function X.SkillsComplement()
 	if castWDesire > 0
 	then
 		J.SetReportMotive( bDebugMode, sMotive )
-
 		J.SetQueuePtToINT( bot, true )
-
 		bot:ActionQueue_UseAbilityOnEntity( abilityW, castWTarget )
 		return
 	end
@@ -279,9 +260,7 @@ function X.SkillsComplement()
 	if castDDesire > 0
 	then
 		J.SetReportMotive( bDebugMode, sMotive )
-
 		J.SetQueuePtToINT( bot, true )
-
 		bot:ActionQueue_UseAbilityOnEntity( abilityD, castDTarget )
 		return
 	end
@@ -290,9 +269,7 @@ function X.SkillsComplement()
 	if castEDesire > 0
 	then
 		J.SetReportMotive( bDebugMode, sMotive )
-
 		J.SetQueuePtToINT( bot, true )
-
 		bot:ActionQueue_UseAbilityOnEntity( abilityE, castETarget )
 		return
 	end
@@ -301,9 +278,7 @@ function X.SkillsComplement()
 	if castQDesire > 0
 	then
 		J.SetReportMotive( bDebugMode, sMotive )
-
 		J.SetQueuePtToINT( bot, true )
-
 		bot:ActionQueue_UseAbilityOnLocation( abilityQ, castQLocation )
 		return
 	end

@@ -540,9 +540,9 @@ function X.ConsiderE()
 	do
 		if J.IsValidBuilding( building )
 			and J.IsInRange( bot, building, nCastRange + nRadius )
-			and not nBuilding:HasModifier( 'modifier_fountain_glyph' )
-			and not nBuilding:HasModifier( 'modifier_invulnerable' )
-			and not nBuilding:HasModifier( 'modifier_backdoor_protection' )
+			and not building:HasModifier( 'modifier_fountain_glyph' )
+			and not building:HasModifier( 'modifier_invulnerable' )
+			and not building:HasModifier( 'modifier_backdoor_protection' )
 			and not J.IsKeyWordUnit( "DOTA_Outpost", building )
 		then
 			nTargetLocation = building:GetLocation() + RandomVector( nRadius * 0.5 )

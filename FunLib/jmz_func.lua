@@ -204,6 +204,7 @@ function J.GetNearbyAroundLocationUnitCount( bEnemy, bHero, nRadius, vLoc )
 	do
 		if u:IsAlive()
 			and GetUnitToLocationDistance( u, vLoc ) <= nRadius
+			and not u:IsIllusion()
 		then
 			nCount = nCount + 1
 		end
@@ -1098,12 +1099,12 @@ function J.IsDisabled( npcTarget )
 			return true
 		end
 
-		if npcTarget:IsSilenced()
-			and not npcTarget:HasModifier( "modifier_item_mask_of_madness_berserk" )
-			-- and J.IsWithoutTarget( npcTarget )
-		then
-			return true
-		end
+		-- if npcTarget:IsSilenced()
+		-- 	and not npcTarget:HasModifier( "modifier_item_mask_of_madness_berserk" )
+		-- 	and J.IsWithoutTarget( npcTarget )
+		-- then
+		-- 	return true
+		-- end
 
 		return npcTarget:IsRooted()
 				or npcTarget:IsHexed()
@@ -3457,7 +3458,8 @@ function J.GetMeleeAlly( bot )
 	for _, npcAlly in pairs( nAlliedHeroesInRange )
 	do
 		npcAttackRange = npcAlly:GetAttackRange()
-		if nMeleeAttackRange < npcAttackRange
+		if J.IsValidHero( npcAlly )
+			and nMeleeAttackRange < npcAttackRange
 		then
 			nMeleeAttackRange = npcAttackRange
 			nMelee = npcAlly
