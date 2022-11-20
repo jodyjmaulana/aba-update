@@ -907,7 +907,7 @@ Item['item_broken_soul_ring']		= { 'item_ring_of_protection', 'item_recipe_soul_
 
 Item['item_mid_outfit']					= { 'item_tango', 'item_faerie_fire', 'item_double_branches', 'item_wraith_band', 'item_flask', 'item_magic_stick', 'item_recipe_magic_wand', 'item_flask', 'item_power_treads_agi' }
 
-Item['item_mid_lina_outfit']			= { 'item_tango', 'item_faerie_fire', 'item_double_branches', 'item_flask', 'item_magic_stick', 'item_recipe_magic_wand', 'item_falcon_blade', 'item_phase_boots' }
+Item['item_mid_lina_outfit']			= { 'item_tango', 'item_faerie_fire', 'item_double_clarity', 'item_bottle', 'item_falcon_blade', 'item_phase_boots' }
 
 Item['item_mid_silencer_outfit']		= { 'item_tango', 'item_double_branches', 'item_circlet', 'item_mantle', 'item_magic_stick', 'item_recipe_null_talisman', 'item_flask', 'item_power_treads_int', 'item_recipe_magic_wand' }
 
