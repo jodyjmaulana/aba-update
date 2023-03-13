@@ -13,7 +13,7 @@ local J = {}
 
 local sDota2Version= '7.32c'
 local sDebugVersion= '20210424ver1.8c'
-local bDebugMode = ( 1 == 10 )
+local bDebugMode = ( 10 == 10 )
 local bDebugTeam = ( GetTeam() == TEAM_RADIANT )
 local sDebugHero = 'npc_dota_hero_luna'
 local tAllyIDList = GetTeamPlayers( GetTeam() )

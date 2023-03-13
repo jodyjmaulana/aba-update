@@ -1524,10 +1524,10 @@ X["bottle"] = {
 
 X["phase_boots"] = {
 		["npc_dota_hero_abaddon"] = 1,
+		["npc_dota_hero_alchemist"] = 1,
 		["npc_dota_hero_lina"] = 1,
 		["npc_dota_hero_night_stalker"] = 1,
 
-		["npc_dota_hero_alchemist"] = 1,
 		["npc_dota_hero_gyrocopter"] = 1,
 		["npc_dota_hero_medusa"] = 1,
 		["npc_dota_hero_phantom_assassin"] = 1,
@@ -1628,6 +1628,7 @@ end
 
 X['off'] = {
 	'npc_dota_hero_abaddon',
+	'npc_dota_hero_alchemist',
 	'npc_dota_hero_night_stalker',
 	'npc_dota_hero_obsidian_destroyer',
 	'npc_dota_hero_venomancer',
@@ -1700,6 +1701,7 @@ X['mid'] = {
 
 X['safe'] = {
 	'npc_dota_hero_abaddon',
+	'npc_dota_hero_alchemist',
 	'npc_dota_hero_night_stalker',
 	'npc_dota_hero_obsidian_destroyer',
 	'npc_dota_hero_silencer',
@@ -2148,6 +2150,7 @@ function X.IsABAHero()
 	local sABAHeroIndex = {
 	
 		["npc_dota_hero_abaddon"] = true,
+		["npc_dota_hero_alchemist"] = true,
 		["npc_dota_hero_grimstroke"] = true,
 		-- ["npc_dota_hero_keeper_of_the_light"] = true,
 		["npc_dota_hero_lina"] = true,

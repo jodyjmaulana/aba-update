@@ -173,6 +173,7 @@ local sUserKeyDir = Chat.GetUserKeyDir()
 local sHasDevelopmentHeroList = {
 
 	"npc_dota_hero_abaddon",
+	"npc_dota_hero_alchemist",
 	"npc_dota_hero_grimstroke",
 	-- "npc_dota_hero_keeper_of_the_light",
 	"npc_dota_hero_lina",
@@ -297,6 +298,7 @@ local sThirdList = {
 local sFourthList = {
 		
 	"npc_dota_hero_abaddon",
+	"npc_dota_hero_alchemist",
 	"npc_dota_hero_night_stalker",
 	"npc_dota_hero_chaos_knight",
 	"npc_dota_hero_bristleback",
@@ -388,6 +390,7 @@ local sMageList = {
 local sCarryList = {
 
 	"npc_dota_hero_abaddon",
+	"npc_dota_hero_alchemist",
 	"npc_dota_hero_night_stalker",
 	"npc_dota_hero_obsidian_destroyer",
 	"npc_dota_hero_silencer",
@@ -434,6 +437,7 @@ local sCarryList = {
 local sTankList = {
 
 	"npc_dota_hero_abaddon",
+	"npc_dota_hero_alchemist",
 	"npc_dota_hero_lina",
 	"npc_dota_hero_night_stalker",
 	"npc_dota_hero_obsidian_destroyer",
@@ -1017,7 +1021,7 @@ function Think()
 			-------******************************-----------------------------------------------
 			-- if GetTeam() ~= TEAM_DIRE and i == 2 then sSelectHero = "npc_dota_hero_lina" end 
 			-- if GetTeam() ~= TEAM_DIRE and i == 1 then sSelectHero = "npc_dota_hero_antimage" end 
-			-- if GetTeam() ~= TEAM_DIRE and i == 2 then sSelectHero = "npc_dota_hero_queenofpain" end 
+			-- if GetTeam() ~= TEAM_DIRE and i == 2 then sSelectHero = "npc_dota_hero_alchemist" end 
 			
 			------------------------------------------------------------------------------------
 

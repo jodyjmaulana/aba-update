@@ -6,7 +6,7 @@
 local X = {}
 local ability = nil
 local bonusRange, nMP, nHP, nLV, botTarget, nEnemyHeroesInRange, nAlliedHeroesInRange
---local BOT_ACTION_DESIRE_NONE, BOT_ACTION_DESIRE_HIGH, BOT_MODE_ROSHAN, DAMAGE_TYPE_MAGICAL, DAMAGE_TYPE_PHYSICAL, DAMAGE_TYPE_PURE, BOT_MODE_NONE, ATTRIBUTE_INTELLECT
+-- local BOT_ACTION_DESIRE_NONE, BOT_ACTION_DESIRE_HIGH, BOT_MODE_ROSHAN, DAMAGE_TYPE_MAGICAL, DAMAGE_TYPE_PHYSICAL, DAMAGE_TYPE_PURE, BOT_MODE_NONE, ATTRIBUTE_INTELLECT
 
 local J = require( GetScriptDirectory()..'/FunLib/jmz_func')
 
@@ -201,13 +201,14 @@ function X.ConsiderAbaddonAphoticShield( bot )
 	for _, npcAlly in pairs( nAlliedHeroesInRange )
 	do
 		if J.IsValidHero( npcAlly )
-			and J.CanCastOnMagicImmune( npcAlly )
+			and J.CanCastOnNonMagicImmune( npcAlly )
 			and ( J.IsDisabled( npcAlly ) or J.ShouldDispelStrongDebuff( npcAlly ) )
 		then
 			return BOT_ACTION_DESIRE_HIGH, npcAlly, "AphoticShield-Protect:"..J.Chat.GetNormName( npcAlly )
 		end
 
-		if J.IsRetreating( npcAlly )
+		if J.IsValidHero( npcAlly )
+			and J.CanCastOnNonMagicImmune( npcAlly )
 			and not npcAlly:HasModifier( 'modifier_fountain_aura' )
 			and not npcAlly:HasModifier( 'modifier_abaddon_aphotic_shield' )
 			and J.GetHP( npcAlly ) < 0.85
@@ -218,7 +219,7 @@ function X.ConsiderAbaddonAphoticShield( bot )
 		end
 
 		-- if J.IsValidHero( npcAlly )
-		-- 	and J.CanCastOnMagicImmune( npcAlly )
+		-- 	and J.CanCastOnNonMagicImmune( npcAlly )
 		-- 	and J.GetAroundTargetEnemyHeroCount( npcAlly, nRadius ) >= 1
 		-- 	and not npcAlly:HasModifier( 'modifier_abaddon_aphotic_shield' )
 		-- then
@@ -231,7 +232,7 @@ function X.ConsiderAbaddonAphoticShield( bot )
 	then
 		local npcAlly = J.GetNearestUnitToTarget( nAlliedHeroesInRange, botTarget, nRadius )
 		if J.IsValidHero( npcAlly )
-			and J.CanCastOnMagicImmune( npcAlly )
+			and J.CanCastOnNonMagicImmune( npcAlly )
 		then
 			return BOT_ACTION_DESIRE_HIGH, npcAlly, "AphoticShield-Chase:"..J.Chat.GetNormName( npcAlly )
 		end
@@ -246,7 +247,7 @@ function X.ConsiderAbaddonAphoticShield( bot )
 		then
 			local npcAlly = J.GetNearestUnitToTarget( nAlliedHeroesInRange, botTarget, nRadius )
 			if J.IsValidHero( npcAlly )
-				and J.CanCastOnMagicImmune( npcAlly )
+				and J.CanCastOnNonMagicImmune( npcAlly )
 			then
 				return BOT_ACTION_DESIRE_HIGH, npcAlly, "AphoticShield-Roshan:"..J.Chat.GetNormName( npcAlly )
 			end
@@ -272,7 +273,7 @@ function X.ConsiderAbaddonBorrowedTime( bot )
 	if ( bot:GetHealth() < 500 or nHP < 0.23 )
 		and bot:WasRecentlyDamagedByAnyHero( 2.0 )
 	then
-		return BOT_ACTION_DESIRE_HIGH, "R-Defend"
+		return BOT_ACTION_DESIRE_HIGH, "BorrowedTime-Defend"
 	end
 
 	
@@ -284,7 +285,7 @@ function X.ConsiderAbaddonBorrowedTime( bot )
 				and J.GetHP( npcAlly ) < 0.65
 				and J.IsInRange( npcAlly, bot, nRadius )
 			then
-				return BOT_ACTION_DESIRE_HIGH, "R-Protect"
+				return BOT_ACTION_DESIRE_HIGH, "BorrowedTime-Protect"
 			end
 
 			if J.IsRetreating( npcAlly )
@@ -292,7 +293,7 @@ function X.ConsiderAbaddonBorrowedTime( bot )
 				and J.GetHP( npcAlly ) < 0.55
 				and J.IsInRange( npcAlly, bot, nRadius )
 			then
-				return BOT_ACTION_DESIRE_HIGH, "R-Retreat"
+				return BOT_ACTION_DESIRE_HIGH, "BorrowedTime-Retreat"
 			end
 		end
 	end
@@ -311,6 +312,308 @@ end
 
 -- npc_dota_hero_abyssal_underlord
 -- npc_dota_hero_alchemist
+function X.ConsiderAlchemistAcidSpray( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'alchemist_acid_spray' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nSkillLV = ability:GetLevel()
+	local nCastRange = ability:GetCastRange() + bonusRange
+	local nRadius = ability:GetSpecialValueInt( 'radius' )
+	local nCastPoint = ability:GetCastPoint()
+	local nManaCost = ability:GetManaCost()
+	local nTargetLocation
+
+	
+	for _, npcEnemy in pairs( nEnemyHeroesInRange )
+	do
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.IsInRange( npcEnemy, bot, nCastRange + nRadius )
+			and J.GetHP( npcEnemy ) < 0.55
+		then
+			nTargetLocation = botTarget:GetExtrapolatedLocation( nCastPoint )
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'AcidSpray-Attack:'..J.Chat.GetNormName( npcEnemy )
+		end
+		
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.IsInRange( npcEnemy, bot, nCastRange + nRadius )
+			and J.IsHealing( npcEnemy )
+		then
+			nTargetLocation = botTarget:GetExtrapolatedLocation( nCastPoint )
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'AcidSpray-DispelHeal:'..J.Chat.GetNormName( npcEnemy )
+		end
+	end
+	
+	
+	local nAoeLoc = J.GetAoeEnemyHeroLocation( bot, nCastRange, nRadius, 2 )
+	if nAoeLoc ~= nil
+		and J.IsAllowedToSpam( bot, nManaCost * 0.72 )
+		and nMP > 0.38
+	then
+		nTargetLocation = nAoeLoc
+		return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'AcidSpray-Harass'
+	end
+
+	if #nAlliedHeroesInRange >= #nEnemyHeroesInRange
+	then
+		nAoeLoc = J.GetAoeEnemyHeroLocation( bot, nCastRange, nRadius, 1 )
+		if nAoeLoc ~= nil
+			and J.IsAllowedToSpam( bot, nManaCost * 0.72 )
+			and nMP > 0.58
+		then
+			nTargetLocation = nAoeLoc
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "AcidSpray-Harass"
+		end
+	end
+
+	
+	if J.IsGoingOnSomeone( bot )
+	then
+		if J.IsValidHero( botTarget )
+			and J.CanCastOnNonMagicImmune( botTarget )
+			and J.IsInRange( botTarget, bot, nCastRange )
+		then
+			nTargetLocation = J.GetCastLocation( bot, botTarget, nCastRange, nRadius )
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "AcidSpray-Attack:"..J.Chat.GetNormName( botTarget )
+		end
+	end
+
+	
+	if J.IsRetreating( bot )
+	then
+		for _, npcEnemy in pairs( nEnemyHeroesInRange )
+		do
+			if J.IsValidHero( npcEnemy )
+				and bot:WasRecentlyDamagedByHero( npcEnemy, 5.0 )
+				and J.CanCastOnNonMagicImmune( npcEnemy )
+				and bot:IsFacingLocation( npcEnemy:GetExtrapolatedLocation( nCastPoint ), 20 )
+			then
+				nTargetLocation = J.GetCastLocation( bot, npcEnemy, nCastRange, nRadius )
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'AcidSpray-Retreat:'..J.Chat.GetNormName( npcEnemy )
+			end
+		end
+	end
+
+	
+	if ( J.IsPushing( bot ) or J.IsDefending( bot ) or J.IsFarming( bot ) )
+		and J.IsAllowedToSpam( bot, nManaCost * 0.72 )
+		and nSkillLV >= 2 and DotaTime() > 8 * 60
+	then
+		local nEnemyCreeps = bot:GetNearbyLaneCreeps( nCastRange + nRadius, true )
+		if #nEnemyCreeps >= 3
+			and J.IsValid( nEnemyCreeps[1] )
+			and not nEnemyCreeps[1]:HasModifier( "modifier_fountain_glyph" )
+		then
+			local nAoeLoc = bot:FindAoELocation( true, false, bot:GetLocation(), nCastRange, nRadius, 0, 0 )
+			if nAoeLoc.count >= 3
+			then
+				nTargetLocation = nAoeLoc.targetloc
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "AcidSpray-Push:"..nAoeLoc.count
+			end
+		end
+	end
+
+	
+	if J.IsFarming( bot )
+		and not ( J.IsPushing( bot ) or J.IsDefending( bot ) )
+		and J.IsAllowedToSpam( bot, nManaCost * 0.25 )
+		and nSkillLV >= 3
+		and #nEnemyHeroesInRange == 0
+		and #nAlliedHeroesInRange <= 2
+		and nMP >= 0.55
+	then
+		local nNeutralCreeps = bot:GetNearbyNeutralCreeps( nCastRange + nRadius )
+		if #nNeutralCreeps >= 3 or nMP >= 0.7
+		then
+			local targetCreep = nNeutralCreeps[1]
+			if J.IsValid( targetCreep )
+				and targetCreep:GetHealth() >= 300
+				and J.GetAroundTargetEnemyUnitCount( targetCreep, 300 ) >= 1
+			then
+				nTargetLocation = targetCreep:GetExtrapolatedLocation( nCastPoint )
+				return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "AcidSpray-Farm:"..( #nNeutralCreeps )
+			end
+		end
+	end
+
+	
+	if bot:GetActiveMode() == BOT_MODE_ROSHAN
+		and nMP >= 0.78
+	then
+		if J.IsRoshan( botTarget )
+			and J.GetHP( botTarget ) > 0.15
+		then
+			nTargetLocation = botTarget:GetLocation()
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "AcidSpray-Roshan"
+		end
+	end
+
+	
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderAlchemistUnstableConcoction( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'alchemist_unstable_concoction' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nCastRange = ability:GetCastRange() + bonusRange
+
+
+	for _, npcEnemy in pairs( nEnemyHeroesInRange )
+	do
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.IsInRange( npcEnemy, bot, nCastRange )
+			and J.GetHP( npcEnemy ) < 0.55
+		then
+			return BOT_ACTION_DESIRE_HIGH, "UnstableConcoction-Attack"
+		end
+	end
+
+
+	if J.IsGoingOnSomeone( bot )
+	then
+		if J.IsValidHero( botTarget )
+			and J.CanCastOnNonMagicImmune( botTarget )
+			and J.IsInRange( botTarget, bot, nCastRange )
+		then
+			return BOT_ACTION_DESIRE_HIGH, "UnstableConcoction-Attack"
+		end
+	end
+
+	
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderAlchemistUnstableConcoctionThrow( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'alchemist_unstable_concoction_throw' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if ( not ability:IsFullyCastable() or ability:IsHidden() ) then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nCastRange = ability:GetCastRange() + bonusRange
+
+
+	for _, npcEnemy in pairs( nEnemyHeroesInRange )
+	do
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and ( bot:IsChanneling() or bot:HasModifier( 'modifier_crystal_maiden_freezing_field' ) )
+			and ( nLV >= 6 or nMP > 0.55 )
+		then
+			return BOT_ACTION_DESIRE_HIGH, npcEnemy, true, "UnstableConcoctionThrow-Interrupt:"..J.Chat.GetNormName( npcEnemy )
+		end
+
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.IsInRange( npcEnemy, bot, nCastRange )
+			and J.GetHP( npcEnemy ) < 0.55
+		then
+			return BOT_ACTION_DESIRE_HIGH, npcEnemy, false, "UnstableConcoctionThrow-Attack:"..J.Chat.GetNormName( npcEnemy )
+		end
+	end
+
+
+	if J.IsGoingOnSomeone( bot )
+	then
+		if J.IsValidHero( botTarget )
+			and J.CanCastOnNonMagicImmune( botTarget )
+			and J.IsInRange( botTarget, bot, nCastRange )
+		then
+			return BOT_ACTION_DESIRE_HIGH, botTarget, false, "UnstableConcoctionThrow-Attack:"..J.Chat.GetNormName( botTarget )
+		end
+	end
+
+	
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderAlchemistBerserkPotion( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'alchemist_berserk_potion' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+
+	for _, npcAlly in pairs( nAlliedHeroesInRange )
+	do
+		if J.IsValidHero( npcAlly )
+			and J.CanCastOnMagicImmune( npcAlly )
+			and J.ShouldDispelDebuff( npcAlly )
+		then
+			return BOT_ACTION_DESIRE_HIGH, npcAlly, "BerserkPotion-Protect:"..J.Chat.GetNormName( npcAlly )
+		end
+
+		if J.IsValidHero( npcAlly )
+			and J.CanCastOnMagicImmune( npcAlly )
+			and not npcAlly:HasModifier( 'modifier_fountain_aura' )
+			and J.GetHP( npcAlly ) < 0.65
+			and npcAlly:WasRecentlyDamagedByAnyHero( 1.0 )
+			and #nEnemyHeroesInRange >= 1
+		then
+			return BOT_ACTION_DESIRE_HIGH, npcAlly, "BerserkPotion-Protect:"..J.Chat.GetNormName( npcAlly )
+		end
+	end
+
+
+	if J.IsGoingOnSomeone( bot )
+	then
+		return BOT_ACTION_DESIRE_HIGH, bot, "BerserkPotion-Chase:"..J.Chat.GetNormName( bot )
+	end
+
+
+	if bot:GetActiveMode() == BOT_MODE_ROSHAN
+		and nMP >= 0.78
+	then
+		if J.IsRoshan( botTarget )
+			and J.GetHP( botTarget ) > 0.15
+		then
+			return BOT_ACTION_DESIRE_HIGH, bot, "BerserkPotion-Roshan:"..J.Chat.GetNormName( bot )
+		end
+	end
+
+	
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderAlchemistChemicalRage( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'alchemist_chemical_rage' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+
+	if #nAlliedHeroesInRange + 1 >= #nEnemyHeroesInRange
+		and J.IsGoingOnSomeone( bot )
+		and J.IsValidHero( botTarget )
+	then
+		return BOT_ACTION_DESIRE_HIGH, "ChemicalRage-Attack"
+	end
+
+	
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
 -- npc_dota_hero_ancient_apparition
 -- npc_dota_hero_antimage
 -- npc_dota_hero_arc_warden
@@ -403,13 +706,12 @@ function X.ConsiderGrimstrokeStrokeOfFate( bot )
 		return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "StrokeOfFate-Harass"
 	end
 
-	if #nAlliedHeroesInRange == 1
-		and #nEnemyHeroesInRange == 1
+	if #nAlliedHeroesInRange >= #nEnemyHeroesInRange
 	then
 		nAoeLoc = J.GetAoeEnemyHeroLocation( bot, nCastRange, nRadius, 1 )
 		if nAoeLoc ~= nil
 			and J.IsAllowedToSpam( bot, nManaCost * 0.72 )
-			and nMP > 0.38
+			and nMP > 0.58
 			and not nEnemyHeroesInRange[1]:HasModifier( 'modifier_templar_assassin_refraction_absorb' )
 		then
 			nTargetLocation = nAoeLoc
@@ -859,8 +1161,7 @@ function X.ConsiderLinaDragonSlave( bot )
 		return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'DragonSlave-Harass'
 	end
 
-	if #nAlliedHeroesInRange == 1
-		and #nEnemyHeroesInRange == 1
+	if #nAlliedHeroesInRange >= #nEnemyHeroesInRange
 	then
 		nAoeLoc = J.GetAoeEnemyHeroLocation( bot, nCastRange, nRadius, 1 )
 		if nAoeLoc ~= nil

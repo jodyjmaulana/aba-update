@@ -540,6 +540,7 @@ end
 
 local tFarmHeroList = {
 	["npc_dota_hero_abaddon"] = true,
+	["npc_dota_hero_alchemist"] = true,
 	["npc_dota_hero_antimage"] = true,
 	["npc_dota_hero_arc_warden"] = true,
 	["npc_dota_hero_axe"] = true,
@@ -1052,6 +1053,12 @@ end
 Site.ConsiderIsTimeToFarm = {}
 
 Site.ConsiderIsTimeToFarm["npc_dota_hero_abaddon"] = function()
+
+	return Site.ConsiderIsTimeToFarm["npc_dota_hero_bristleback"]()
+
+end
+
+Site.ConsiderIsTimeToFarm["npc_dota_hero_alchemist"] = function()
 
 	return Site.ConsiderIsTimeToFarm["npc_dota_hero_bristleback"]()
 

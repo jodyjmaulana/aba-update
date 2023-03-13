@@ -922,6 +922,8 @@ Item['item_obsidian_destroyer_outfit']	= { 'item_tango', 'item_crown', 'item_rin
 ----------------------------------------------------------------------
 
 
+Item['item_carry_alchemist_outfit']		= { 'item_tango', 'item_flask', 'item_quelling_blade', 'item_double_branches', 'item_circlet', 'item_magic_stick', 'item_gauntlets', 'item_recipe_bracer', 'item_recipe_magic_wand', 'item_phase_boots' }
+
 Item['item_ranged_carry_outfit']		= { 'item_tango', 'item_flask', 'item_double_branches', 'item_slippers', 'item_circlet', 'item_magic_stick', 'item_recipe_wraith_band', 'item_flask', 'item_power_treads_agi', 'item_recipe_magic_wand', 'item_infused_raindrop' }
 
 Item['item_melee_carry_outfit']			= { 'item_tango', 'item_flask', 'item_quelling_blade', 'item_double_branches', 'item_circlet', 'item_magic_stick', 'item_slippers', 'item_recipe_wraith_band', 'item_flask', 'item_recipe_magic_wand', 'item_power_treads_agi' }
