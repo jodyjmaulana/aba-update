@@ -1094,7 +1094,7 @@ function J.IsDisabled( npcTarget )
 				or J.IsTaunted( npcTarget )
 	else
 
-		if npcTarget:IsStunned() and J.GetRemainStunTime( npcTarget ) > 0.3
+		if npcTarget:IsStunned() and J.GetRemainStunTime( npcTarget ) > 0.15
 		then
 			return true
 		end
@@ -3449,24 +3449,23 @@ function J.ShouldInterrupt( bot )
 end
 
 
-function J.GetMeleeAlly( bot )
+function J.GetNearestUnitToTarget( nUnitList, nTarget, nMaxDistance )
 
-	local nMelee = nil
-	local nMeleeAttackRange = 1000
-	local nAlliedHeroesInRange = bot:GetNearbyHeroes( 1400, false, BOT_MODE_NONE )
-	
-	for _, npcAlly in pairs( nAlliedHeroesInRange )
+	local nNearestUnit = nil
+	local nNearestDistance = 10000
+	for _, nUnit in pairs( nUnitList )
 	do
-		npcAttackRange = npcAlly:GetAttackRange()
-		if J.IsValidHero( npcAlly )
-			and nMeleeAttackRange < npcAttackRange
+		local nDistance = GetUnitToLocationDistance( nUnit, nTarget:GetLocation() )
+		if J.IsValidHero( nUnit )
+			and nDistance <= nMaxDistance
+			and nDistance < nNearestDistance
 		then
-			nMeleeAttackRange = npcAttackRange
-			nMelee = npcAlly
+			nNearestDistance = nDistance
+			nNearestUnit = nUnit
 		end
 	end
 
-	return nMelee
+	return nNearestUnit
 
 end
 
@@ -4370,7 +4369,7 @@ J.GetMagicToPhysicalDamage( bot, nUnit, nMagicDamage )
 J.GetBonusCastRange( bot )
 J.IsHealing( bot )
 J.ShouldInterrupt( bot )
-J.GetMeleeAlly( bot )
+J.GetNearestUnitToTarget( nUnitList, nTarget )
 --]]
 
 

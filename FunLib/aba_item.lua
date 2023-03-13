@@ -852,6 +852,7 @@ local tDefineItemRealName = {
 
 
 ['item_mage_outfit'] = "item_tranquil_boots",
+['item_mage_grimstroke_outfit'] = "item_tranquil_boots",
 ['item_mage_lina_outfit'] = "item_arcane_boots",
 ['item_mage_silencer_outfit'] = "item_power_treads",
 ['item_crystal_maiden_outfit'] = "item_power_treads",

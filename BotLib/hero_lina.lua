@@ -273,7 +273,6 @@ function X.SkillsComplement()
 		J.SetQueuePtToINT( bot, true )
 		bot:ActionQueue_UseAbilityOnEntity( abilityR, castRTarget )
 		return
-
 	end
 
 end

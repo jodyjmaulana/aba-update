@@ -13,6 +13,7 @@ local bDebugMode = ( 1 == 10 )
 local bot = GetBot()
 
 local J = require( GetScriptDirectory()..'/FunLib/jmz_func' )
+local A = dofile( GetScriptDirectory()..'/FunLib/aba_ability' )
 local Minion = dofile( GetScriptDirectory()..'/FunLib/aba_minion' )
 local sTalentList = J.Skill.GetTalentList( bot )
 local sAbilityList = J.Skill.GetAbilityList( bot )
@@ -209,10 +210,7 @@ X['bDeafaultItem'] = false
 
 function X.MinionThink( hMinionUnit )
 
-	if Minion.IsValidUnit( hMinionUnit )
-	then
-		Minion.IllusionThink( hMinionUnit )
-	end
+	Minion.MinionThink( hMinionUnit )
 
 end
 
@@ -249,350 +247,45 @@ modifier_abaddon_borrowed_time_damage_redirect
 local abilityQ = bot:GetAbilityByName( sAbilityList[1] )
 local abilityW = bot:GetAbilityByName( sAbilityList[2] )
 local abilityR = bot:GetAbilityByName( sAbilityList[6] )
-local talent4 = bot:GetAbilityByName( sTalentList[4] )
-local talent8 = bot:GetAbilityByName( sTalentList[8] )
 
 local castQDesire, castQTarget
 local castWDesire, castWTarget
 local castRDesire
 
-local nKeepMana, nMP, nHP, nLV, botTarget, hEnemyList, hAllyList, sMotive
-local bonusRange = 0
+local sMotive
 
 
 function X.SkillsComplement()
 
 	if J.CanNotUseAbility( bot ) or bot:IsInvisible() then return end
 
-	nKeepMana = 400
-	bonusRange = 0
-	nLV = bot:GetLevel()
-	nMP = bot:GetMana()/bot:GetMaxMana()
-	nHP = bot:GetHealth()/bot:GetMaxHealth()
-	botTarget = J.GetProperTarget( bot )
-	hEnemyList = bot:GetNearbyHeroes( 1600, true, BOT_MODE_NONE )
-	hAllyList = J.GetAlliesNearLoc( bot:GetLocation(), 1600 )
 	
-	bonusRange = J.GetBonusCastRange( bot )
-
-	
-	castRDesire, sMotive = X.ConsiderR()
+	castRDesire, sMotive = A.ConsiderAbaddonBorrowedTime( bot )
 	if castRDesire > 0
 	then
 		J.SetReportMotive( bDebugMode, sMotive )
-
 		J.SetQueuePtToINT( bot, false )
-
 		bot:ActionQueue_UseAbility( abilityR )
 		return
 	end
 	
-	castQDesire, castQTarget, sMotive = X.ConsiderQ()
+	castQDesire, castQTarget, sMotive = A.ConsiderAbaddonMistCoil( bot )
 	if castQDesire > 0
 	then
 		J.SetReportMotive( bDebugMode, sMotive )
-
 		J.SetQueuePtToINT( bot, false )
-
 		bot:ActionQueue_UseAbilityOnEntity( abilityQ, castQTarget )
 		return
 	end
 
-	castWDesire, castWTarget, sMotive = X.ConsiderW()
+	castWDesire, castWTarget, sMotive = A.ConsiderAbaddonAphoticShield( bot )
 	if castWDesire > 0
 	then
 		J.SetReportMotive( bDebugMode, sMotive )
-
 		J.SetQueuePtToINT( bot, true )
-
 		bot:ActionQueue_UseAbilityOnEntity( abilityW, castWTarget )
 		return
 	end
-
-end
-
-
-function X.ConsiderQ()
-
-	if not abilityQ:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
-
-	local nSkillLV = abilityQ:GetLevel()
-	local nCastRange = abilityQ:GetCastRange() + bonusRange
-	local nRadius = 0
-	local nCastPoint = abilityQ:GetCastPoint()
-	local nManaCost = abilityQ:GetManaCost()
-	local nDamage = abilityQ:GetSpecialValueInt( 'target_damage' )
-	local nDamageType = DAMAGE_TYPE_MAGICAL
-	local nAlliedHeroesInRange = bot:GetNearbyHeroes( nCastRange, false, BOT_MODE_NONE )
-	local nEnemyHeroesInRange = bot:GetNearbyHeroes( nCastRange, true, BOT_MODE_NONE )
-
-	if talent4:IsTrained() then nDamage = nDamage + talent4:GetSpecialValueInt( 'value' ) end
-	if talent8:IsTrained() then nRadius = 250 end
-
-
-	for _, npcEnemy in pairs( nEnemyHeroesInRange )
-	do
-		if J.IsValidHero( npcEnemy )
-			and J.CanCastOnNonMagicImmune( npcEnemy )
-			and J.CanCastOnTargetAdvanced( npcEnemy )
-			and J.WillMagicKillTarget( bot, npcEnemy, nDamage, nCastPoint )
-		then
-			return BOT_ACTION_DESIRE_HIGH, npcEnemy, 'Q-Kill:'..J.Chat.GetNormName( npcEnemy )
-		end
-	end
-
-
-	if bot:GetHealth() - ( nDamage * abilityQ:GetSpecialValueInt( 'self_damage' ) / 100 ) > 400
-		or bot:HasModifier( 'modifier_abaddon_borrowed_time' )
-	then
-		local npcWeakestAlly = nil
-		local npcWeakestAllyHealth = 100000
-		for _, npcAlly in pairs( nAlliedHeroesInRange )
-		do
-			if J.CanCastOnMagicImmune( npcAlly )
-				and npcAlly:GetHealth() <= npcWeakestAllyHealth
-				and J.GetHP( npcAlly ) <= 0.75
-				and npcAlly ~= bot
-			then
-				npcWeakestAlly = npcAlly
-				npcWeakestAllyHealth = npcWeakestAlly:GetHealth()
-			end
-		end
-
-		if npcWeakestAlly ~= nil
-		then
-			return BOT_ACTION_DESIRE_HIGH, npcWeakestAlly, 'Q-Heal:'..J.Chat.GetNormName( npcWeakestAlly )
-		end
-	end
-
-
-	if J.IsInTeamFight( bot, 1200 )
-	then
-		local npcWeakestEnemy = J.GetVulnerableWeakestUnitWithLotusCheck( bot, true, true, nCastRange )
-		if npcWeakestEnemy ~= nil
-		then
-			return BOT_ACTION_DESIRE_HIGH, npcWeakestEnemy, 'Q-Battle-Weakest:'..J.Chat.GetNormName( npcWeakestEnemy )
-		end
-	end
-
-
-	if J.IsGoingOnSomeone( bot )
-	then
-		if J.IsValidHero( botTarget )
-			and J.CanCastOnNonMagicImmune( botTarget )
-			and J.CanCastOnTargetAdvanced( botTarget )
-			and J.IsInRange( botTarget, bot, nCastRange )
-			and J.IsAllowedToSpam( bot, nManaCost )
-		then
-			return BOT_ACTION_DESIRE_HIGH, botTarget, 'Q-Attack:'..J.Chat.GetNormName( botTarget )
-		end
-	end
-
-
-	if J.IsLaning( bot )
-	then
-		for _, npcEnemy in pairs( nEnemyHeroesInRange )
-		do
-			if J.IsValidHero( npcEnemy )
-				and J.CanCastOnNonMagicImmune( npcEnemy )
-				and J.CanCastOnTargetAdvanced( npcEnemy )
-				and J.IsInRange( npcEnemy, bot, nCastRange )
-				and J.IsHealing( npcEnemy )
-				and not npcEnemy:HasModifier( 'modifier_templar_assassin_refraction_absorb' )
-			then
-				return BOT_ACTION_DESIRE_HIGH, npcEnemy, "Q-DispelHeal:"..J.Chat.GetNormName( npcEnemy )
-			end
-		end
-	end
-
-
-	if ( J.IsPushing( bot ) or J.IsDefending( bot ) or J.IsFarming( bot ) )
-		and J.IsAllowedToSpam( bot, 30 )
-		and nSkillLV >= 2
-		and #hEnemyList == 0
-		and #hAllyList <= 3
-		and talent8:IsTrained()
-		and ( bot:GetHealth() - ( nDamage * abilityQ:GetSpecialValueInt( 'self_damage' ) / 100 ) > 400
-			or bot:HasModifier( 'modifier_abaddon_borrowed_time' ) )
-	then
-		local nEnemyCreeps = bot:GetNearbyLaneCreeps( nCastRange + nRadius, true )
-		for _, creep in pairs( nEnemyCreeps )
-		do
-			if J.IsValid( creep )
-				and not creep:HasModifier( "modifier_fountain_glyph" )
-			then
-
-				if J.GetAroundTargetEnemyUnitCount( creep, nRadius ) >= 2
-					and #nEnemyCreeps >= 4
-				then
-					return BOT_ACTION_DESIRE_HIGH, creep, "Q-PushClearWave"
-				end
-
-				if J.IsKeyWordUnit( 'ranged', creep )
-					and J.WillKillTarget( creep, nDamage, nDamageType, nCastPoint )
-				then
-					return BOT_ACTION_DESIRE_HIGH, creep, "Q-PushRanged"
-				end
-
-				if J.IsKeyWordUnit( 'melee', creep )
-					and J.WillKillTarget( creep, nDamage, nDamageType, nCastPoint )
-					and ( J.GetAroundTargetEnemyUnitCount( creep, nRadius ) >= 2 or nMP > 0.8 )
-				then
-					return BOT_ACTION_DESIRE_HIGH, creep, "Q-PushMelee"
-				end
-			end
-		end
-	end
-
-	
-	if J.IsFarming( bot )
-		and not ( J.IsPushing( bot ) or J.IsDefending( bot ) )
-		and J.IsAllowedToSpam( bot, nManaCost )
-		and nSkillLV >= 3
-		and #hEnemyList == 0
-		and #hAllyList <= 2
-		and talent8:IsTrained()
-		and ( bot:GetHealth() - ( nDamage * abilityQ:GetSpecialValueInt( 'self_damage' ) / 100 ) > 400
-			or bot:HasModifier( 'modifier_abaddon_borrowed_time' ) )
-	then
-		local nNeutralCreeps = bot:GetNearbyNeutralCreeps( nCastRange + nRadius )
-		if #nNeutralCreeps >= 3 or nMP >= 0.8
-		then
-			local targetCreep = nNeutralCreeps[1]
-			if J.IsValid( targetCreep )
-				and targetCreep:GetHealth() >= 500
-				and targetCreep:GetMagicResist() < 0.3
-				and J.GetAroundTargetEnemyUnitCount( targetCreep, 300 ) >= 2
-			then
-				return BOT_ACTION_DESIRE_HIGH, targetCreep, "Q-Farm:"..( #nNeutralCreeps )
-			end
-		end
-	end
-
-
-	return BOT_ACTION_DESIRE_NONE, nil
-
-end
-
-function X.ConsiderW()
-
-	if not abilityW:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
-
-	local nSkillLV = abilityW:GetLevel()
-	local nCastRange = abilityW:GetCastRange() + bonusRange
-	local nCastPoint = abilityW:GetCastPoint()
-	local nManaCost = abilityW:GetManaCost()
-	local nAlliedHeroesInRange = bot:GetNearbyHeroes( nCastRange, false, BOT_MODE_NONE )
-
-	
-	for _, npcAlly in pairs( nAlliedHeroesInRange )
-	do
-		if J.IsDisabled( npcAlly )
-			or J.ShouldDispelStrongDebuff( npcAlly )
-		then
-			return BOT_ACTION_DESIRE_HIGH, npcAlly, "W-Protect:"..J.Chat.GetNormName( npcAlly )
-		end
-		
-		if J.IsRetreating( npcAlly )
-			and not npcAlly:HasModifier( 'modifier_fountain_aura' )
-			and not npcAlly:HasModifier( 'modifier_abaddon_aphotic_shield' )
-			and J.GetHP( npcAlly ) < 0.85
-			and npcAlly:WasRecentlyDamagedByAnyHero( 1.0 )
-		then
-			return BOT_ACTION_DESIRE_HIGH, npcAlly, "W-Protect:"..J.Chat.GetNormName( npcAlly )
-		end
-	end
-
-	
-	if not bot:HasModifier( 'modifier_fountain_aura' )
-		and not bot:HasModifier( 'modifier_abaddon_aphotic_shield' )
-		and nHP < 0.75
-		and bot:WasRecentlyDamagedByAnyHero( 1.0 )
-	then
-		return BOT_ACTION_DESIRE_HIGH, bot, "W-ProtectSelf:"..J.Chat.GetNormName( bot )
-	end
-
-
-	if J.IsGoingOnSomeone( bot )
-	then
-		if J.IsValidHero( botTarget )
-			and J.IsInRange( botTarget, bot, 600 )
-			and not bot:HasModifier( 'modifier_abaddon_aphotic_shield' )
-		then
-			return BOT_ACTION_DESIRE_HIGH, bot, "W-Protect-Offensive:"..J.Chat.GetNormName( bot )
-		end
-	end
-
-
-	if J.IsLaning( bot )
-	then
-		local nAlliedCreeps = bot:GetNearbyLaneCreeps( nCastRange, false )
-		for _, creep in pairs( nAlliedCreeps )
-		do
-			if J.GetAroundTargetOtherAllyHeroCount( bot, creep, nCastRange )
-				and nMP >= 0.75
-				and creep:HasModifier( 'modifier_dark_seer_ion_shell' )
-			then
-				return BOT_ACTION_DESIRE_HIGH, creep, "W-PurgeIonShell"
-			end
-		end
-	end
-
-	
-	if ( bot:GetActiveMode() == BOT_MODE_ROSHAN )
-	then
-		if not bot:HasModifier( 'modifier_abaddon_aphotic_shield' )
-			and bot:GetAttackTarget() ~= nil
-		then
-			return BOT_ACTION_DESIRE_HIGH, bot, "W-Roshan"
-		end
-	end
-	
-
-	return BOT_ACTION_DESIRE_NONE, nil
-
-end
-
-function X.ConsiderR()
-	
-	if not abilityR:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
-
-	local nSkillLV = abilityR:GetLevel()
-	local nRadius = 0
-	local nAlliedHeroesInRange = bot:GetNearbyHeroes( 1200, false, BOT_MODE_NONE )
-
-	if bot:HasScepter() then nRadius = abilityR:GetSpecialValueInt( 'redirect_range_scepter' ) end
-
-
-	if ( bot:GetHealth() < 500 or nHP < 0.23 )
-		and bot:WasRecentlyDamagedByAnyHero( 2.0 )
-	then
-		return BOT_ACTION_DESIRE_HIGH, "R-Defensive"
-	end
-
-	
-	if bot:HasScepter()
-	then
-		for _, npcAlly in pairs( nAlliedHeroesInRange )
-		do
-			if J.IsInTeamFight( npcAlly, nRadius )
-				and npcAlly:WasRecentlyDamagedByAnyHero( 2.0 )
-				and J.GetHP( npcAlly ) < 0.75
-			then
-				return BOT_ACTION_DESIRE_HIGH, "R-ProtectTeam-Teamfight"
-			end
-
-			if J.IsRetreating( npcAlly )
-				and npcAlly:WasRecentlyDamagedByAnyHero( 2.0 )
-				and J.GetHP( npcAlly ) < 0.55
-			then
-				return BOT_ACTION_DESIRE_HIGH, "R-ProtectTeam-Retreating"
-			end
-		end
-	end
-
-
-	return BOT_ACTION_DESIRE_NONE, nil
 
 end
 

@@ -6,7 +6,7 @@
 local X = {}
 local ability = nil
 local bonusRange, nMP, nHP, nLV, botTarget, nEnemyHeroesInRange, nAlliedHeroesInRange
--- local BOT_ACTION_DESIRE_NONE, BOT_ACTION_DESIRE_HIGH, BOT_MODE_ROSHAN, DAMAGE_TYPE_MAGICAL, DAMAGE_TYPE_PHYSICAL, DAMAGE_TYPE_PURE, BOT_MODE_NONE, ATTRIBUTE_INTELLECT
+--local BOT_ACTION_DESIRE_NONE, BOT_ACTION_DESIRE_HIGH, BOT_MODE_ROSHAN, DAMAGE_TYPE_MAGICAL, DAMAGE_TYPE_PHYSICAL, DAMAGE_TYPE_PURE, BOT_MODE_NONE, ATTRIBUTE_INTELLECT
 
 local J = require( GetScriptDirectory()..'/FunLib/jmz_func')
 
@@ -25,6 +25,290 @@ end
 
 
 -- npc_dota_hero_abaddon
+function X.ConsiderAbaddonMistCoil( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'abaddon_death_coil' )
+	local talent = bot:GetAbilityByName( 'special_bonus_unique_abaddon_4' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nSkillLV = ability:GetLevel()
+	local nCastRange = ability:GetCastRange() + bonusRange
+	local nRadius = talent:IsTrained() and 250 or 0
+	local nCastPoint = ability:GetCastPoint()
+	local nManaCost = ability:GetManaCost()
+	local nDamage = ability:GetSpecialValueInt( 'target_damage' )
+
+
+	local nLowestHealthAlly = nil
+	local nLowestHealth = 100000
+	for _, npcAlly in pairs( nAlliedHeroesInRange )
+	do
+		if J.IsValidHero( npcAlly )
+			and J.CanCastOnMagicImmune( npcAlly )
+			and X.CanCastAbilityAbaddonMistCoil( bot, nDamage )
+			and J.GetHP( npcAlly ) < 0.76
+			and npcAlly:GetHealth() < nLowestHealth
+			and npcAlly ~= bot
+		then
+			nLowestHealth = npcAlly:GetHealth()
+			nLowestHealthAlly = npcAlly
+		end
+	end
+
+	if nLowestHealthAlly ~= nil
+		and J.IsInRange( nLowestHealthAlly, bot, nCastRange )
+	then
+		return BOT_ACTION_DESIRE_HIGH, nLowestHealthAlly, "MistCoil-Heal:"..J.Chat.GetNormName( nLowestHealthAlly )
+	end
+
+
+	local nLowestHealthEnemy = nil
+	nLowestHealth = 100000
+	for _, npcEnemy in pairs( nEnemyHeroesInRange )
+	do
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.CanCastOnTargetAdvanced( npcEnemy )
+			and J.WillMagicKillTarget( bot, npcEnemy, nDamage, nCastPoint )
+			and not npcEnemy:HasModifier( 'modifier_templar_assassin_refraction_absorb' )
+		then
+			return BOT_ACTION_DESIRE_HIGH, npcEnemy, "MistCoil-Kill:"..J.Chat.GetNormName( npcEnemy )
+		end
+
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.CanCastOnTargetAdvanced( npcEnemy )
+			and X.CanCastAbilityAbaddonMistCoil( bot, nDamage )
+			and J.IsInRange( npcEnemy, bot, nCastRange )
+			and J.GetHP( npcEnemy ) < 0.55
+			and not npcEnemy:HasModifier( 'modifier_templar_assassin_refraction_absorb' )
+		then
+			return BOT_ACTION_DESIRE_HIGH, npcEnemy, "MistCoil-Attack:"..J.Chat.GetNormName( npcEnemy )
+		end
+
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.CanCastOnTargetAdvanced( npcEnemy )
+			and X.CanCastAbilityAbaddonMistCoil( bot, nDamage )
+			and J.IsHealing( npcEnemy )
+			and not npcEnemy:HasModifier( 'modifier_templar_assassin_refraction_absorb' )
+		then
+			return BOT_ACTION_DESIRE_HIGH, npcEnemy, "MistCoil-DispelHeal:"..J.Chat.GetNormName( npcEnemy )
+		end
+
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.CanCastOnTargetAdvanced( npcEnemy )
+			and X.CanCastAbilityAbaddonMistCoil( bot, nDamage )
+			and npcEnemy:GetHealth() < nLowestHealth
+			and DotaTime() > 8 * 60
+		then
+			nLowestHealth = npcEnemy:GetHealth()
+			nLowestHealthEnemy = npcEnemy
+		end
+	end
+
+	if nLowestHealthEnemy ~= nil
+		and J.IsInRange( nLowestHealthEnemy, bot, nCastRange )
+	then
+		return BOT_ACTION_DESIRE_HIGH, nLowestHealthEnemy, "MistCoil-Battle:"..J.Chat.GetNormName( nLowestHealthEnemy )
+	end
+
+	
+	if J.IsGoingOnSomeone( bot )
+	then
+		if J.IsValidHero( botTarget )
+			and J.CanCastOnNonMagicImmune( botTarget )
+			and J.CanCastOnTargetAdvanced( botTarget )
+			and X.CanCastAbilityAbaddonMistCoil( bot, nDamage )
+			and J.IsInRange( botTarget, bot, nCastRange )
+		then
+			return BOT_ACTION_DESIRE_HIGH, botTarget, "MistCoil-Attack:"..J.Chat.GetNormName( botTarget )
+		end
+	end
+
+	
+	if ( J.IsPushing( bot ) or J.IsDefending( bot ) or J.IsFarming( bot ) )
+		and J.IsAllowedToSpam( bot, nManaCost * 0.72 )
+		and nSkillLV >= 2 and DotaTime() > 8 * 60
+		and X.CanCastAbilityAbaddonMistCoil( bot, nDamage )
+		and talent:IsTrained()
+	then
+		local nEnemyCreeps = bot:GetNearbyLaneCreeps( nCastRange + nRadius, true )
+		if #nEnemyCreeps >= 3
+			and J.IsValid( nEnemyCreeps[1] )
+			and not nEnemyCreeps[1]:HasModifier( "modifier_fountain_glyph" )
+			and J.GetAroundTargetEnemyUnitCount( nEnemyCreeps[1], 300 ) >= 1
+		then
+			return BOT_ACTION_DESIRE_HIGH, nEnemyCreeps[1], "MistCoil-Push:"..( J.GetAroundTargetEnemyUnitCount( nEnemyCreeps[1], 300 ) + 1 )
+		end
+	end
+	
+
+	if J.IsFarming( bot )
+		and not ( J.IsPushing( bot ) or J.IsDefending( bot ) )
+		and J.IsAllowedToSpam( bot, nManaCost * 0.25 )
+		and nSkillLV >= 3
+		and #nEnemyHeroesInRange == 0
+		and #nAlliedHeroesInRange <= 2
+		and nMP >= 0.55
+		and X.CanCastAbilityAbaddonMistCoil( bot, nDamage )
+		and talent:IsTrained()
+	then
+		local nNeutralCreeps = bot:GetNearbyNeutralCreeps( nCastRange + nRadius )
+		if #nNeutralCreeps >= 2
+		then
+			local targetCreep = nNeutralCreeps[1]
+			if J.IsValid( targetCreep )
+				and targetCreep:GetHealth() >= 200
+				and J.GetAroundTargetEnemyUnitCount( targetCreep, 300 ) >= 1
+			then
+				return BOT_ACTION_DESIRE_HIGH, targetCreep, "MistCoil-Farm:"..( #nNeutralCreeps )
+			end
+		end
+	end
+
+	
+	if bot:GetActiveMode() == BOT_MODE_ROSHAN
+		and nMP >= 0.78
+	then
+		if J.IsRoshan( botTarget )
+			and J.GetHP( botTarget ) > 0.15
+		then
+			return BOT_ACTION_DESIRE_HIGH, botTarget, "MistCoil-Roshan"
+		end
+	end
+
+
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderAbaddonAphoticShield( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'abaddon_aphotic_shield' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nRadius = ability:GetSpecialValueInt( 'radius' )
+
+
+	for _, npcAlly in pairs( nAlliedHeroesInRange )
+	do
+		if J.IsValidHero( npcAlly )
+			and J.CanCastOnMagicImmune( npcAlly )
+			and ( J.IsDisabled( npcAlly ) or J.ShouldDispelStrongDebuff( npcAlly ) )
+		then
+			return BOT_ACTION_DESIRE_HIGH, npcAlly, "AphoticShield-Protect:"..J.Chat.GetNormName( npcAlly )
+		end
+
+		if J.IsRetreating( npcAlly )
+			and not npcAlly:HasModifier( 'modifier_fountain_aura' )
+			and not npcAlly:HasModifier( 'modifier_abaddon_aphotic_shield' )
+			and J.GetHP( npcAlly ) < 0.85
+			and npcAlly:WasRecentlyDamagedByAnyHero( 1.0 )
+			and #nEnemyHeroesInRange >= 1
+		then
+			return BOT_ACTION_DESIRE_HIGH, npcAlly, "AphoticShield-Protect:"..J.Chat.GetNormName( npcAlly )
+		end
+
+		-- if J.IsValidHero( npcAlly )
+		-- 	and J.CanCastOnMagicImmune( npcAlly )
+		-- 	and J.GetAroundTargetEnemyHeroCount( npcAlly, nRadius ) >= 1
+		-- 	and not npcAlly:HasModifier( 'modifier_abaddon_aphotic_shield' )
+		-- then
+		-- 	return BOT_ACTION_DESIRE_HIGH, npcAlly, "AphoticShield-Buff:"..J.Chat.GetNormName( npcAlly )
+		-- end
+	end
+
+
+	if J.IsGoingOnSomeone( bot )
+	then
+		local npcAlly = J.GetNearestUnitToTarget( nAlliedHeroesInRange, botTarget, nRadius )
+		if J.IsValidHero( npcAlly )
+			and J.CanCastOnMagicImmune( npcAlly )
+		then
+			return BOT_ACTION_DESIRE_HIGH, npcAlly, "AphoticShield-Chase:"..J.Chat.GetNormName( npcAlly )
+		end
+	end
+
+	
+	if bot:GetActiveMode() == BOT_MODE_ROSHAN
+		and nMP >= 0.78
+	then
+		if J.IsRoshan( botTarget )
+			and J.GetHP( botTarget ) > 0.15
+		then
+			local npcAlly = J.GetNearestUnitToTarget( nAlliedHeroesInRange, botTarget, nRadius )
+			if J.IsValidHero( npcAlly )
+				and J.CanCastOnMagicImmune( npcAlly )
+			then
+				return BOT_ACTION_DESIRE_HIGH, npcAlly, "AphoticShield-Roshan:"..J.Chat.GetNormName( npcAlly )
+			end
+		end
+	end
+	
+
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.ConsiderAbaddonBorrowedTime( bot )
+
+	X.Init( bot )
+	ability = bot:GetAbilityByName( 'abaddon_borrowed_time' )
+
+	if ability == nil then return BOT_ACTION_DESIRE_NONE, nil end
+	if not ability:IsFullyCastable() then return BOT_ACTION_DESIRE_NONE, nil end
+
+	local nRadius = bot:HasScepter() and ability:GetSpecialValueInt( 'redirect_range_scepter' ) or 0
+	
+
+	if ( bot:GetHealth() < 500 or nHP < 0.23 )
+		and bot:WasRecentlyDamagedByAnyHero( 2.0 )
+	then
+		return BOT_ACTION_DESIRE_HIGH, "R-Defend"
+	end
+
+	
+	if bot:HasScepter()
+	then
+		for _, npcAlly in pairs( nAlliedHeroesInRange )
+		do
+			if npcAlly:WasRecentlyDamagedByAnyHero( 2.0 )
+				and J.GetHP( npcAlly ) < 0.65
+				and J.IsInRange( npcAlly, bot, nRadius )
+			then
+				return BOT_ACTION_DESIRE_HIGH, "R-Protect"
+			end
+
+			if J.IsRetreating( npcAlly )
+				and npcAlly:WasRecentlyDamagedByAnyHero( 2.0 )
+				and J.GetHP( npcAlly ) < 0.55
+				and J.IsInRange( npcAlly, bot, nRadius )
+			then
+				return BOT_ACTION_DESIRE_HIGH, "R-Retreat"
+			end
+		end
+	end
+
+
+	return BOT_ACTION_DESIRE_NONE, nil
+
+end
+
+function X.CanCastAbilityAbaddonMistCoil( bot, nDamage )
+
+	return bot:GetHealth() - ( nDamage * 0.5 ) > 500
+		or bot:HasModifier( 'modifier_abaddon_borrowed_time' )
+
+end
+
 -- npc_dota_hero_abyssal_underlord
 -- npc_dota_hero_alchemist
 -- npc_dota_hero_ancient_apparition
@@ -368,7 +652,7 @@ function X.ConsiderGrimstrokeInkSwell( bot )
 	
 	if J.IsGoingOnSomeone( bot )
 	then
-		local npcAlly = J.GetMeleeAlly( bot )
+		local npcAlly = J.GetNearestUnitToTarget( nAlliedHeroesInRange, botTarget, nRadius )
 		if J.IsValidHero( npcAlly )
 			and J.CanCastOnMagicImmune( npcAlly )
 		then
@@ -383,11 +667,11 @@ function X.ConsiderGrimstrokeInkSwell( bot )
 		if J.IsRoshan( botTarget )
 			and J.GetHP( botTarget ) > 0.15
 		then
-			local npcAlly = J.GetMeleeAlly( bot )
+			local npcAlly = J.GetNearestUnitToTarget( nAlliedHeroesInRange, botTarget, nRadius )
 			if J.IsValidHero( npcAlly )
 				and J.CanCastOnMagicImmune( npcAlly )
 			then
-				return BOT_ACTION_DESIRE_HIGH, npcAlly, "InkSwell-Roshan"
+				return BOT_ACTION_DESIRE_HIGH, npcAlly, "InkSwell-Roshan:"..J.Chat.GetNormName( npcAlly )
 			end
 		end
 	end
@@ -539,19 +823,19 @@ function X.ConsiderLinaDragonSlave( bot )
 	do
 		if J.IsValidHero( npcEnemy )
 			and J.CanCastOnNonMagicImmune( npcEnemy )
+			and J.WillMagicKillTarget( bot, npcEnemy, nDamage, nCastPoint )
+		then
+			nTargetLocation = botTarget:GetExtrapolatedLocation( nCastPoint )
+			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'DragonSlave-Kill:'..J.Chat.GetNormName( npcEnemy )
+		end
+
+		if J.IsValidHero( npcEnemy )
+			and J.CanCastOnNonMagicImmune( npcEnemy )
 			and J.IsInRange( npcEnemy, bot, nCastRange + nRadius )
 			and J.GetHP( npcEnemy ) < 0.55
 		then
 			nTargetLocation = botTarget:GetExtrapolatedLocation( nCastPoint )
 			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'DragonSlave-Attack:'..J.Chat.GetNormName( npcEnemy )
-		end
-
-		if J.IsValidHero( npcEnemy )
-			and J.CanCastOnNonMagicImmune( npcEnemy )
-			and J.WillMagicKillTarget( bot, npcEnemy, nDamage, nCastPoint )
-		then
-			nTargetLocation = botTarget:GetExtrapolatedLocation( nCastPoint )
-			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, 'DragonSlave-Kill:'..J.Chat.GetNormName( npcEnemy )
 		end
 		
 		if J.IsValidHero( npcEnemy )
@@ -581,9 +865,8 @@ function X.ConsiderLinaDragonSlave( bot )
 		nAoeLoc = J.GetAoeEnemyHeroLocation( bot, nCastRange, nRadius, 1 )
 		if nAoeLoc ~= nil
 			and J.IsAllowedToSpam( bot, nManaCost * 0.72 )
-			and nMP > 0.38
+			and nMP > 0.58
 			and not nEnemyHeroesInRange[1]:HasModifier( 'modifier_templar_assassin_refraction_absorb' )
-			and nSkillLV >= 2
 		then
 			nTargetLocation = nAoeLoc
 			return BOT_ACTION_DESIRE_HIGH, nTargetLocation, "DragonSlave-Harass"
@@ -1524,15 +1807,15 @@ function X.ConsiderNeutralHeal( bot )
 
 
 	local nLowestHealthAlly = nil
-	local nLowestHealthPct = 100
+	local nLowestHealth = 100000
 	for _, npcAlly in pairs( nAlliedHeroesInRange )
 	do
 		if J.IsValidHero( npcAlly )
 			and J.CanCastOnMagicImmune( npcAlly )
-			and J.GetHealth( npcAlly ) < nHealAmount * 1.12
-			and J.GetHP( npcAlly ) < nLowestHealthPct
+			and npcAlly:GetHealth() < nHealAmount * 1.12
+			and npcAlly:GetHealth() < nLowestHealth
 		then
-			nLowestHealthPct = J.GetHP( npcAlly )
+			nLowestHealth = npcAlly:GetHealth()
 			nLowestHealthAlly = npcAlly
 		end
 	end
