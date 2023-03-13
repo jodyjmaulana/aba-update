@@ -3115,7 +3115,7 @@ X.ConsiderItemDesire["item_meteor_hammer"] = function( hItem )
 	local nCastRange = 600 + aetherRange
 	local nRadius = 400
 	local sCastType = 'ground'
-	local nChannelTime = 2.5
+	local nChannelTime = 2.0
 	local nDelayTime = nChannelTime + 0.5
 
 	local hEffectTarget = nil
