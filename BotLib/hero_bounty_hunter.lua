@@ -40,7 +40,7 @@ tOutFitList['outfit_carry'] = {
 	'item_melee_carry_outfit',
 --	'item_medallion_of_courage',
 	'item_vanguard',
---	"item_aghanims_shard",
+	"item_aghanims_shard",
 	"item_solar_crest",
 	"item_black_king_bar",
 	"item_ultimate_scepter",
@@ -491,7 +491,7 @@ function X.ConsiderE()
 					or J.IsChasingTarget( bot, botTarget ) )
 			and not bot:HasModifier( 'modifier_bounty_hunter_wind_walk' )
 		then
-			if nAbilityBehavior == ABILITY_BEHAVIOR_UNIT_TARGET
+			if nAbilityBehavior == 4194312
 			then
 				return BOT_ACTION_DESIRE_HIGH, bot, "E-隐身进攻:"..J.Chat.GetNormName( botTarget )
 			else
@@ -508,7 +508,7 @@ function X.ConsiderE()
 		and bot:DistanceFromFountain() > 800
 		and not bot:HasModifier( 'modifier_bounty_hunter_wind_walk' )
 	then
-		if nAbilityBehavior == ABILITY_BEHAVIOR_UNIT_TARGET
+		if nAbilityBehavior == 4194312
 		then
 			return BOT_ACTION_DESIRE_HIGH, bot, "E-隐身进攻:"..J.Chat.GetNormName( botTarget )
 		else
@@ -525,7 +525,7 @@ function X.ConsiderE()
 		if #nEnemies == 0 and nEnemyTowers == 0
 			and not bot:HasModifier( 'modifier_bounty_hunter_wind_walk' )
 		then
-			if nAbilityBehavior == ABILITY_BEHAVIOR_UNIT_TARGET
+			if nAbilityBehavior == 4194312
 			then
 				return BOT_ACTION_DESIRE_HIGH, bot, "E-隐身进攻:"..J.Chat.GetNormName( botTarget )
 			else
